@@ -19,8 +19,8 @@
     {
       "name": "flixel",
       "type": "git",
-      "ref": "main",
-      "url": "https://github.com/Prohack101010/flixel-5.8.0-fixed"
+      "ref": "cb5dc81d395e627518b2287c358cf509b89d8f92",
+      "url": "https://github.com/TechnikTil/flixel"
     },
     {
       "name": "flixel-addons",
