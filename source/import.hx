@@ -83,7 +83,7 @@ import mobile.states.CopyState;
 import mobile.substates.MobileExtraControl;
 //Android
 #if android
-#if extension-androidtools
+#if lime_legacy
 import extension.androidtools.callback.CallBack as AndroidCallBack;
 import extension.androidtools.content.Context as AndroidContext;
 import extension.androidtools.widget.Toast as AndroidToast;
