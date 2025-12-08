@@ -85,7 +85,7 @@ class MusicBeatState extends FlxUIState
 			mobilePadCam = new FlxCamera();
 			mobilePadCam.bgColor.alpha = 0;
 			FlxG.cameras.add(mobilePadCam, defaultDrawTarget);
-			mobilePad.buttonCameras = [mobilePadCam];
+			mobilePad.cameras = [mobilePadCam];
 		}
 	}
 

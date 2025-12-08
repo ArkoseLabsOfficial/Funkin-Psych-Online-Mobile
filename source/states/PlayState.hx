@@ -2000,8 +2000,8 @@ class PlayState extends MusicBeatState
 		if (replayData == null) {
 			hitbox.onButtonDown.add(onButtonPress);
 			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
+			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, unique, 0));
+			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, unique, 1));
 		} else {
 			hitbox.alpha = 0;
 		}
@@ -5102,11 +5102,11 @@ class PlayState extends MusicBeatState
 		return -1;
 	}
 
-	private function onButtonPress(button:MobileButton, ids:Array<String>, intID:Int):Void
+	private function onButtonPress(button:MobileButton, ids:Array<String>, unique:Int):Void
 	{
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith(Note.maniaKeys + "K_NOTE")).length > 0)
 		{
-			var buttonCode:Int = (intID == -1 ? 0 : intID);
+			var buttonCode:Int = (unique == -1 ? 0 : unique);
 
 			callOnScripts('onButtonPressPre', [buttonCode]);
 			if (button.justPressed) keyPressed(buttonCode);
@@ -5114,11 +5114,11 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function onButtonRelease(button:MobileButton, ids:Array<String>, intID:Int):Void
+	private function onButtonRelease(button:MobileButton, ids:Array<String>, unique:Int):Void
 	{
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith(Note.maniaKeys + "K_NOTE")).length > 0)
 		{
-			var buttonCode:Int = (intID == -1 ? 0 : intID);
+			var buttonCode:Int = (unique == -1 ? 0 : unique);
 
 			callOnScripts('onButtonReleasePre', [buttonCode]);
 			if(buttonCode > -1) keyReleased(buttonCode);
@@ -6670,8 +6670,8 @@ class PlayState extends MusicBeatState
 		if (replayData == null) {
 			hitbox.onButtonDown.add(onButtonPress);
 			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
+			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, unique, 0));
+			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, unique, 1));
 		}
 		hitbox.forEachAlive((button) ->
 		{
@@ -6690,8 +6690,8 @@ class PlayState extends MusicBeatState
 		if (replayData == null) {
 			hitbox.onButtonDown.add(onButtonPress);
 			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
+			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, unique, 0));
+			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, unique, 1));
 		}
 	}
 

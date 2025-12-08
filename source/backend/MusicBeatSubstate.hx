@@ -62,7 +62,7 @@ class MusicBeatSubstate extends FlxSubState
 		hitboxCam = new FlxCamera();
 		hitboxCam.bgColor.alpha = 0;
 		FlxG.cameras.add(hitboxCam, defaultDrawTarget);
-		hitbox.buttonCameras = [hitboxCam];
+		hitbox.cameras = [hitboxCam];
 
 		add(hitbox);
 	}
