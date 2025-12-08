@@ -2002,7 +2002,7 @@ class PlayState extends MusicBeatState
 			hitbox.onButtonUp.add(onButtonRelease);
 			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
 			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
-		} else (
+		} else {
 			hitbox.alpha = 0;
 		}
 		if (replayData == null && !cpuControlled)
