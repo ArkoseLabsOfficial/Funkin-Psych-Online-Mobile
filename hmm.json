@@ -8,8 +8,8 @@
     {
       "name": "lime",
       "type": "git",
-      "ref": "main",
-      "url": "https://github.com/HomuHomu833-haxe-stuff/lime"
+      "ref": "mobile/main",
+      "url": "https://github.com/FunkinCrew/lime"
     },
     {
       "name": "openfl",
@@ -41,8 +41,8 @@
       "name": "hxcpp",
       "type": "git",
       "dir": null,
-      "ref": null,
-      "url": "https://github.com/AlafandyPorting/hxcpp"
+      "ref": "master",
+      "url": "https://github.com/HaxeFoundation/hxcpp"
     },
     {
       "name": "tjson",
@@ -166,6 +166,13 @@
       "dir": null,
       "ref": "main",
       "url": "https://github.com/Prohack101010/mobile-controls-dev"
+    },
+    {
+      "name": "extension-androidtools",
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/MAJigsaw77/extension-androidtools"
     }
   ]
 }
