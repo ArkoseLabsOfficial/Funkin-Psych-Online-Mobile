@@ -5107,6 +5107,7 @@ class PlayState extends MusicBeatState
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith(Note.maniaKeys + "K_NOTE")).length > 0)
 		{
 			var buttonCode:Int = (unique == -1 ? 0 : unique);
+			trace(buttonCode);
 
 			callOnScripts('onButtonPressPre', [buttonCode]);
 			if (button.justPressed) keyPressed(buttonCode);
@@ -5119,6 +5120,7 @@ class PlayState extends MusicBeatState
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith(Note.maniaKeys + "K_NOTE")).length > 0)
 		{
 			var buttonCode:Int = (unique == -1 ? 0 : unique);
+			trace(buttonCode);
 
 			callOnScripts('onButtonReleasePre', [buttonCode]);
 			if(buttonCode > -1) keyReleased(buttonCode);

@@ -206,6 +206,7 @@ class FunkinHitbox extends OGHitbox {
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
 		hint.IDs = Name;
+		hint.uniqueID = uniqueID;
 		hint.onDown.callback = function()
 		{
 			onButtonDown.dispatch(hint, Name, uniqueID);
