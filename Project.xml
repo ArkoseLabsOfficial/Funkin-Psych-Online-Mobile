@@ -29,7 +29,7 @@
 	
 	<!-- ______________________ PSYCH ENGINE CUSTOMIZATION ______________________ -->
 
-	<define name="lime_legacy" /> <!-- Enables legacy lime -->
+	<define name="legacy_lime" /> <!-- Enables legacy lime -->
 	<define name="MODS_ALLOWED" />
 	<define name="HSCRIPT_ALLOWED" />
 	<define name="LUA_ALLOWED" if="cpp" />
@@ -127,7 +127,7 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-addons" />
 	<!-- Mobile Libraries -->
-	<haxelib name="extension-androidtools" if="lime_legacy"/>
+	<haxelib name="extension-androidtools" if="legacy_lime"/>
 	<haxelib name="mobile-controls"/>
 	<haxedef name="mobile_controls_file_support"/>
 
@@ -233,7 +233,7 @@
 	<haxedef name="SHARE_MOBILE_FILES" if="mobile" />
 	
 	<!-- Mobile Shit -->
-	<section if="lime_legacy">
+	<section if="legacy_lime">
 		<section if="android">
 			<config:android permission="android.permission.MANAGE_MEDIA"/> 
 			<config:android permission="android.permission.MANAGE_EXTERNAL_STORAGE"/>
@@ -257,7 +257,7 @@
 	<config:mac category_type="public.app-category.music-games" />
 	
 	<!-- Lime Fix -->
-	<section unless="lime_legacy">
+	<section unless="legacy_lime">
 		<haxedef name="lime_use_old_deltatime" />
 		<haxedef name="lime_disable_motion_sensors" />
 	</section>
