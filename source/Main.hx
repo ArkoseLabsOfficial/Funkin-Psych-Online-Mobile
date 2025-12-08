@@ -233,7 +233,7 @@ class Main extends Sprite
 
 		#if mobile
 		lime.system.System.allowScreenTimeout = ClientPrefs.data.screensaver;
-		FlxG.scaleMode = new MobileScaleMode();
+		ScreenUtil.wideScreen.enabled = ClientPrefs.data.wideScreen;
 		#end
 
 		// shader coords fix

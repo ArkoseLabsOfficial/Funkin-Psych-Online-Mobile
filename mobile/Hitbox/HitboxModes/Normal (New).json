@@ -62,7 +62,8 @@
   "none": [
     {
       "button": "buttonNote1",
-      "buttonIDs": ["NOTE_LEFT = 0"],
+      "buttonIDs": ["NOTE_LEFT"],
+      "buttonUniqueID": 0,
       "x": 0,
       "y": 0,
       "width": 320,
@@ -71,7 +72,8 @@
     },
     {
       "button": "buttonNote2",
-      "buttonIDs": ["NOTE_DOWN = 1"],
+      "buttonIDs": ["NOTE_DOWN"],
+      "buttonUniqueID": 1,
       "x": 320,
       "y": 0,
       "width": 320,
@@ -80,7 +82,8 @@
     },
     {
       "button": "buttonNote3",
-      "buttonIDs": ["NOTE_UP = 2"],
+      "buttonIDs": ["NOTE_UP"],
+      "buttonUniqueID": 2,
       "x": 640,
       "y": 0,
       "width": 320,
@@ -89,7 +92,8 @@
     },
     {
       "button": "buttonNote4",
-      "buttonIDs": ["NOTE_RIGHT = 3"],
+      "buttonIDs": ["NOTE_RIGHT"],
+      "buttonUniqueID": 3,
       "x": 960,
       "y": 0,
       "width": 320,

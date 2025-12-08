@@ -2,7 +2,6 @@ package mobile.psychlua;
 
 import lime.ui.Haptic;
 import flixel.util.FlxSave;
-import mobile.TouchUtil;
 import psychlua.CustomSubstate;
 import psychlua.FunkinLua;
 
@@ -123,9 +122,9 @@ class MobileFunctions
 			return Haptic.vibrate(period, duration);
 		});
 
-		Lua_helper.add_callback(lua, "touchJustPressed", TouchUtil.justPressed);
-		Lua_helper.add_callback(lua, "touchPressed", TouchUtil.pressed);
-		Lua_helper.add_callback(lua, "touchJustReleased", TouchUtil.justReleased);
+		Lua_helper.add_callback(lua, "touchJustPressed", ScreenUtil.touch.justPressed);
+		Lua_helper.add_callback(lua, "touchPressed", ScreenUtil.touch.pressed);
+		Lua_helper.add_callback(lua, "touchJustReleased", ScreenUtil.touch.justReleased);
 		Lua_helper.add_callback(lua, "touchPressedObject", function(object:String):Bool
 		{
 			var obj = PlayState.instance.getLuaObject(object);
@@ -134,7 +133,7 @@ class MobileFunctions
 				funk.luaTrace('touchPressedObject: $object does not exist.');
 				return false;
 			}
-			return TouchUtil.overlaps(obj) && TouchUtil.pressed;
+			return ScreenUtil.touch.overlaps(obj) && ScreenUtil.touch.pressed;
 		});
 
 		Lua_helper.add_callback(lua, "touchJustPressedObject", function(object:String):Bool
@@ -145,7 +144,7 @@ class MobileFunctions
 				funk.luaTrace('touchJustPressedObject: $object does not exist.');
 				return false;
 			}
-			return TouchUtil.overlaps(obj) && TouchUtil.justPressed;
+			return ScreenUtil.touch.overlaps(obj) && ScreenUtil.touch.justPressed;
 		});
 
 		Lua_helper.add_callback(lua, "touchJustReleasedObject", function(object:String):Bool
@@ -156,7 +155,7 @@ class MobileFunctions
 				funk.luaTrace('touchJustPressedObject: $object does not exist.');
 				return false;
 			}
-			return TouchUtil.overlaps(obj) && TouchUtil.justReleased;
+			return ScreenUtil.touch.overlaps(obj) && ScreenUtil.touch.justReleased;
 		});
 
 		Lua_helper.add_callback(lua, "touchOverlapsObject", function(object:String):Bool
@@ -167,7 +166,7 @@ class MobileFunctions
 				funk.luaTrace('touchOverlapsObject: $object does not exist.');
 				return false;
 			}
-			return TouchUtil.overlaps(obj);
+			return ScreenUtil.touch.overlaps(obj);
 		});
 		#end
 	}
@@ -192,7 +191,7 @@ class AndroidFunctions
 		Lua_helper.add_callback(lua, "menuJustPressed", FlxG.android.justPressed.MENU);
 		Lua_helper.add_callback(lua, "menuPressed", FlxG.android.pressed.MENU);
 		Lua_helper.add_callback(lua, "menuJustReleased", FlxG.android.justReleased.MENU);
-		Lua_helper.add_callback(lua, "getCurrentOrientation", () -> PsychJNI.getCurrentOrientationAsString());
+		Lua_helper.add_callback(lua, "getCurrentOrientation", () -> ScreenUtil.getCurrentOrientationAsString());
 		Lua_helper.add_callback(lua, "setOrientation", function(hint:Null<String>):Void
 		{
 			switch (hint.toLowerCase())
@@ -210,7 +209,7 @@ class AndroidFunctions
 			}
 			if (hint == null)
 				return funk.luaTrace('setOrientation: No orientation specified.');
-			PsychJNI.setOrientation(FlxG.stage.stageWidth, FlxG.stage.stageHeight, false, hint);
+			ScreenUtil.setOrientation(FlxG.stage.stageWidth, FlxG.stage.stageHeight, false, hint);
 		});
 		Lua_helper.add_callback(lua, "minimizeWindow", () -> AndroidTools.minimizeWindow());
 		Lua_helper.add_callback(lua, "showToast", function(text:String, duration:Null<Int>, ?xOffset:Null<Int>, ?yOffset:Null<Int>)
@@ -227,22 +226,22 @@ class AndroidFunctions
 
 			AndroidToast.makeText(text, duration, -1, xOffset, yOffset);
 		});
-		Lua_helper.add_callback(lua, "isScreenKeyboardShown", () -> PsychJNI.isScreenKeyboardShown());
+		Lua_helper.add_callback(lua, "isScreenKeyboardShown", () -> ScreenUtil.isScreenKeyboardShown());
 
-		Lua_helper.add_callback(lua, "clipboardHasText", () -> PsychJNI.clipboardHasText());
-		Lua_helper.add_callback(lua, "clipboardGetText", () -> PsychJNI.clipboardGetText());
+		Lua_helper.add_callback(lua, "clipboardHasText", () -> ScreenUtil.clipboardHasText());
+		Lua_helper.add_callback(lua, "clipboardGetText", () -> ScreenUtil.clipboardGetText());
 		Lua_helper.add_callback(lua, "clipboardSetText", function(text:Null<String>):Void
 		{
 			if (text != null) return funk.luaTrace('clipboardSetText: No text specified.');
-			PsychJNI.clipboardSetText(text);
+			ScreenUtil.clipboardSetText(text);
 		});
 
-		Lua_helper.add_callback(lua, "manualBackButton", () -> PsychJNI.manualBackButton());
+		Lua_helper.add_callback(lua, "manualBackButton", () -> ScreenUtil.manualBackButton());
 
 		Lua_helper.add_callback(lua, "setActivityTitle", function(text:Null<String>):Void
 		{
 			if (text != null) return funk.luaTrace('setActivityTitle: No text specified.');
-			PsychJNI.setActivityTitle(text);
+			ScreenUtil.setActivityTitle(text);
 		});
 		#end
 	}
