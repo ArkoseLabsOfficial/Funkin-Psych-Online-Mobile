@@ -2002,6 +2002,8 @@ class PlayState extends MusicBeatState
 			hitbox.onButtonUp.add(onButtonRelease);
 			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
 			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
+		} else (
+			hitbox.alpha = 0;
 		}
 		if (replayData == null && !cpuControlled)
 			hitbox.visible = true;
@@ -6668,8 +6670,8 @@ class PlayState extends MusicBeatState
 		if (replayData == null) {
 			hitbox.onButtonDown.add(onButtonPress);
 			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
+			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
+			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
 		}
 		hitbox.forEachAlive((button) ->
 		{
@@ -6688,8 +6690,8 @@ class PlayState extends MusicBeatState
 		if (replayData == null) {
 			hitbox.onButtonDown.add(onButtonPress);
 			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
+			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
+			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
 		}
 	}
 

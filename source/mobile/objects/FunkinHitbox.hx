@@ -77,6 +77,9 @@ class FunkinHitbox extends OGHitbox {
 
 			for (buttonData in currentHint)
 			{
+				var buttonName:String = buttonData.button;
+				var buttonIDs:Array<String> = buttonData.buttonIDs;
+				var buttonUniqueID:Int = buttonData.buttonUniqueID;
 				var buttonX:Float = buttonData.x;
 				var buttonY:Float = buttonData.y;
 				var buttonWidth:Int = buttonData.width;
@@ -85,6 +88,7 @@ class FunkinHitbox extends OGHitbox {
 				var buttonReturn = buttonData.returnKey;
 				var location = ClientPrefs.data.hitboxLocation;
 				var addButton:Bool = false;
+				if (buttonData.buttonUniqueID == null) buttonUniqueID = -1; // -1 means not setted.
 
 				switch (location) {
 					case 'Top':
@@ -127,7 +131,7 @@ class FunkinHitbox extends OGHitbox {
 						buttonReturn = Reflect.getProperty(ClientPrefs.data, 'extraKeyReturn${i}');
 				}
 				if (addButton)
-					addHint(buttonData.button, buttonData.buttonIDs, buttonX, buttonY, buttonWidth, buttonHeight, Util.colorFromString(buttonColor), buttonReturn);
+					addHint(buttonName, buttonIDs, buttonUniqueID, buttonX, buttonY, buttonWidth, buttonHeight, Util.colorFromString(buttonColor), buttonReturn);
 			}
 		}
 
@@ -175,9 +179,9 @@ class FunkinHitbox extends OGHitbox {
 		return bitmap;
 	}
 
-	override public function createHint(Name:Array<String>, X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF, ?Return:String, ?Map:String):MobileButton
+	override public function createHint(Name:Array<String>, uniqueID:Int, X:Float, Y:Float, Width:Int, Height:Int, Color:Int = 0xFFFFFF, ?Return:String, ?Map:String):MobileButton
 	{
-		var hint:MobileButton = new MobileButton(X, Y);
+		var hint:MobileButton = new MobileButton(X, Y, Return);
 		hint.loadGraphic(createHintGraphic(Width, Height, Color));
 
 		if (ClientPrefs.data.hitboxhint && !ClientPrefs.data.VSliceControl) {
@@ -204,7 +208,7 @@ class FunkinHitbox extends OGHitbox {
 		hint.IDs = Name;
 		hint.onDown.callback = function()
 		{
-			onButtonDown.dispatch(hint, Name);
+			onButtonDown.dispatch(hint, Name, uniqueID);
 			if (hint.alpha != globalAlpha)
 				hint.alpha = globalAlpha;
 			if ((hint.hintUp?.alpha != 0.00001 || hint.hintDown?.alpha != 0.00001) && hint.hintUp != null && hint.hintDown != null)
@@ -212,7 +216,7 @@ class FunkinHitbox extends OGHitbox {
 		}
 		hint.onOut.callback = hint.onUp.callback = function()
 		{
-			onButtonUp.dispatch(hint, Name);
+			onButtonUp.dispatch(hint, Name, uniqueID);
 			if (hint.alpha != 0.00001)
 				hint.alpha = 0.00001;
 			if ((hint.hintUp?.alpha != globalAlpha || hint.hintDown?.alpha != globalAlpha) && hint.hintUp != null && hint.hintDown != null)

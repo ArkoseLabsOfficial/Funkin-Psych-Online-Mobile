@@ -90,7 +90,7 @@ class MusicBeatSubstate extends FlxSubState
 			mobilePadCam = new FlxCamera();
 			mobilePadCam.bgColor.alpha = 0;
 			FlxG.cameras.add(mobilePadCam, defaultDrawTarget);
-			mobilePad.buttonCameras = [mobilePadCam];
+			mobilePad.cameras = [mobilePadCam];
 		}
 	}
 
