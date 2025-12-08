@@ -2000,8 +2000,8 @@ class PlayState extends MusicBeatState
 		if (replayData == null) {
 			hitbox.onButtonDown.add(onButtonPress);
 			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
+			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 0));
+			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, uniqueID:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, uniqueID, 1));
 		}
 		if (replayData == null && !cpuControlled)
 			hitbox.visible = true;
@@ -5100,13 +5100,11 @@ class PlayState extends MusicBeatState
 		return -1;
 	}
 
-	private function onButtonPress(button:MobileButton, ids:Array<String>):Void
+	private function onButtonPress(button:MobileButton, ids:Array<String>, intID:Int):Void
 	{
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith(Note.maniaKeys + "K_NOTE")).length > 0)
 		{
-			var buttonCodeStr:String = ids[0];
-			var buttonCodeStrFixed = StringTools.replace(buttonCodeStr, " ", "");
-			var buttonCode:Int = Std.parseInt(buttonCodeStrFixed.split("=")[1]);
+			var buttonCode:Int = (intID == -1 ? 0 : intID);
 
 			callOnScripts('onButtonPressPre', [buttonCode]);
 			if (button.justPressed) keyPressed(buttonCode);
@@ -5114,13 +5112,11 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function onButtonRelease(button:MobileButton, ids:Array<String>):Void
+	private function onButtonRelease(button:MobileButton, ids:Array<String>, intID:Int):Void
 	{
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith(Note.maniaKeys + "K_NOTE")).length > 0)
 		{
-			var buttonCodeStr:String = ids[0];
-			var buttonCodeStrFixed = StringTools.replace(buttonCodeStr, " ", "");
-			var buttonCode:Int = Std.parseInt(buttonCodeStrFixed.split("=")[1]);
+			var buttonCode:Int = (intID == -1 ? 0 : intID);
 
 			callOnScripts('onButtonReleasePre', [buttonCode]);
 			if(buttonCode > -1) keyReleased(buttonCode);

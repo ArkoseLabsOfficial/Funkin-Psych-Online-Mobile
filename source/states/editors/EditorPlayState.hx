@@ -755,24 +755,20 @@ class EditorPlayState extends MusicBeatSubstate
 		}
 	}
 
-	private function onButtonPress(button:MobileButton, ids:Array<String>):Void
+	private function onButtonPress(button:MobileButton, ids:Array<String>, intID:Int):Void
 	{
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith("HITBOX")).length > 0 || ids.filter(id -> id.startsWith("EXTRA")).length > 0)
 		{
-			var buttonCodeStr:String = ids[0];
-			var buttonCodeStrFixed = buttonCodeStr.replace(" ", "");
-			var buttonCode:Int = Std.parseInt(buttonCodeStrFixed.split("=")[1]);
+			var buttonCode:Int = (intID == -1 ? 0 : intID);
 			if (button.justPressed) keyPressed(buttonCode);
 		}
 	}
 
-	private function onButtonRelease(button:MobileButton, ids:Array<String>):Void
+	private function onButtonRelease(button:MobileButton, ids:Array<String>, intID:Int):Void
 	{
 		if (ids.filter(id -> id.startsWith("NOTE")).length > 0 || ids.filter(id -> id.startsWith("HITBOX")).length > 0 || ids.filter(id -> id.startsWith("EXTRA")).length > 0)
 		{
-			var buttonCodeStr:String = ids[0];
-			var buttonCodeStrFixed = buttonCodeStr.replace(" ", "");
-			var buttonCode:Int = Std.parseInt(buttonCodeStrFixed.split("=")[1]);
+			var buttonCode:Int = (intID == -1 ? 0 : intID);
 			if(buttonCode > -1) keyReleased(buttonCode);
 		}
 	}

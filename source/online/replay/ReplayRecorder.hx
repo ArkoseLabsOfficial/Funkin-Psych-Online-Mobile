@@ -245,8 +245,10 @@ class ReplayRecorder extends FlxBasic {
 		for (id in IDs)
 		{
 			var idName:String = id.toLowerCase();
+			/* we don't need this anymore
 			var buttonCodeStr:String = idName.replace(" ", "");
 			idName = buttonCodeStr.split("=")[0];
+			*/
 
 			if (idName == null || state.paused || !REGISTER_BINDS.contains(idName))
 				continue;

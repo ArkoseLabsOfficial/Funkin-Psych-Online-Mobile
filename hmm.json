@@ -162,8 +162,10 @@
     },
     {
       "name": "mobile-controls",
-      "type": "haxelib",
-      "version": "0.1.0"
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/Prohack101010/mobile-controls-dev"
     }
   ]
 }
