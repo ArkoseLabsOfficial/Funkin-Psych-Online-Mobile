@@ -41,8 +41,8 @@
       "name": "hxcpp",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/NovaFlare-Engine-haxelib/hxcpp-4.3.2-change"
+      "ref": null,
+      "url": "https://github.com/AlafandyPorting/hxcpp"
     },
     {
       "name": "tjson",
