@@ -2202,7 +2202,7 @@ class PlayState extends MusicBeatState
 		//hitbox.cameras = [camHUD];
 	}
 
-	public static var hitboxPositions:Array<Int> = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+	public static var hitboxPositions:Array<Float> = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 	public function fixHitboxPos(strumGroup:FlxTypedGroup<StrumNote>, ?keyCountIsDefault:Bool) {
 		if (keyCountIsDefault) {
 			hitboxPositions[0] = Std.int(strumGroup.members[0].x) - 20;
