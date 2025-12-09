@@ -9,7 +9,7 @@ jobs:
       matrix:
         include:
           - name: iOS
-            os: macos-15
+            os: macos-26
             buildArgs: "ios -final -nosign"
             artifactName: iOSBuild
             artifactPath: "export/release/ios/build/Release-iphoneos/*.ipa"
