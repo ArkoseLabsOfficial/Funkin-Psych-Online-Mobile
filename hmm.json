@@ -8,8 +8,8 @@
     {
       "name": "lime",
       "type": "git",
-      "ref": "mobile/main",
-      "url": "https://github.com/FunkinCrew/lime"
+      "ref": "main",
+      "url": "https://github.com/HomuHomu833-haxe-stuff/lime"
     },
     {
       "name": "openfl",

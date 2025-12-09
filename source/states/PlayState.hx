@@ -2016,12 +2016,8 @@ class PlayState extends MusicBeatState
 			if (mobilePad.getButtonFromName('buttonP') != null)
 				button.deadZones.push(mobilePad.getButtonFromName('buttonP'));
 		});
-
-		if (ClientPrefs.data.VSliceControl) VSliceControls = true;
-		if (VSliceControls) enableVSliceControls();
 	}
 
-	public var VSliceControls:Bool = false;
 	public var defaultPlayerNotePositions:Array<Dynamic> = [-360, -140, 140, 360];
 	public function startCountdown()
 	{
@@ -2136,6 +2132,7 @@ class PlayState extends MusicBeatState
 				swagCounter += 1;
 			}, 5);
 		}
+		if (ClientPrefs.data.VSliceControl) enableVSliceControls();
 		return true;
 	}
 
@@ -2146,7 +2143,6 @@ class PlayState extends MusicBeatState
 		// https://discord.com/channels/922849922175340586/1395222169037836430 (This link sends you to directly the original post)
 
 		reloadControls("V Slice");
-		hitbox.alpha = 0;
 		/* Actual Code */
 		for (player in 0...2) {
 			var strumGroup = player == 1 ? playerStrums : opponentStrums;

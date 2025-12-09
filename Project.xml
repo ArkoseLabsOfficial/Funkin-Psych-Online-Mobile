@@ -29,7 +29,7 @@
 	
 	<!-- ______________________ PSYCH ENGINE CUSTOMIZATION ______________________ -->
 
-	<define name="legacy_lime" /> <!-- Enables legacy lime -->
+	<!-- <define name="legacy_lime" /> --> <!-- Enables legacy lime -->
 	<define name="MODS_ALLOWED" />
 	<define name="HSCRIPT_ALLOWED" />
 	<define name="LUA_ALLOWED" if="cpp" />

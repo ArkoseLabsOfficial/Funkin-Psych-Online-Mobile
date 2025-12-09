@@ -22,7 +22,6 @@ class FunkinHitbox extends OGHitbox {
 			} else {
 				for (i in 0...mania+1) {
 					addHint("buttonNote${i+1}", ["NOTE_${i+1}", "${mania}K_NOTE_${i+1}"], 0, PlayState.hitboxPositions[i], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-					trace(i + ' ve ' + mania);
 				}
 			}
 		}
@@ -205,17 +204,17 @@ class FunkinHitbox extends OGHitbox {
 		hint.onDown.callback = function()
 		{
 			onButtonDown.dispatch(hint, Name, uniqueID);
-			if (hint.alpha != globalAlpha)
+			if (hint.alpha != globalAlpha && !ClientPrefs.data.VSliceControl)
 				hint.alpha = globalAlpha;
-			if ((hint.hintUp?.alpha != 0.00001 || hint.hintDown?.alpha != 0.00001) && hint.hintUp != null && hint.hintDown != null)
+			if ((hint.hintUp?.alpha != 0.00001 || hint.hintDown?.alpha != 0.00001) && hint.hintUp != null && hint.hintDown != null && !ClientPrefs.data.VSliceControl)
 				hint.hintUp.alpha = hint.hintDown.alpha = 0.00001;
 		}
 		hint.onOut.callback = hint.onUp.callback = function()
 		{
 			onButtonUp.dispatch(hint, Name, uniqueID);
-			if (hint.alpha != 0.00001)
+			if (hint.alpha != 0.00001 && !ClientPrefs.data.VSliceControl)
 				hint.alpha = 0.00001;
-			if ((hint.hintUp?.alpha != globalAlpha || hint.hintDown?.alpha != globalAlpha) && hint.hintUp != null && hint.hintDown != null)
+			if ((hint.hintUp?.alpha != globalAlpha || hint.hintDown?.alpha != globalAlpha) && hint.hintUp != null && hint.hintDown != null && !ClientPrefs.data.VSliceControl)
 				hint.hintUp.alpha = hint.hintDown.alpha = globalAlpha;
 		}
 		#if FLX_DEBUG
