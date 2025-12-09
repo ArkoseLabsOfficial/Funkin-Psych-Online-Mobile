@@ -2,7 +2,8 @@
   "mania1": [
     {
       "button": "buttonNote1",
-      "buttonIDs": ["1K_NOTE_1 = 0"],
+      "buttonIDs": ["1K_NOTE_1"],
+      "buttonUniqueID": 0,
       "x": 0,
       "y": 0,
       "width": 1280,
@@ -13,7 +14,8 @@
   "mania2": [
     {
       "button": "buttonNote1",
-      "buttonIDs": ["2K_NOTE_1 = 0"],
+      "buttonIDs": ["2K_NOTE_1"],
+      "buttonUniqueID": 0,
       "x": 0,
       "y": 0,
       "width": 640,
@@ -22,7 +24,8 @@
     },
     {
       "button": "buttonNote2",
-      "buttonIDs": ["2K_NOTE_2 = 1"],
+      "buttonIDs": ["2K_NOTE_2"],
+      "buttonUniqueID": 1,
       "x": 640,
       "y": 0,
       "width": 640,
@@ -33,7 +36,8 @@
   "mania3": [
     {
       "button": "buttonNote1",
-      "buttonIDs": ["3K_NOTE_1 = 0"],
+      "buttonIDs": ["3K_NOTE_1"],
+      "buttonUniqueID": 0,
       "x": 0,
       "y": 0,
       "width": 427,
@@ -42,7 +46,8 @@
     },
     {
       "button": "buttonNote2",
-      "buttonIDs": ["3K_NOTE_2 = 1"],
+      "buttonIDs": ["3K_NOTE_2"],
+      "buttonUniqueID": 1,
       "x": 427,
       "y": 0,
       "width": 426,
@@ -51,7 +56,8 @@
     },
     {
       "button": "buttonNote3",
-      "buttonIDs": ["3K_NOTE_3 = 2"],
+      "buttonIDs": ["3K_NOTE_3"],
+      "buttonUniqueID": 2,
       "x": 853,
       "y": 0,
       "width": 427,
