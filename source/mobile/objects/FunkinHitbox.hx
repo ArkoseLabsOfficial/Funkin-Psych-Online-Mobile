@@ -15,20 +15,20 @@ class FunkinHitbox extends OGHitbox {
 		{
 			var mania = Note.maniaKeys;
 			if (mania == 4) {
-				addHint('"buttonNote1', ["NOTE_LEFT"], 0, 0, 0, 140, Std.int(FlxG.height), 0xFFC24B99);
-				addHint('"buttonNote2', ["NOTE_DOWN"], 1, 0, 0, 140, Std.int(FlxG.height), 0xFF00FFFF);
-				addHint('"buttonNote3', ["NOTE_UP"], 2, 0, 0, 140, Std.int(FlxG.height), 0xFF12FA05);
-				addHint('"buttonNote4', ["NOTE_RIGHT"], 3, 0, 0, 140, Std.int(FlxG.height), 0xFFF9393F);
+				addHint('"buttonNote1', ["NOTE_LEFT"], 0, PlayState.hitboxPositions[0], 0, 140, Std.int(FlxG.height), 0xFFC24B99);
+				addHint('"buttonNote2', ["NOTE_DOWN"], 1, PlayState.hitboxPositions[1], 0, 140, Std.int(FlxG.height), 0xFF00FFFF);
+				addHint('"buttonNote3', ["NOTE_UP"], 2, PlayState.hitboxPositions[2], 0, 140, Std.int(FlxG.height), 0xFF12FA05);
+				addHint('"buttonNote4', ["NOTE_RIGHT"], 3, PlayState.hitboxPositions[3], 0, 140, Std.int(FlxG.height), 0xFFF9393F);
 			} else {
-				if (mania >= 1) addHint('"buttonNote1', ["NOTE_1 = 0", "${mania}K_NOTE_1"], 0, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 2) addHint('"buttonNote2', ["NOTE_2 = 1", "${mania}K_NOTE_2"], 1, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 3) addHint('"buttonNote3', ["NOTE_3 = 2", "${mania}K_NOTE_3"], 2, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 4) addHint('"buttonNote4', ["NOTE_4 = 3", "${mania}K_NOTE_4"], 3, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 5) addHint('"buttonNote5', ["NOTE_5 = 4", "${mania}K_NOTE_5"], 4, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 6) addHint('"buttonNote6', ["NOTE_6 = 5", "${mania}K_NOTE_6"], 5, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 7) addHint('"buttonNote7', ["NOTE_7 = 6", "${mania}K_NOTE_7"], 6, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 8) addHint('"buttonNote8', ["NOTE_8 = 7", "${mania}K_NOTE_8"], 7, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
-				if (mania >= 9) addHint('"buttonNote9', ["NOTE_9 = 8", "${mania}K_NOTE_9"], 8, 0, 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 1) addHint('"buttonNote1', ["NOTE_1", "${mania}K_NOTE_1"], 0, PlayState.hitboxPositions[0], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 2) addHint('"buttonNote2', ["NOTE_2", "${mania}K_NOTE_2"], 1, PlayState.hitboxPositions[1], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 3) addHint('"buttonNote3', ["NOTE_3", "${mania}K_NOTE_3"], 2, PlayState.hitboxPositions[2], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 4) addHint('"buttonNote4', ["NOTE_4", "${mania}K_NOTE_4"], 3, PlayState.hitboxPositions[3], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 5) addHint('"buttonNote5', ["NOTE_5", "${mania}K_NOTE_5"], 4, PlayState.hitboxPositions[4], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 6) addHint('"buttonNote6', ["NOTE_6", "${mania}K_NOTE_6"], 5, PlayState.hitboxPositions[5], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 7) addHint('"buttonNote7', ["NOTE_7", "${mania}K_NOTE_7"], 6, PlayState.hitboxPositions[6], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 8) addHint('"buttonNote8', ["NOTE_8", "${mania}K_NOTE_8"], 7, PlayState.hitboxPositions[7], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+				if (mania >= 9) addHint('"buttonNote9', ["NOTE_9", "${mania}K_NOTE_9"], 8, PlayState.hitboxPositions[8], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
 			}
 		}
 		else
