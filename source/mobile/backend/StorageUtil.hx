@@ -53,14 +53,11 @@ class StorageUtil
 	public static function getExternalStorageDirectory():String
 	{
 		var daPath:String = '';
-		trace('bruh');
 		#if android
-		if (!FunkinFileSystem.exists(rootDir + 'storagetype.txt'))
+		if (!FileSystem.exists(rootDir + 'storagetype.txt'))
 			File.saveContent(rootDir + 'storagetype.txt', ClientPrefs.data.storageType);
-		trace('bruh');
 
 		var curStorageType:String = File.getContent(rootDir + 'storagetype.txt');
-		trace('bruh');
 
 		/* Put this there because I don't want to override original paths, also brokes the normal storage system */
 		/* remove this until i found a way to fix it
@@ -86,17 +83,14 @@ class StorageUtil
 			default:
 				daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
 		}
-		trace('bruh');
 
 		daPath = Path.addTrailingSlash(daPath);
-		trace('bruh');
 		#elseif ios
 		return LimeSystem.documentsDirectory;
 		#else
 		return Sys.getCwd();
 		#end
 
-		trace('bruh');
 		return daPath;
 	}
 

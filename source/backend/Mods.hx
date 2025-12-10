@@ -58,11 +58,11 @@ class Mods
 		var list:Array<String> = [];
 		#if MODS_ALLOWED
 		var modsFolder:String = Paths.mods();
-		if(FunkinFileSystem.exists(modsFolder)) {
-			for (folder in FunkinFileSystem.readDirectory(modsFolder))
+		if(FileSystem.exists(modsFolder)) {
+			for (folder in FileSystem.readDirectory(modsFolder))
 			{
 				var path = haxe.io.Path.join([modsFolder, folder]);
-				if (!ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
+				if (sys.FileSystem.isDirectory(path) && !ignoreModFolders.contains(folder.toLowerCase()) && !list.contains(folder))
 					list.push(folder);
 			}
 		}
@@ -101,7 +101,7 @@ class Mods
 	{
 		var foldersToCheck:Array<String> = [];
 		#if sys
-		if(FunkinFileSystem.exists(path + fileToFind))
+		if(FileSystem.exists(path + fileToFind))
 		#end
 			foldersToCheck.push(path + fileToFind);
 
@@ -112,18 +112,18 @@ class Mods
 			for(mod in Mods.getGlobalMods())
 			{
 				var folder:String = Paths.mods(mod + '/' + fileToFind);
-				if(FunkinFileSystem.exists(folder)) foldersToCheck.push(folder);
+				if(FileSystem.exists(folder)) foldersToCheck.push(folder);
 			}
 
 			// Then "PsychEngine/mods/" main folder
 			var folder:String = Paths.mods(fileToFind);
-			if(FunkinFileSystem.exists(folder)) foldersToCheck.push(Paths.mods(fileToFind));
+			if(FileSystem.exists(folder)) foldersToCheck.push(Paths.mods(fileToFind));
 
 			// And lastly, the loaded mod's folder
 			if(Mods.currentModDirectory != null && Mods.currentModDirectory.length > 0)
 			{
 				var folder:String = Paths.mods(Mods.currentModDirectory + '/' + fileToFind);
-				if(FunkinFileSystem.exists(folder)) foldersToCheck.push(folder);
+				if(FileSystem.exists(folder)) foldersToCheck.push(folder);
 			}
 		}
 		#end
@@ -136,9 +136,13 @@ class Mods
 		if(folder == null) folder = Mods.currentModDirectory;
 
 		var path = Paths.mods(folder + '/pack.json');
-		if(FunkinFileSystem.exists(path)) {
+		if(FileSystem.exists(path)) {
 			try {
-				var rawJson:String = FunkinFileSystem.getText(path);
+				#if sys
+				var rawJson:String = File.getContent(path);
+				#else
+				var rawJson:String = Assets.getText(path);
+				#end
 				if(rawJson != null && rawJson.length > 0) return Json.parse(rawJson);
 			} catch(e:Dynamic) {
 				trace(e);
@@ -185,7 +189,7 @@ class Mods
 			{
 				var dat:Array<String> = mod.split("|");
 				var folder:String = dat[0];
-				if(folder.trim().length > 0 && FunkinFileSystem.exists(Paths.mods(folder)) && !added.contains(folder))
+				if(folder.trim().length > 0 && FileSystem.exists(Paths.mods(folder)) && FileSystem.isDirectory(Paths.mods(folder)) && !added.contains(folder))
 				{
 					added.push(folder);
 					list.push([folder, (dat[1] == "1")]);
@@ -198,7 +202,8 @@ class Mods
 		// Scan for folders that aren't on modsList.txt yet
 		for (folder in getModDirectories())
 		{
-			if(folder.trim().length > 0 && FunkinFileSystem.exists(Paths.mods(folder)) && !ignoreModFolders.contains(folder.toLowerCase()) && !added.contains(folder))
+			if(folder.trim().length > 0 && FileSystem.exists(Paths.mods(folder)) && FileSystem.isDirectory(Paths.mods(folder)) &&
+			!ignoreModFolders.contains(folder.toLowerCase()) && !added.contains(folder))
 			{
 				added.push(folder);
 				list.push([folder, true]); //i like it false by default. -bb //Well, i like it True! -Shadow Mario (2022)
@@ -260,10 +265,10 @@ class Mods
 		#if MODS_ALLOWED
 		for (i in 0...directories.length) {
 			var directory:String = directories[i];
-			if (FunkinFileSystem.exists(directory)) {
-				for (file in FunkinFileSystem.readDirectory(directory)) {
+			if (FileSystem.exists(directory)) {
+				for (file in FileSystem.readDirectory(directory)) {
 					var path = haxe.io.Path.join([directory, file]);
-					if (file.endsWith('.json')) {
+					if (!FileSystem.isDirectory(path) && file.endsWith('.json')) {
 						var stageToCheck:String = file.substr(0, file.length - 5);
 						if (stageToCheck.trim().length > 0 && !tempArray.contains(stageToCheck)) {
 							tempArray.push(stageToCheck);

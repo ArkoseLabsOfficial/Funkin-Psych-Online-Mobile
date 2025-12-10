@@ -75,39 +75,28 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
-		trace('bruh');
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
-		trace('bruh');
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
 		super.create();
 
-		trace('bruh');
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
-		trace('bruh');
 		online.network.Auth.load();
-		trace('bruh');
 
 		ClientPrefs.loadPrefs();
-		trace('bruh');
 		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
-		trace('bruh');
 
 		backend.NoteSkinData.reloadNoteSkins();
-		trace('bruh');
 
 		Highscore.load();
-		trace('bruh');
 
 		// IGNORE THIS!!!
 		titleJSON = Json.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
-		trace('bruh');
 
 		#if TITLE_SCREEN_EASTER_EGG
 		if (FlxG.save.data.psychDevsEasterEgg == null) FlxG.save.data.psychDevsEasterEgg = ''; //Crash prevention
-		trace('bruh');
 		switch(FlxG.save.data.psychDevsEasterEgg.toUpperCase())
 		{
 			case 'SHADOW':
@@ -120,21 +109,17 @@ class TitleState extends MusicBeatState
 				titleJSON.gfx += 45;
 				titleJSON.gfy += 100;
 		}
-		trace('bruh');
 		#end
 
 		if(!initialized)
 		{
-			trace('bruh');
 			if(FlxG.save.data != null && FlxG.save.data.fullscreen)
 			{
 				FlxG.fullscreen = FlxG.save.data.fullscreen;
 				//trace('LOADED FULLSCREEN SETTING!!');
 			}
-			trace('bruh');
 			persistentUpdate = true;
 			persistentDraw = true;
-			trace('bruh');
 			MobileConfig.init('MobileControls', CoolUtil.getSavePath(), 'assets/mobile/',
 				[
 					'MobilePad/DPadModes',
@@ -146,24 +131,19 @@ class TitleState extends MusicBeatState
 					HITBOX
 				]
 			);
-			trace('bruh');
 		}
 
-		trace('bruh');
 		if (FlxG.save.data.weekCompleted != null)
 		{
 			StoryMenuState.weekCompleted = FlxG.save.data.weekCompleted;
 		}
-		trace('bruh');
 
 		FlxG.mouse.visible = false;
-		trace('bruh');
 
 		if (online.GameClient.isConnected()) {
 			FlxG.switchState(() -> new online.states.RoomState());
 			return;
 		}
-		trace('bruh');
 		
 		#if FREEPLAY
 		FlxG.switchState(() -> new FreeplayState());
@@ -187,7 +167,6 @@ class TitleState extends MusicBeatState
 			}
 		}
 		#end
-		trace('bruh');
 	}
 
 	var logoBl:FlxSprite;
@@ -198,29 +177,24 @@ class TitleState extends MusicBeatState
 
 	function startIntro()
 	{
-		trace('bruh');
 		if (!initialized)
 		{
 			if(FlxG.sound.music == null) {
 				states.TitleState.playFreakyMusic(0);
 			}
 		}
-		trace('bruh');
 
 		Conductor.bpm = titleJSON.bpm;
 		persistentUpdate = true;
-		trace('bruh');
 
 		var bg:FlxSprite = new FlxSprite();
 		bg.antialiasing = ClientPrefs.data.antialiasing;
-		trace('bruh');
 
 		if (titleJSON.backgroundSprite != null && titleJSON.backgroundSprite.length > 0 && titleJSON.backgroundSprite != ""){
 			bg.loadGraphic(Paths.image(titleJSON.backgroundSprite));
 		}else{
 			bg.makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		}
-		trace('bruh');
 
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
@@ -229,19 +203,16 @@ class TitleState extends MusicBeatState
 		logoBl = new FlxSprite(titleJSON.titlex, titleJSON.titley);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		logoBl.antialiasing = ClientPrefs.data.antialiasing;
-		trace('bruh');
 
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
-		trace('bruh');
 		// logoBl.screenCenter();
 		// logoBl.color = FlxColor.BLACK;
 
 		if(ClientPrefs.data.shaders) swagShader = new ColorSwap();
 		gfDance = new FlxSprite(titleJSON.gfx, titleJSON.gfy);
 		gfDance.antialiasing = ClientPrefs.data.antialiasing;
-		trace('bruh');
 
 		var easterEgg:String = FlxG.save.data.psychDevsEasterEgg;
 		if(easterEgg == null) easterEgg = ''; //html5 fix

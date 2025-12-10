@@ -104,22 +104,17 @@ class Main extends Sprite
 	public function new()
 	{
 		super();
-		trace('bruh');
 		#if mobile
 		#if android
 		StorageUtil.requestPermissions();
-		trace('bruh');
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
-		trace('bruh');
 		#end
 		backend.CrashHandler.init();
-		trace('bruh');
 
 		#if (cpp && windows)
 		backend.Native.fixScaling();
 		#end
-		trace('bruh');
 
 		if (stage != null)
 		{
@@ -159,25 +154,19 @@ class Main extends Sprite
 		if (game.zoom == -1.0)
 			game.zoom = 1.0;
 		#end
-		trace('bruh');
 
 		#if LUA_ALLOWED
 		Mods.pushGlobalMods();
 		#end
-		trace('bruh');
 		Mods.loadTopMod();
-		trace('bruh');
 
 		#if VIDEOS_ALLOWED
 		hxvlc.util.Handle.init(#if (hxvlc >= "1.8.0")  ['--no-lua'] #end);
 		#end
-		trace('bruh');
 
 		CoolUtil.setDarkMode(true);
-		trace('bruh');
 
 		FunkinFileSystem.validateLimeCache();
-		trace('bruh');
 
 		#if lumod
 		Lumod.addons.push(online.backend.LuaModuleSwap.LumodModuleAddon);
@@ -194,21 +183,15 @@ class Main extends Sprite
 		Lumod.classResolver = Deflection.resolveClass;
 		Lumod.initializeLuaCallbacks = false;
 		#end
-		trace('bruh');
 
 		#if hl
 		sys.ssl.Socket.DEFAULT_VERIFY_CERT = false;
 		#end
-		trace('bruh');
 	
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
-		trace('bruh');
 		Controls.instance = new Controls();
-		trace('bruh');
 		ClientPrefs.loadDefaultKeys();
-		trace('bruh');
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
-		trace('bruh');
 
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
@@ -217,7 +200,6 @@ class Main extends Sprite
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
-		trace('bruh');
 
 		#if (linux || mac)
 		final icon:Image = Image.fromFile("icon.png");
