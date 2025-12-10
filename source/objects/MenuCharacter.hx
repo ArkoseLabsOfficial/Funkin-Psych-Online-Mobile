@@ -59,7 +59,7 @@ class MenuCharacter extends FlxSprite
 					path = Paths.getPreloadPath(characterPath);
 				}
 
-				(!FunkinFileSystem.exists(path)) {
+				if(!FunkinFileSystem.exists(path)) {
 					path = Paths.getPreloadPath('images/menucharacters/' + DEFAULT_CHARACTER + '.json');
 				}
 				rawJson = FunkinFileSystem.getText(path);
