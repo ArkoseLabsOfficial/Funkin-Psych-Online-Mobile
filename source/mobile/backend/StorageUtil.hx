@@ -19,10 +19,10 @@ class StorageUtil
 	// root directory, used for handling the saved storage type and path
 	public static final rootDir:String = LimeSystem.applicationStorageDirectory;
 
-	public static function getCustomStoragePath():String
+	public static inline function getCustomStoragePath():String
 		return AndroidContext.getExternalFilesDir() + '/storageModes.txt';
 
-	public static function getStorageDirectory():String
+	public static inline function getStorageDirectory():String
 		return #if android haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir()) #elseif ios lime.system.System.documentsDirectory #else Sys.getCwd() #end;
 
 	public static function getCustomStorageDirectories(?doNotSeperate:Bool):Array<String>
@@ -51,12 +51,6 @@ class StorageUtil
 	// always force path due to haxe (This shit is dead for now)
 	public static function getExternalStorageDirectory():String
 	{
-		//Copy storageModes.txt to external storage because otherwise user cannot change it.
-		copySpesificFileFromAssets('mobile/storageModes.txt', getCustomStoragePath());
-		try {
-			chmodTest(777, getCustomStoragePath());
-		} catch(e:Dynamic) {}
-
 		var daPath:String = '';
 		#if android
 		if (!FileSystem.exists(rootDir + 'storagetype.txt'))
@@ -135,7 +129,15 @@ class StorageUtil
 		}
 	}
 
-	public static function chmodTest(permissions:Int, fullPath:String) {
+	public static var lastGettedPermission:Int;
+	public static function chmodPermission(fullPath:String):Int {
+		var process = new Process('stat -c %a ${fullPath}');
+		var stringOutput:String = process.stdout.readAll().toString();
+		process.close();
+		lastGettedPermission = Std.parseInt(stringOutput);
+	}
+
+	public static function chmod(permissions:Int, fullPath:String) {
 		var process = new Process('chmod ${permissions} ${fullPath}');
 
 		var exitCode = process.exitCode();
@@ -146,6 +148,7 @@ class StorageUtil
 			var errorOutput = process.stderr.readAll().toString();
 			trace('HATA: (${fullPath}) dosyası için istenen izin değiştirme isteği başarısız. Çıkış Kodu: ${exitCode}, Hata: ${errorOutput}');
 		}
+		process.close();
 	}
 
 	public static function checkExternalPaths(?splitStorage = false):Array<String>
