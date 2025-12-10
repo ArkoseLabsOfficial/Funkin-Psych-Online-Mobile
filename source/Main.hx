@@ -108,13 +108,20 @@ class Main extends Sprite
 		#if android
 		StorageUtil.requestPermissions();
 		StorageUtil.copySpesificFileFromAssets('mobile/storageModes.txt', StorageUtil.getCustomStoragePath());
+		//oy give access to mods & replays folder
 		try {
-			StorageUtil.chmod(777, StorageUtil.getCustomStoragePath());
+			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
+			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
+		} catch(e:Dynamic) {}
+		/* it causes the lag but works
+		try {
+			StorageUtil.chmod(2777, StorageUtil.getCustomStoragePath());
 			StorageUtil.chmod(777, AndroidContext.getExternalFilesDir() + '/modsList.txt');
 			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir());
 			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
 			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
 		} catch(e:Dynamic) {}
+		*/
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		#end
