@@ -891,7 +891,7 @@ class PlayState extends MusicBeatState
 		preloadTasks.push(() -> {
 			var foldersToCheck:Array<String> = Mods.directoriesWithFile(Paths.getPreloadPath(), 'scripts/');
 			for (folder in foldersToCheck)
-				for (file in FunkinFileSystem.existsreadDirectory(folder))
+				for (file in FunkinFileSystem.readDirectory(folder))
 				{
 					if(file.toLowerCase().endsWith('.lua'))
 						new FunkinLua(folder + file);
@@ -962,7 +962,7 @@ class PlayState extends MusicBeatState
 
 			// if online player is defined
 			if (player != null) {
-				if (FunkinFileSystem.existsexists(Paths.mods(player.skinMod)) && !(isRight ? SONG.player1 : SONG.player2).startsWith(player.skinName)) {
+				if (FunkinFileSystem.exists(Paths.mods(player.skinMod)) && !(isRight ? SONG.player1 : SONG.player2).startsWith(player.skinName)) {
 					if (player.skinMod != null)
 						Mods.currentModDirectory = player.skinMod;
 
@@ -1299,7 +1299,7 @@ class PlayState extends MusicBeatState
 		preloadTasks.push(() -> {
 			var foldersToCheck:Array<String> = Mods.directoriesWithFile(Paths.getPreloadPath(), 'data/' + songName + '/');
 			for (folder in foldersToCheck)
-				for (file in FunkinFileSystem.existsreadDirectory(folder)) {
+				for (file in FunkinFileSystem.readDirectory(folder)) {
 					if (file.toLowerCase().endsWith('.lua'))
 						new FunkinLua(folder + file);
 					#if HSCRIPT_ALLOWED
@@ -1693,7 +1693,7 @@ class PlayState extends MusicBeatState
 		var luaFile:String = 'characters/' + name + '.lua';
 		#if MODS_ALLOWED
 		var replacePath:String = Paths.modFolders(luaFile);
-		if(FunkinFileSystem.existsexists(replacePath))
+		if(FunkinFileSystem.exists(replacePath))
 		{
 			luaFile = replacePath;
 			doPush = true;
@@ -1701,7 +1701,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			luaFile = Paths.getPreloadPath(luaFile);
-			if(FunkinFileSystem.existsexists(luaFile))
+			if(FunkinFileSystem.exists(luaFile))
 				doPush = true;
 		}
 		#else
@@ -1732,7 +1732,7 @@ class PlayState extends MusicBeatState
 		var doPush:Bool = false;
 		var scriptFile:String = 'characters/' + name + '.hx';
 		var replacePath:String = Paths.modFolders(scriptFile);
-		if(FunkinFileSystem.existsexists(replacePath))
+		if(FunkinFileSystem.exists(replacePath))
 		{
 			scriptFile = replacePath;
 			doPush = true;
@@ -1740,7 +1740,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			scriptFile = Paths.getPreloadPath(scriptFile);
-			if(FunkinFileSystem.existsexists(scriptFile))
+			if(FunkinFileSystem.exists(scriptFile))
 				doPush = true;
 		}
 		
@@ -1809,7 +1809,7 @@ class PlayState extends MusicBeatState
 
 		var filepath:String = Paths.video(name);
 		#if sys
-		if(!FunkinFileSystem.existsexists(filepath))
+		if(!FunkinFileSystem.exists(filepath))
 		#else
 		if(!OpenFlAssets.exists(filepath))
 		#end
@@ -1857,7 +1857,7 @@ class PlayState extends MusicBeatState
 		var fileName:String = Paths.video(name);
 
 		#if sys
-		if (FunkinFileSystem.existsexists(fileName))
+		if (FunkinFileSystem.exists(fileName))
 		#else
 		if (OpenFlAssets.exists(fileName))
 		#end
@@ -2479,7 +2479,7 @@ class PlayState extends MusicBeatState
 
 		var file:String = Paths.json(songName + '/events' + songSuffix);
 		#if MODS_ALLOWED
-		if (FunkinFileSystem.existsexists(Paths.modsJson(songName + '/events' + songSuffix)) || FunkinFileSystem.existsexists(file)) {
+		if (FunkinFileSystem.exists(Paths.modsJson(songName + '/events' + songSuffix)) || FunkinFileSystem.exists(file)) {
 		#else
 		if (OpenFlAssets.exists(file)) {
 		#end
@@ -5692,10 +5692,10 @@ class PlayState extends MusicBeatState
 	{
 		#if MODS_ALLOWED
 		var luaToLoad:String = Paths.modFolders(luaFile);
-		if(!FunkinFileSystem.existsexists(luaToLoad))
+		if(!FunkinFileSystem.exists(luaToLoad))
 			luaToLoad = Paths.getPreloadPath(luaFile);
 
-		if(FunkinFileSystem.existsexists(luaToLoad))
+		if(FunkinFileSystem.exists(luaToLoad))
 		#elseif sys
 		var luaToLoad:String = Paths.getPreloadPath(luaFile);
 		if(OpenFlAssets.exists(luaToLoad))
@@ -5715,10 +5715,10 @@ class PlayState extends MusicBeatState
 	public function startHScriptsNamed(scriptFile:String)
 	{
 		var scriptToLoad:String = Paths.modFolders(scriptFile);
-		if(!FunkinFileSystem.existsexists(scriptToLoad))
+		if(!FunkinFileSystem.exists(scriptToLoad))
 			scriptToLoad = Paths.getPreloadPath(scriptFile);
 		
-		if(FunkinFileSystem.existsexists(scriptToLoad))
+		if(FunkinFileSystem.exists(scriptToLoad))
 		{
 			if (SScript.global.exists(scriptToLoad)) return false;
 	
@@ -6079,19 +6079,19 @@ class PlayState extends MusicBeatState
 		
 		for (folder in foldersToCheck)
 		{
-			if(FunkinFileSystem.existsexists(folder))
+			if(FunkinFileSystem.exists(folder))
 			{
 				var frag:String = folder + name + '.frag';
 				var vert:String = folder + name + '.vert';
 				var found:Bool = false;
-				if(FunkinFileSystem.existsexists(frag))
+				if(FunkinFileSystem.exists(frag))
 				{
 					frag = FunkinFileSystem.getText(frag);
 					found = true;
 				}
 				else frag = null;
 
-				if(FunkinFileSystem.existsexists(vert))
+				if(FunkinFileSystem.exists(vert))
 				{
 					vert = FunkinFileSystem.getText(vert);
 					found = true;
