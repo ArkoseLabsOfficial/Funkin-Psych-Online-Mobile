@@ -107,8 +107,14 @@ class Main extends Sprite
 		#if mobile
 		#if android
 		StorageUtil.requestPermissions();
-		StorageUtil.copySpesificFileFromAssets('mobile/storageModes.txt', getCustomStoragePath());
-		StorageUtil.chmod(777, getCustomStoragePath());
+		StorageUtil.copySpesificFileFromAssets('mobile/storageModes.txt', StorageUtil.getCustomStoragePath());
+		try {
+			StorageUtil.chmod(777, StorageUtil.getCustomStoragePath());
+			StorageUtil.chmod(777, AndroidContext.getExternalFilesDir() + '/modsList.txt');
+			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir());
+			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
+			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
+		} catch(e:Dynamic) {}
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		#end

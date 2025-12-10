@@ -130,7 +130,7 @@ class StorageUtil
 	}
 
 	public static var lastGettedPermission:Int;
-	public static function chmodPermission(fullPath:String):Int {
+	public static function chmodPermission(fullPath:String) {
 		var process = new Process('stat -c %a ${fullPath}');
 		var stringOutput:String = process.stdout.readAll().toString();
 		process.close();
