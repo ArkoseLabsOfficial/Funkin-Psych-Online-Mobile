@@ -65,7 +65,7 @@ class MobileConfig {
 		trace('' + folder);
 		folder = folder.contains(':') ? folder.split(':')[1] : folder;
 
-		#if mobile_controls_file_support if (FileSystem.exists(folder)) #end
+		#if mobile_controls_file_support if (FunkinFileSystem.exists(folder)) #end
 		for (file in readDirectoryPart2(folder))
 		{
 			if (Path.extension(file) == 'json')
@@ -74,7 +74,7 @@ class MobileConfig {
 
 				var str:String;
 				#if mobile_controls_file_support
-				if (FileSystem.exists(file))
+				if (FunkinFileSystem.exists(file))
 					str = File.getContent(file);
 				else #end
 					str = Assets.getText(file);
@@ -98,7 +98,7 @@ class MobileConfig {
 		var dirs:Array<String> = [];
 
 		#if mobile_controls_file_support
-		return FileSystem.readDirectory(directory);
+		return FunkinFileSystem.readDirectory(directory);
 		#else
 		var dirs:Array<String> = [];
 		for(dir in Assets.list().filter(folder -> folder.startsWith(directory)))

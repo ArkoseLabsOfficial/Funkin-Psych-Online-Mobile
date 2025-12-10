@@ -173,6 +173,8 @@ class Main extends Sprite
 
 		CoolUtil.setDarkMode(true);
 
+		CoolUtil.setDarkMode(true);
+
 		#if lumod
 		Lumod.addons.push(online.backend.LuaModuleSwap.LumodModuleAddon);
 		Lumod.scriptPathHandler = scriptPath -> {
@@ -180,7 +182,7 @@ class Main extends Sprite
 
 			// check if script exists in any of loaded mods
 			var path:String = Paths.modFolders(defaultPath);
-			if (FileSystem.exists(path))
+			if (FunkinFileSystem.exists(path))
 				return path;
 
 			return defaultPath;
@@ -196,7 +198,7 @@ class Main extends Sprite
 		#if LUA_ALLOWED Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
-		addChild(new FlxGame(game.width, game.height, #if (mobile && MODS_ALLOWED) CopyState.checkExistingFiles() ? game.initialState : CopyState #else game.initialState #end, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
+		addChild(new FlxGame(game.width, game.height, game.initialState #end, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
 
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);

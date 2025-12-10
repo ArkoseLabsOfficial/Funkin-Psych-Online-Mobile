@@ -74,6 +74,7 @@ import online.backend.Deflection;
 // Mobile Controls
 
 // FNF Spesific
+import mobile.objects.FunkinFileSystem;
 import mobile.objects.FunkinMobilePad as MobilePad;
 import mobile.objects.FunkinHitbox as Hitbox;
 // Others

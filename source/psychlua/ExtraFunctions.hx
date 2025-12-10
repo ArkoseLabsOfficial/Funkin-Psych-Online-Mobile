@@ -216,25 +216,20 @@ class ExtraFunctions
 
 		// File management
 		Lua_helper.add_callback(lua, "checkFileExists", function(filename:String, ?absolute:Bool = false) {
-			#if MODS_ALLOWED
 			if(absolute)
 			{
-				return FileSystem.exists(filename);
+				return FunkinFileSystem.exists(filename);
 			}
 
+			#if MODS_ALLOWED
 			var path:String = Paths.modFolders(filename);
-			if(FileSystem.exists(path))
+			if(FunkinFileSystem.exists(path))
 			{
 				return true;
 			}
-			return FileSystem.exists(Paths.getPath('assets/$filename', TEXT));
-			#else
-			if(absolute)
-			{
-				return Assets.exists(filename);
-			}
-			return Assets.exists(Paths.getPath('assets/$filename', TEXT));
 			#end
+
+			return FunkinFileSystem.exists(Paths.getPath('assets/$filename', TEXT));
 		});
 		Lua_helper.add_callback(lua, "saveFile", function(path:String, content:String, ?absolute:Bool = false)
 		{

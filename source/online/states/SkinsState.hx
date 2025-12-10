@@ -280,10 +280,10 @@ class SkinsState extends MusicBeatState {
 				Mods.currentModDirectory = name;
 				characters = Paths.mods(name + '/characters/');
 				charactersWeeks = Paths.mods(name + '/characters_weeks/');
-				if (FileSystem.exists(characters)) {
-					for (file in FileSystem.readDirectory(characters)) {
+				if (FunkinFileSystem.exists(characters)) {
+					for (file in FunkinFileSystem.readDirectory(characters)) {
 						var path = Path.join([characters, file]);
-						if (!FileSystem.isDirectory(path) && file.endsWith('.json')) {
+						if (file.endsWith('.json')) {
 							var character:String = file.substr(0, file.length - 5);
 							if (!flipped ? character.endsWith("-player") : !character.endsWith("-player")) {
 								continue;

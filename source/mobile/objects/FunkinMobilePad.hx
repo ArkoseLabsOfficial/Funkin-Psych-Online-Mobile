@@ -15,8 +15,8 @@ class FunkinMobilePad extends OGMobilePad {
 		final path:String = MobileConfig.mobileFolderPath + 'MobilePad/Textures/$framePath.png';
 		#if MODS_ALLOWED
 		final modsPath:String = Paths.modFolders('mobile/MobilePad/Textures/$framePath.png');
-		if(sys.FileSystem.exists(modsPath))
-			frames = FlxGraphic.fromBitmapData(BitmapData.fromFile(modsPath));
+		if(FunkinFileSystem.exists(modsPath))
+			frames = FlxGraphic.fromBitmapData(FunkinFileSystem.getBitmapData(modsPath));
 		else #end if(Assets.exists(path))
 			frames = FlxGraphic.fromBitmapData(Assets.getBitmapData(path));
 		else

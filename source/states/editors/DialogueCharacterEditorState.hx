@@ -709,7 +709,7 @@ class DialogueCharacterEditorState extends MusicBeatState
 		if(_file.__path != null) fullPath = _file.__path;
 
 		if(fullPath != null) {
-			var rawJson:String = File.getContent(fullPath);
+			var rawJson:String = FunkinFileSystem.getText(fullPath);
 			if(rawJson != null) {
 				var loadedChar:DialogueCharacterFile = cast Json.parse(rawJson);
 				if(loadedChar.dialogue_pos != null) //Make sure it's really a dialogue character

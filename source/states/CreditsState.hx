@@ -277,9 +277,9 @@ class CreditsState extends MusicBeatState
 		if(folder != null && folder.trim().length > 0) creditsFile = Paths.mods(folder + '/data/credits.txt');
 		else creditsFile = Paths.mods('data/credits.txt');
 
-		if (FileSystem.exists(creditsFile))
+		if (FunkinFileSystem.exists(creditsFile))
 		{
-			var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
+			var firstarray:Array<String> = FunkinFileSystem.getText(creditsFile).split('\n');
 			for(i in firstarray)
 			{
 				var arr:Array<String> = i.replace('\\n', '\n').split("::");

@@ -891,7 +891,7 @@ class PlayState extends MusicBeatState
 		preloadTasks.push(() -> {
 			var foldersToCheck:Array<String> = Mods.directoriesWithFile(Paths.getPreloadPath(), 'scripts/');
 			for (folder in foldersToCheck)
-				for (file in FileSystem.readDirectory(folder))
+				for (file in FunkinFileSystem.existsreadDirectory(folder))
 				{
 					if(file.toLowerCase().endsWith('.lua'))
 						new FunkinLua(folder + file);
@@ -962,7 +962,7 @@ class PlayState extends MusicBeatState
 
 			// if online player is defined
 			if (player != null) {
-				if (FileSystem.exists(Paths.mods(player.skinMod)) && !(isRight ? SONG.player1 : SONG.player2).startsWith(player.skinName)) {
+				if (FunkinFileSystem.existsexists(Paths.mods(player.skinMod)) && !(isRight ? SONG.player1 : SONG.player2).startsWith(player.skinName)) {
 					if (player.skinMod != null)
 						Mods.currentModDirectory = player.skinMod;
 
@@ -1299,7 +1299,7 @@ class PlayState extends MusicBeatState
 		preloadTasks.push(() -> {
 			var foldersToCheck:Array<String> = Mods.directoriesWithFile(Paths.getPreloadPath(), 'data/' + songName + '/');
 			for (folder in foldersToCheck)
-				for (file in FileSystem.readDirectory(folder)) {
+				for (file in FunkinFileSystem.existsreadDirectory(folder)) {
 					if (file.toLowerCase().endsWith('.lua'))
 						new FunkinLua(folder + file);
 					#if HSCRIPT_ALLOWED
@@ -1693,7 +1693,7 @@ class PlayState extends MusicBeatState
 		var luaFile:String = 'characters/' + name + '.lua';
 		#if MODS_ALLOWED
 		var replacePath:String = Paths.modFolders(luaFile);
-		if(FileSystem.exists(replacePath))
+		if(FunkinFileSystem.existsexists(replacePath))
 		{
 			luaFile = replacePath;
 			doPush = true;
@@ -1701,7 +1701,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			luaFile = Paths.getPreloadPath(luaFile);
-			if(FileSystem.exists(luaFile))
+			if(FunkinFileSystem.existsexists(luaFile))
 				doPush = true;
 		}
 		#else
@@ -1732,7 +1732,7 @@ class PlayState extends MusicBeatState
 		var doPush:Bool = false;
 		var scriptFile:String = 'characters/' + name + '.hx';
 		var replacePath:String = Paths.modFolders(scriptFile);
-		if(FileSystem.exists(replacePath))
+		if(FunkinFileSystem.existsexists(replacePath))
 		{
 			scriptFile = replacePath;
 			doPush = true;
@@ -1740,7 +1740,7 @@ class PlayState extends MusicBeatState
 		else
 		{
 			scriptFile = Paths.getPreloadPath(scriptFile);
-			if(FileSystem.exists(scriptFile))
+			if(FunkinFileSystem.existsexists(scriptFile))
 				doPush = true;
 		}
 		
@@ -1809,7 +1809,7 @@ class PlayState extends MusicBeatState
 
 		var filepath:String = Paths.video(name);
 		#if sys
-		if(!FileSystem.exists(filepath))
+		if(!FunkinFileSystem.existsexists(filepath))
 		#else
 		if(!OpenFlAssets.exists(filepath))
 		#end
@@ -1857,7 +1857,7 @@ class PlayState extends MusicBeatState
 		var fileName:String = Paths.video(name);
 
 		#if sys
-		if (FileSystem.exists(fileName))
+		if (FunkinFileSystem.existsexists(fileName))
 		#else
 		if (OpenFlAssets.exists(fileName))
 		#end
@@ -2190,10 +2190,6 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-
-			if (isPlayerStrumNote(player)) {
-				fixHitboxPos(strumGroup, (Note.maniaKeys == 4 ? true : false));
-			}
 		}
 		//hitbox.cameras = [camHUD];
 	}
@@ -2483,7 +2479,7 @@ class PlayState extends MusicBeatState
 
 		var file:String = Paths.json(songName + '/events' + songSuffix);
 		#if MODS_ALLOWED
-		if (FileSystem.exists(Paths.modsJson(songName + '/events' + songSuffix)) || FileSystem.exists(file)) {
+		if (FunkinFileSystem.existsexists(Paths.modsJson(songName + '/events' + songSuffix)) || FunkinFileSystem.existsexists(file)) {
 		#else
 		if (OpenFlAssets.exists(file)) {
 		#end
@@ -3489,6 +3485,15 @@ class PlayState extends MusicBeatState
 
 		if (Conductor.songPosition >= FlxG.sound.music.length) {
 			finishSong();
+		}
+
+		//put this shit to update
+		if ((hitboxPositions.contains(0) || hitboxPositions.contains(0.0)) && ClientPrefs.data.VSliceControl) {
+			for (player in 0...2) {
+				var strumGroup = player == 1 ? playerStrums : opponentStrums;
+				if (isPlayerStrumNote(player))
+					fixHitboxPos(strumGroup, (Note.maniaKeys == 4 ? true : false));
+			}
 		}
 	}
 
@@ -5687,10 +5692,10 @@ class PlayState extends MusicBeatState
 	{
 		#if MODS_ALLOWED
 		var luaToLoad:String = Paths.modFolders(luaFile);
-		if(!FileSystem.exists(luaToLoad))
+		if(!FunkinFileSystem.existsexists(luaToLoad))
 			luaToLoad = Paths.getPreloadPath(luaFile);
 
-		if(FileSystem.exists(luaToLoad))
+		if(FunkinFileSystem.existsexists(luaToLoad))
 		#elseif sys
 		var luaToLoad:String = Paths.getPreloadPath(luaFile);
 		if(OpenFlAssets.exists(luaToLoad))
@@ -5710,10 +5715,10 @@ class PlayState extends MusicBeatState
 	public function startHScriptsNamed(scriptFile:String)
 	{
 		var scriptToLoad:String = Paths.modFolders(scriptFile);
-		if(!FileSystem.exists(scriptToLoad))
+		if(!FunkinFileSystem.existsexists(scriptToLoad))
 			scriptToLoad = Paths.getPreloadPath(scriptFile);
 		
-		if(FileSystem.exists(scriptToLoad))
+		if(FunkinFileSystem.existsexists(scriptToLoad))
 		{
 			if (SScript.global.exists(scriptToLoad)) return false;
 	
@@ -6074,21 +6079,21 @@ class PlayState extends MusicBeatState
 		
 		for (folder in foldersToCheck)
 		{
-			if(FileSystem.exists(folder))
+			if(FunkinFileSystem.existsexists(folder))
 			{
 				var frag:String = folder + name + '.frag';
 				var vert:String = folder + name + '.vert';
 				var found:Bool = false;
-				if(FileSystem.exists(frag))
+				if(FunkinFileSystem.existsexists(frag))
 				{
-					frag = File.getContent(frag);
+					frag = FunkinFileSystem.getText(frag);
 					found = true;
 				}
 				else frag = null;
 
-				if(FileSystem.exists(vert))
+				if(FunkinFileSystem.existsexists(vert))
 				{
-					vert = File.getContent(vert);
+					vert = FunkinFileSystem.getText(vert);
 					found = true;
 				}
 				else vert = null;

@@ -713,10 +713,9 @@ class FreeplayState extends MusicBeatState
 		#end
 
 		for (i => directory in directories) {
-			if (FileSystem.exists(directory)) {
-				for (file in FileSystem.readDirectory(directory)) {
-					var path = haxe.io.Path.join([directory, file]);
-					if (!sys.FileSystem.isDirectory(path) && file.endsWith('.json')) {
+			if (FunkinFileSystem.exists(directory)) {
+				for (file in FunkinFileSystem.readDirectory(directory)) {
+					if (file.endsWith('.json')) {
 						var charToCheck:String = file.substr(0, file.length - 5);
 						if (!charsWeeksLoaded.exists(charToCheck)) {
 							charsWeeksLoaded.set(charToCheck, directoryMods[i]);
@@ -1165,7 +1164,7 @@ class FreeplayState extends MusicBeatState
 						}
 					case 2:
 						if (!GameClient.isConnected()) {
-							if (!FileSystem.exists("replays/"))
+							if (!FunkinFileSystem.exists("replays/"))
 								FileSystem.createDirectory("replays/");
 
 							var fileDialog = new FileDialog();

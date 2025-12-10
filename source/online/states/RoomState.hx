@@ -504,7 +504,7 @@ class RoomState extends MusicBeatState #if interpret implements interpret.Interp
 				return;
 			}
 
-			if (FileSystem.exists(Paths.mods('${GameClient.room.state.stageMod}/stages/${GameClient.room.state.stageName}.json')) ||
+			if (FunkinFileSystem.exists(Paths.mods('${GameClient.room.state.stageMod}/stages/${GameClient.room.state.stageName}.json')) ||
 				OpenFlAssets.exists(Paths.getPath('stages/${GameClient.room.state.stageName}.json'), TEXT)) {
 				hasStage = true;
 				return;
@@ -524,7 +524,7 @@ class RoomState extends MusicBeatState #if interpret implements interpret.Interp
 	}
 
 	function checkNoteSkin(player:Player, ?manualDownload:Bool = false) {
-		if (!FileSystem.exists(Paths.mods(player.noteSkinMod)) && player.noteSkinURL != null) {
+		if (!FunkinFileSystem.exists(Paths.mods(player.noteSkinMod)) && player.noteSkinURL != null) {
 			OnlineMods.downloadMod(player.noteSkinURL, manualDownload, function(_) {
 				Mods.updatedOnState = false;
 				Mods.parseList();
@@ -1182,7 +1182,7 @@ class LobbyCharacter extends FlxTypedGroup<FlxObject> {
 			character = null;
 		}
 
-		if (FileSystem.exists(Paths.mods(player.skinMod))) {
+		if (FunkinFileSystem.exists(Paths.mods(player.skinMod))) {
 			if (player.skinMod != null)
 				Mods.currentModDirectory = player.skinMod;
 
