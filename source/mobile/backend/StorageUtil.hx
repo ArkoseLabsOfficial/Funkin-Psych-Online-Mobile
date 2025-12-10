@@ -12,7 +12,7 @@ import haxe.io.Bytes;
 /**
  * A storage class for mobile.
  * @author Mihai Alexandru (M.A. Jigsaw)
- * @modifier KralOyuncu2010x (ArkoseLabs)
+ * @modifier author KralOyuncu2010x (ArkoseLabs)
  */
 class StorageUtil
 {
@@ -61,7 +61,6 @@ class StorageUtil
 		var curStorageType:String = File.getContent(rootDir + 'storagetype.txt');
 
 		/* Put this there because I don't want to override original paths, also brokes the normal storage system */
-		/* remove this until i found a way to fix it
 		for (line in getCustomStorageDirectories(true))
 		{
 			if (line.startsWith(curStorageType) && (line != '' || line != null)) {
@@ -69,7 +68,6 @@ class StorageUtil
 				daPath = dat[1];
 			}
 		}
-		*/
 
 		/* Hardcoded Storage Types, these types cannot be changed by Custom Type */
 		switch(curStorageType) {
@@ -236,7 +234,7 @@ class StorageUtil
 	}
 	#end
 
-	public function copySpesificFileFromAssets(filePathInAssets:String, copyTo:String, ?changeable:Bool)
+	public static function copySpesificFileFromAssets(filePathInAssets:String, copyTo:String, ?changeable:Bool)
 	{
 		try {
 			if (Assets.exists(filePathInAssets)) {
