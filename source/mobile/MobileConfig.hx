@@ -75,7 +75,7 @@ class MobileConfig {
 				var str:String;
 				#if mobile_controls_file_support
 				if (FunkinFileSystem.exists(file))
-					str = File.getContent(file);
+					str = FunkinFileSystem.getText(file);
 				else #end
 					str = Assets.getText(file);
 

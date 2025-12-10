@@ -53,13 +53,17 @@ class StorageUtil
 	public static function getExternalStorageDirectory():String
 	{
 		var daPath:String = '';
+		trace('bruh');
 		#if android
-		if (!FileSystem.exists(rootDir + 'storagetype.txt'))
+		if (!FunkinFileSystem.exists(rootDir + 'storagetype.txt'))
 			File.saveContent(rootDir + 'storagetype.txt', ClientPrefs.data.storageType);
+		trace('bruh');
 
 		var curStorageType:String = File.getContent(rootDir + 'storagetype.txt');
+		trace('bruh');
 
 		/* Put this there because I don't want to override original paths, also brokes the normal storage system */
+		/* remove this until i found a way to fix it
 		for (line in getCustomStorageDirectories(true))
 		{
 			if (line.startsWith(curStorageType) && (line != '' || line != null)) {
@@ -67,6 +71,7 @@ class StorageUtil
 				daPath = dat[1];
 			}
 		}
+		*/
 
 		/* Hardcoded Storage Types, these types cannot be changed by Custom Type */
 		switch(curStorageType) {
@@ -81,14 +86,17 @@ class StorageUtil
 			default:
 				daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
 		}
+		trace('bruh');
 
 		daPath = Path.addTrailingSlash(daPath);
+		trace('bruh');
 		#elseif ios
 		return LimeSystem.documentsDirectory;
 		#else
 		return Sys.getCwd();
 		#end
 
+		trace('bruh');
 		return daPath;
 	}
 
@@ -120,23 +128,31 @@ class StorageUtil
 
 		try
 		{
+			trace('bruh');
 			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
 				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
+			trace('bruh');
 		}
 		catch (e:Dynamic)
 		{
+			trace('bruh');
 			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getStorageDirectory()}\nPress OK to close the game', "Error!");
+			trace('bruh');
 			lime.system.System.exit(1);
 		}
 
 		try
 		{
+			trace('bruh');
 			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory() + 'mods'))
 				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory() + 'mods');
+			trace('bruh');
 		}
 		catch (e:Dynamic)
 		{
+			trace('bruh');
 			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getExternalStorageDirectory()}\nPress OK to close the game', "Error!");
+			trace('bruh');
 			lime.system.System.exit(1);
 		}
 	}
