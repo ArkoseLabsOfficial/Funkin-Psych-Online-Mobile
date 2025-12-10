@@ -10,9 +10,8 @@ import openfl.Assets;
 import haxe.io.Bytes;
 
 /**
- * A storage class for mobile.
- * @author Mihai Alexandru (M.A. Jigsaw)
- * @modifier author KralOyuncu2010x (ArkoseLabs)
+ * A simple storage class for mobile.
+ * @author KralOyuncu2010x (ArkoseLabs)
  */
 class StorageUtil
 {
@@ -21,7 +20,7 @@ class StorageUtil
 	public static final rootDir:String = LimeSystem.applicationStorageDirectory;
 
 	public static function getCustomStoragePath():String
-		return AndroidContext.getExternalFilesDir() + 'storageModes.txt';
+		return AndroidContext.getExternalFilesDir() + '/storageModes.txt';
 
 	public static function getStorageDirectory():String
 		return #if android haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir()) #elseif ios lime.system.System.documentsDirectory #else Sys.getCwd() #end;
@@ -52,7 +51,12 @@ class StorageUtil
 	// always force path due to haxe (This shit is dead for now)
 	public static function getExternalStorageDirectory():String
 	{
+		//Copy storageModes.txt to external storage because otherwise user cannot change it.
 		copySpesificFileFromAssets('mobile/storageModes.txt', getCustomStoragePath());
+		try {
+			chmodTest(777, getCustomStoragePath());
+		} catch(e:Dynamic) {}
+
 		var daPath:String = '';
 		#if android
 		if (!FileSystem.exists(rootDir + 'storagetype.txt'))
@@ -80,7 +84,7 @@ class StorageUtil
 			case 'EXTERNAL_DATA':
 				daPath = AndroidContext.getExternalFilesDir();
 			default:
-				daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
+				if (daPath == null) daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
 		}
 
 		daPath = Path.addTrailingSlash(daPath);
@@ -108,86 +112,39 @@ class StorageUtil
 		if (!AndroidEnvironment.isExternalStorageManager())
 			AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
 
-		/* I have no idea why this thing causes the crash,
-			also I can make a custom lime for other Psych Online Port, Otherwise Their Port won't work on my phone (I'm android 15) */
-
-		/*
-		if ((AndroidVersion.SDK_INT >= AndroidVersionCode.TIRAMISU && !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_MEDIA_IMAGES'))
-			|| (AndroidVersion.SDK_INT < AndroidVersionCode.TIRAMISU && !AndroidPermissions.getGrantedPermissions().contains('android.permission.READ_EXTERNAL_STORAGE')))
-			{
-				CoolUtil.showPopUp('If you accepted the permissions you are all good!' + '\nIf you didn\'t then expect a crash' + '\nPress OK to see what happens', 'Notice!');
-			}
-		*/
-
 		try
 		{
-			trace('bruh');
 			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
 				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
-			trace('bruh');
 		}
 		catch (e:Dynamic)
 		{
-			trace('bruh');
 			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getStorageDirectory()}\nPress OK to close the game', "Error!");
-			trace('bruh');
 			lime.system.System.exit(1);
 		}
 
 		try
 		{
-			trace('bruh');
 			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory() + 'mods'))
 				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory() + 'mods');
-			trace('bruh');
 		}
 		catch (e:Dynamic)
 		{
-			trace('bruh');
 			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getExternalStorageDirectory()}\nPress OK to close the game', "Error!");
-			trace('bruh');
 			lime.system.System.exit(1);
 		}
 	}
 
+	public static function chmodTest(permissions:Int, fullPath:String) {
+		var process = new Process('chmod ${permissions} ${fullPath}');
 
-	public static function createDirectories(directory:String):Void
-	{
-		try
+		var exitCode = process.exitCode();
+		if (exitCode == 0)
+			trace('Başarılı: ${fullPath} dosyasının izinleri (${permissions}) olarak ayarlandı');
+		else
 		{
-			if (FileSystem.exists(directory) && FileSystem.isDirectory(directory))
-				return;
-		}
-		catch (e:haxe.Exception)
-		{
-			trace('Something went wrong while looking at directory. (${e.message})');
-		}
-
-		var total:String = '';
-		if (directory.substr(0, 1) == '/')
-			total = '/';
-
-		var parts:Array<String> = directory.split('/');
-		if (parts.length > 0 && parts[0].indexOf(':') > -1)
-			parts.shift();
-
-		for (part in parts)
-		{
-			if (part != '.' && part != '')
-			{
-				if (total != '' && total != '/')
-					total += '/';
-
-				total += part;
-
-				try
-				{
-					if (!FileSystem.exists(total))
-						FileSystem.createDirectory(total);
-				}
-				catch (e:Exception)
-					trace('Error while creating directory. (${e.message}');
-			}
+			var errorOutput = process.stderr.readAll().toString();
+			trace('HATA: (${fullPath}) dosyası için istenen izin değiştirme isteği başarısız. Çıkış Kodu: ${exitCode}, Hata: ${errorOutput}');
 		}
 	}
 
