@@ -2137,6 +2137,7 @@ class PlayState extends MusicBeatState
 	}
 
 	/* V-Slice Mobile Controls */
+	var VSliceControlsEnabled:Bool;
 	public function enableVSliceControls() {
 		//I took this from PsychEngine's discord server and make it to work with HScript Improved (.hsc), now I'm using it on source code 😂
 		// Credit: @allaxnofake (Discord)
@@ -2191,6 +2192,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+		VSliceControlsEnabled = true;
 		//hitbox.cameras = [camHUD];
 	}
 
@@ -3488,7 +3490,7 @@ class PlayState extends MusicBeatState
 		}
 
 		//put this shit to update
-		if ((hitboxPositions.contains(0) || hitboxPositions.contains(0.0)) && ClientPrefs.data.VSliceControl) {
+		if ((hitboxPositions.contains(0) || hitboxPositions.contains(0.0)) && VSliceControlsEnabled) {
 			for (player in 0...2) {
 				var strumGroup = player == 1 ? playerStrums : opponentStrums;
 				if (isPlayerStrumNote(player))

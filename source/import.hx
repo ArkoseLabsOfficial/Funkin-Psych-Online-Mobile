@@ -80,7 +80,6 @@ import mobile.objects.FunkinHitbox as Hitbox;
 // Others
 import mobile.*;
 import mobile.backend.StorageUtil;
-import mobile.states.CopyState;
 import mobile.substates.MobileExtraControl;
 //Android
 #if android

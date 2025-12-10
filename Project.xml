@@ -117,8 +117,9 @@
 	<!-- Crash Handler Shit (Idk what it does, If you ask me it doesn't do anything) -->
 	<define name="CRASH_HANDLER" if="desktop || mobile" />
 	<section if="TOUCH_CONTROLS">
-		<assets path="mobile"         rename="assets/mobile"        exclude="*.ogg" if="web"/>
-		<assets path="mobile"         rename="assets/mobile"        exclude="*.mp3" unless="web"/>
+		<assets path="mobile/assets"                  rename="assets/mobile"/>
+		<assets path="mobile/assets"                  rename="assets/mobile"/>
+		<assets path="mobile/storageModes.txt"      rename="mobile/storageModes.txt"/>
 	</section>
 
 	<!-- _______________________________ Libraries ______________________________ -->
