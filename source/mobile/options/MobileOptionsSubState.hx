@@ -114,8 +114,8 @@ class MobileOptionsSubState extends BaseOptionsMenu {
 		);
 		addOption(option);
 
-		option = new Option('Fix Data Perms (EXPERIMENTAL)',
-			'This option basically fixes data folder permissions (only for game)',
+		option = new Option('Data Perm Fix (EXPERIMENTAL)',
+			'This option basically fixes data folder permissions\n(ONLY FOR GAME)',
 			'fixDataPermissions',
 			'bool');
 		option.onChange = () -> ScreenUtil.wideScreen.enabled = ClientPrefs.data.wideScreen;
@@ -142,8 +142,7 @@ class MobileOptionsSubState extends BaseOptionsMenu {
 		if (ClientPrefs.data.storageType != lastStorageType) {
 			File.saveContent(lime.system.System.applicationStorageDirectory + 'storagetype.txt', ClientPrefs.data.storageType);
 			ClientPrefs.saveSettings();
-			CoolUtil.showPopUp('Storage Type has been changed and you needed restart the game!!\nPress OK to close the game.', 'Notice!');
-			lime.system.System.exit(0);
+			StorageUtil.initExternalStorageDirectory();
 		}
 		#end
 	}

@@ -252,6 +252,7 @@ class Paths
 		#if MODS_ALLOWED
 		if (isGlobalPath) file = modFolders(key + '.png');
 		else file = modsImages(key);
+		trace(file);
 		if (currentTrackedAssets.exists(file))
 		{
 			localTrackedAssets.push(file);
@@ -264,6 +265,7 @@ class Paths
 		{
 			if (isGlobalPath) file = getPath('$key.png', IMAGE, library);
 			else file = getPath('images/$key.png', IMAGE, library);
+			trace(file);
 			if (currentTrackedAssets.exists(file))
 			{
 				localTrackedAssets.push(file);
@@ -295,6 +297,7 @@ class Paths
 		//STOP FUCKING USING TRACE ITS CPU HEAVY
 		if (lastImageErrorFile != file && ClientPrefs.isDebug()) {
 			Sys.println('Paths.image(): oh no its returning null NOOOO ($file)');
+			trace('Paths.image(): oh no its returning null NOOOO ($file)');
 			lastImageErrorFile = file;
 		}
 		return null;

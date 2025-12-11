@@ -2145,11 +2145,6 @@ class PlayState extends MusicBeatState
 		/* Actual Code */
 		for (player in 0...2) {
 			var strumGroup = player == 1 ? playerStrums : opponentStrums;
-			for (i in 0...unspawnNotes.length)
-			{
-				if (!unspawnNotes[i].mustPress)
-					unspawnNotes[i].visible = false;
-			}
 			if (Note.maniaKeys != 4)
 			{
 				var strumLineX:Float = 0;
@@ -2191,6 +2186,11 @@ class PlayState extends MusicBeatState
 			}
 			if (isPlayerStrumNote(player)) fixHitboxPos(strumGroup, (Note.maniaKeys == 4 ? true : false));
 			reloadControls("V Slice");
+			for (i in 0...unspawnNotes.length)
+			{
+				if (isPlayerStrumNote(player) && !unspawnNotes[i].mustPress || !isPlayerStrumNote(player) && unspawnNotes[i].mustPress)
+					unspawnNotes[i].visible = false;
+			}
 		}
 		//hitbox.cameras = [camHUD];
 	}

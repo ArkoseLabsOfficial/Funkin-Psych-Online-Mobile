@@ -82,6 +82,28 @@ class StorageUtil
 		}
 		daPath = Path.addTrailingSlash(daPath);
 		currentExternalStorageDirectory = daPath;
+
+		try
+		{
+			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
+				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
+		}
+		catch (e:Dynamic)
+		{
+			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getStorageDirectory()}\nPress OK to close the game', "Error!");
+			lime.system.System.exit(1);
+		}
+
+		try
+		{
+			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory() + 'mods'))
+				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory() + 'mods');
+		}
+		catch (e:Dynamic)
+		{
+			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getExternalStorageDirectory()}\nPress OK to close the game', "Error!");
+			lime.system.System.exit(1);
+		}
 		#end
 		return daPath;
 	}
@@ -110,28 +132,6 @@ class StorageUtil
 
 		if (!AndroidEnvironment.isExternalStorageManager())
 			AndroidSettings.requestSetting('MANAGE_APP_ALL_FILES_ACCESS_PERMISSION');
-
-		try
-		{
-			if (!FileSystem.exists(StorageUtil.getStorageDirectory()))
-				FileSystem.createDirectory(StorageUtil.getStorageDirectory());
-		}
-		catch (e:Dynamic)
-		{
-			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getStorageDirectory()}\nPress OK to close the game', "Error!");
-			lime.system.System.exit(1);
-		}
-
-		try
-		{
-			if (!FileSystem.exists(StorageUtil.getExternalStorageDirectory() + 'mods'))
-				FileSystem.createDirectory(StorageUtil.getExternalStorageDirectory() + 'mods');
-		}
-		catch (e:Dynamic)
-		{
-			CoolUtil.showPopUp('Please create directory to\n${StorageUtil.getExternalStorageDirectory()}\nPress OK to close the game', "Error!");
-			lime.system.System.exit(1);
-		}
 	}
 
 	public static var lastGettedPermission:Int;
