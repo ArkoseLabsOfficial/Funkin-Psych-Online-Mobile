@@ -49,8 +49,8 @@ class StorageUtil
 
 	#if android
 	// always force path due to haxe (This shit is dead for now)
-	public static function getExternalStorageDirectory():String
-	{
+	public static var currentExternalStorageDirectory:String;
+	public static function initExternalStorageDirectory():String {
 		var daPath:String = '';
 		#if android
 		if (!FileSystem.exists(rootDir + 'storagetype.txt'))
@@ -80,8 +80,14 @@ class StorageUtil
 			default:
 				if (daPath == null) daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
 		}
-
 		daPath = Path.addTrailingSlash(daPath);
+		#end
+		return daPath;
+	}
+	public static function getExternalStorageDirectory():String
+	{
+		#if android
+		return currentExternalStorageDirectory;
 		#elseif ios
 		return LimeSystem.documentsDirectory;
 		#else

@@ -108,20 +108,7 @@ class Main extends Sprite
 		#if android
 		StorageUtil.requestPermissions();
 		StorageUtil.copySpesificFileFromAssets('mobile/storageModes.txt', StorageUtil.getCustomStoragePath());
-		//oy give access to mods & replays folder
-		try {
-			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
-			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
-		} catch(e:Dynamic) {}
-		/* it causes the lag but works
-		try {
-			StorageUtil.chmod(2777, StorageUtil.getCustomStoragePath());
-			StorageUtil.chmod(777, AndroidContext.getExternalFilesDir() + '/modsList.txt');
-			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir());
-			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
-			StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
-		} catch(e:Dynamic) {}
-		*/
+		StorageUtil.initExternalStorageDirectory(); //do not make this jobs everytime
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		#end
@@ -240,6 +227,14 @@ class Main extends Sprite
 		DiscordClient.initialize();
 		#end
 
+		#if android
+		if (ClientPrefs.data.fixDataPermissions) {
+			try {
+				StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
+				StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
+			} catch(e:Dynamic) {}
+		}
+		#end
 		#if mobile
 		lime.system.System.allowScreenTimeout = ClientPrefs.data.screensaver;
 		ScreenUtil.wideScreen.enabled = ClientPrefs.data.wideScreen;
