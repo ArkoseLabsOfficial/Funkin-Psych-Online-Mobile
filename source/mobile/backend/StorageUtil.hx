@@ -19,12 +19,15 @@ class StorageUtil
 	// root directory, used for handling the saved storage type and path
 	public static final rootDir:String = LimeSystem.applicationStorageDirectory;
 
+	#if android
 	public static inline function getCustomStoragePath():String
 		return AndroidContext.getExternalFilesDir() + '/storageModes.txt';
+	#end
 
 	public static inline function getStorageDirectory():String
 		return #if android haxe.io.Path.addTrailingSlash(AndroidContext.getExternalFilesDir()) #elseif ios lime.system.System.documentsDirectory #else Sys.getCwd() #end;
 
+	#if android
 	public static function getCustomStorageDirectories(?doNotSeperate:Bool):Array<String>
 	{
 		var curTextFile:String = getCustomStoragePath();
@@ -46,6 +49,7 @@ class StorageUtil
 		}
 		return ArrayReturn;
 	}
+	#end
 
 	#if android
 	// always force path due to haxe (This shit is dead for now)
