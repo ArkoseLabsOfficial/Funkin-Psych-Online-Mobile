@@ -93,8 +93,6 @@ class StorageUtil
 		#else
 		return Sys.getCwd();
 		#end
-
-		return daPath;
 	}
 
 	public static function requestPermissions():Void
