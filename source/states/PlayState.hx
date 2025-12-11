@@ -2184,13 +2184,15 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-			if (isPlayerStrumNote(player)) fixHitboxPos(strumGroup, (Note.maniaKeys == 4 ? true : false));
-			reloadControls("V Slice");
-			for (i in 0...unspawnNotes.length)
-			{
-				if (isPlayerStrumNote(player) && !unspawnNotes[i].mustPress || !isPlayerStrumNote(player) && unspawnNotes[i].mustPress)
-					unspawnNotes[i].visible = false;
+			if (isPlayerStrumNote(player)) {
+				for (i in 0...unspawnNotes.length)
+				{
+					if (player == 1 && !unspawnNotes[i].mustPress || player == 0 && unspawnNotes[i].mustPress)
+						unspawnNotes[i].visible = false;
+				}
+				fixHitboxPos(strumGroup, (Note.maniaKeys == 4 ? true : false));
 			}
+			reloadControls("V Slice");
 		}
 		//hitbox.cameras = [camHUD];
 	}
