@@ -106,9 +106,9 @@ class Main extends Sprite
 		super();
 		#if mobile
 		#if android
+		StorageUtil.initExternalStorageDirectory(); //do not make this jobs everytime
 		StorageUtil.requestPermissions();
 		StorageUtil.copySpesificFileFromAssets('mobile/storageModes.txt', StorageUtil.getCustomStoragePath());
-		StorageUtil.initExternalStorageDirectory(); //do not make this jobs everytime
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
 		#end

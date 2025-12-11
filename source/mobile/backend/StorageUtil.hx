@@ -81,6 +81,7 @@ class StorageUtil
 				if (daPath == null) daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
 		}
 		daPath = Path.addTrailingSlash(daPath);
+		currentExternalStorageDirectory = daPath;
 		#end
 		return daPath;
 	}
