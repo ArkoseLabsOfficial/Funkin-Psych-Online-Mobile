@@ -246,14 +246,14 @@ class SkinsState extends MusicBeatState {
 					continue;
 				}
 
-						if (!hardList.contains(character) && FileSystem.exists(Path.join([
+						if (!hardList.contains(character) && FunkinFileSystem.exists(Path.join([
 							characters,
 							(!flipped ? character + "-player" : character.substring(0, character.length - "-player".length)) + ".json"
 						]))) {
 							if (name == null)
 								hardList.push(character);
 
-							if (FileSystem.exists(Path.join([
+							if (FunkinFileSystem.exists(Path.join([
 								charactersWeeks,
 								(flipped ? character.substring(0, character.length - "-player".length) : character) + ".json"
 							]))) {

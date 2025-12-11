@@ -257,8 +257,8 @@ class Paths
 			localTrackedAssets.push(file);
 			return currentTrackedAssets.get(file);
 		}
-		else if (FileSystem.exists(file))
-			bitmap = BitmapData.fromFile(file);
+		else if (FunkinFileSystem.exists(file))
+			bitmap = FunkinFileSystem.getBitmapData(file);
 		else
 		#end
 		{
