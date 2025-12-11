@@ -114,7 +114,7 @@ class MobileOptionsSubState extends BaseOptionsMenu {
 		);
 		addOption(option);
 
-		option = new Option('Fix Data Permissions (EXPERIMENTAL)',
+		option = new Option('Fix Data Perms (EXPERIMENTAL)',
 			'This option basically fixes data folder permissions (only for game)',
 			'fixDataPermissions',
 			'bool');

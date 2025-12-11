@@ -238,7 +238,7 @@ class SkinsState extends MusicBeatState {
 				Mods.loadTopMod();
 				characters = 'assets/characters/';
 				charactersWeeks = 'assets/characters_weeks/';
-				for (file in FileSystem.readDirectory(characters)) {
+				for (file in FunkinFileSystem.readDirectory(characters)) {
 					var path = Path.join([characters, file]);
 					if (file.endsWith('.json')) {
 						var character:String = file.substr(0, file.length - 5);
