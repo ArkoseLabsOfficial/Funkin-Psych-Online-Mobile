@@ -424,7 +424,7 @@ class Paths
 	public static function returnSound(path:String, key:String, ?library:String) {
 		#if MODS_ALLOWED
 		var file:String = modsSounds(path, key);
-		if(FileSystem.exists(file)) {
+		if(FunkinFileSystem.exists(file)) {
 			try {
 				if(!currentTrackedSounds.exists(file)) {
 					currentTrackedSounds.set(file, Sound.fromFile(file));
@@ -432,6 +432,7 @@ class Paths
 			} catch (e:Dynamic) {
 				if (ClientPrefs.isDebug())
 					Sys.println('Paths.returnSound(): SOUND NOT FOUND: $key');
+				CoolUtil.showPopUp('SOUND NOT FOUND: $key', 'Paths.returnSound():');
 				return null;
 			}
 			localTrackedAssets.push(key);
@@ -457,6 +458,7 @@ class Paths
 		} catch (e:Dynamic) {
 			if (ClientPrefs.isDebug())
 				Sys.println('Paths.returnSound(): SOUND NOT FOUND: $key');
+			CoolUtil.showPopUp('SOUND NOT FOUND: $key', 'Paths.returnSound():');
 			return null;
 		}
 		localTrackedAssets.push(gottenPath);

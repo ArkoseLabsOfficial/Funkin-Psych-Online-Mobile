@@ -82,7 +82,7 @@ class StorageUtil
 			case 'EXTERNAL_DATA':
 				daPath = AndroidContext.getExternalFilesDir();
 			default:
-				if (daPath == null) daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
+				if (daPath == null || daPath == '') daPath = getExternalDirectory(curStorageType) + '/.' + lime.app.Application.current.meta.get('file');
 		}
 		daPath = Path.addTrailingSlash(daPath);
 		currentExternalStorageDirectory = daPath;
