@@ -427,7 +427,7 @@ class Paths
 		if(FunkinFileSystem.exists(file)) {
 			try {
 				if(!currentTrackedSounds.exists(file)) {
-					currentTrackedSounds.set(file, Sound.fromFile(file));
+					currentTrackedSounds.set(file, FunkinFileSystem.getSound(file));
 				}
 			} catch (e:Dynamic) {
 				if (ClientPrefs.isDebug())
@@ -446,13 +446,13 @@ class Paths
 		try {
 			if(!currentTrackedSounds.exists(gottenPath))
 			#if MODS_ALLOWED
-				currentTrackedSounds.set(gottenPath, Sound.fromFile(#if !mobile './' + #end gottenPath));
+				currentTrackedSounds.set(gottenPath, FunkinFileSystem.getSound(gottenPath));
 			#else
 			{
 				var folder:String = '';
 				if(path == 'songs') folder = 'songs:';
 		
-				currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(folder + getPath('$path/$key.$SOUND_EXT', SOUND, library)));
+				currentTrackedSounds.set(gottenPath, FunkinFileSystem.getSound(folder + getPath('$path/$key.$SOUND_EXT', SOUND, library)));
 			}
 			#end
 		} catch (e:Dynamic) {
