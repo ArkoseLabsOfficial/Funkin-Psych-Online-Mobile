@@ -2016,6 +2016,7 @@ class PlayState extends MusicBeatState
 			if (mobilePad.getButtonFromName('buttonP') != null)
 				button.deadZones.push(mobilePad.getButtonFromName('buttonP'));
 		});
+		if (ClientPrefs.data.VSliceControl) enableVSliceControls();
 	}
 
 	public var defaultPlayerNotePositions:Array<Dynamic> = [-360, -140, 140, 360];
@@ -2132,7 +2133,6 @@ class PlayState extends MusicBeatState
 				swagCounter += 1;
 			}, 5);
 		}
-		if (ClientPrefs.data.VSliceControl) enableVSliceControls();
 		return true;
 	}
 
