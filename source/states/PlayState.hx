@@ -1993,7 +1993,6 @@ class PlayState extends MusicBeatState
 			setOnScripts('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
 			// if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
 		}
-		if (ClientPrefs.data.VSliceControl) enableVSliceControls();
 
 		addMobileControls();
 		addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
@@ -2017,6 +2016,7 @@ class PlayState extends MusicBeatState
 			if (mobilePad.getButtonFromName('buttonP') != null)
 				button.deadZones.push(mobilePad.getButtonFromName('buttonP'));
 		});
+		if (ClientPrefs.data.VSliceControl) enableVSliceControls();
 	}
 
 	public var defaultPlayerNotePositions:Array<Dynamic> = [-360, -140, 140, 360];
