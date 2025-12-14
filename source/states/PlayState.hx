@@ -2914,7 +2914,7 @@ class PlayState extends MusicBeatState
 			}
 			var underlay = new FlxSprite().makeGraphic(1, FlxG.width * 2, FlxColor.BLACK);
 			underlay.alpha = ClientPrefs.data.noteUnderlayOpacity;
-			underlay.scale.x = Note.swagScaledWidth * Note.maniaKeys - (Note.getNoteOffsetX() * (Note.maniaKeys - 1));
+			underlay.scale.x = (Note.swagScaledWidth * Note.maniaKeys - (Note.getNoteOffsetX() * (Note.maniaKeys - 1))) * vsliceControlFix;
 			underlay.updateHitbox();
 			noteUnderlays.add(underlay);
 		}

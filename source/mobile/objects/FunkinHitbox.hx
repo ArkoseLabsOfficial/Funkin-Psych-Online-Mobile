@@ -21,7 +21,8 @@ class FunkinHitbox extends OGHitbox {
 				addHint('"buttonNote4', ["NOTE_RIGHT"], 3, PlayState.hitboxPositions[3], 0, 140, Std.int(FlxG.height), 0xFFF9393F);
 			} else {
 				for (i in 0...mania+1) {
-					addHint("buttonNote${i+1}", ["NOTE_${i+1}", "${mania}K_NOTE_${i+1}"], i, PlayState.hitboxPositions[i], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
+					trace(i);
+					addHint("buttonNote${i+1}", ["${mania}K_NOTE_${i+1}"], i, PlayState.hitboxPositions[i], 0, 110, Std.int(FlxG.height), 0xFFFFFFFF);
 				}
 			}
 		}
