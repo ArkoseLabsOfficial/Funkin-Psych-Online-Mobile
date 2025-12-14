@@ -2901,6 +2901,17 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ClientPrefs.data.noteUnderlayOpacity > 0 && strumGroup == getPlayerStrums() && ClientPrefs.data.noteUnderlayType == 'All-In-One') {
+			var vsliceControlFix:Int = 1;
+			if (ClientPrefs.data.VSliceControl) {
+				switch (Note.maniaKeys) {
+					case 4: vsliceControlFix = 6.5 / 3.5;
+					case 5: vsliceControlFix = 6.5 / 5;
+					case 6: vsliceControlFix = 6.5 / 4.8;
+					case 7: vsliceControlFix = 6.5 / 4.6;
+					case 8: vsliceControlFix = 6.5 / 4.8;
+					case 9: vsliceControlFix = 6.5 / 4.5;
+				}
+			}
 			var underlay = new FlxSprite().makeGraphic(1, FlxG.width * 2, FlxColor.BLACK);
 			underlay.alpha = ClientPrefs.data.noteUnderlayOpacity;
 			underlay.scale.x = Note.swagScaledWidth * Note.maniaKeys - (Note.getNoteOffsetX() * (Note.maniaKeys - 1));

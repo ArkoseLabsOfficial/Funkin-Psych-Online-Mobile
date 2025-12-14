@@ -45,7 +45,7 @@ class CreditsState extends MusicBeatState
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 			['Mobile Porters'],
-			['KralOyuncu 2010x',	 'KralOyuncuV3',	'Porter of Psych Online',					'https://youtube.com/@kraloyuncurbx',		'378FC7'],
+			['ArkoseLabs',	 'arkoselabs',	'Porter of Psych Online Mobile',					'https://youtube.com/@arkoselabsofficial',		'95240E'],
 			[''],
 			['Psych Online'],
 			['Snirozu', 'snirozu', 'Developer', 'https://sniro.boo', 'FFCC33'],

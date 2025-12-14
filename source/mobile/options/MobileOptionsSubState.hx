@@ -113,27 +113,9 @@ class MobileOptionsSubState extends BaseOptionsMenu {
 			storageTypes
 		);
 		addOption(option);
-
-		option = new Option('Data Perm Fix (EXPERIMENTAL)',
-			'This option basically fixes data folder permissions\n(ONLY FOR GAME)',
-			'fixDataPermissions',
-			'bool');
-		option.onChange = () -> ScreenUtil.wideScreen.enabled = ClientPrefs.data.wideScreen;
-		addOption(option);
 		#end
 		super();
 	}
-	
-	#if android
-	public function fixPerms() {
-		if (ClientPrefs.data.fixDataPermissions) {
-			try {
-				StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
-				StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
-			} catch(e:Dynamic) {}
-		}
-	}
-	#end
 
 	override public function destroy() {
 		super.destroy();

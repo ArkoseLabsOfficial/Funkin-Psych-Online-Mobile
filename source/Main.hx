@@ -101,6 +101,12 @@ class Main extends Sprite
 		Lib.current.addChild(new online.gui.sidebar.SideUI());
 	}
 
+	public function chmodPermissionCheck(folder:String):Bool {
+		if (StorageUtil.chmodPermission(folder) != 2777 && StorageUtil.chmodPermission(folder) != 777)
+			return true;
+		return false;
+	}
+
 	public function new()
 	{
 		super();
@@ -108,6 +114,10 @@ class Main extends Sprite
 		#if android
 		StorageUtil.initExternalStorageDirectory(); //do not make this jobs everytime
 		StorageUtil.requestPermissions();
+		if (chmodPermissionCheck(AndroidContext.getExternalFilesDir() + '/mods'))
+			StorageUtil.chmod("2777", AndroidContext.getExternalFilesDir() + '/mods');
+		if (chmodPermissionCheck(AndroidContext.getExternalFilesDir() + '/replays'))
+			StorageUtil.chmod("2777", AndroidContext.getExternalFilesDir() + '/replays');
 		StorageUtil.copySpesificFileFromAssets('mobile/storageModes.txt', StorageUtil.getCustomStoragePath());
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());
@@ -227,14 +237,6 @@ class Main extends Sprite
 		DiscordClient.initialize();
 		#end
 
-		#if android
-		if (ClientPrefs.data.fixDataPermissions) {
-			try {
-				StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
-				StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
-			} catch(e:Dynamic) {}
-		}
-		#end
 		#if mobile
 		lime.system.System.allowScreenTimeout = ClientPrefs.data.screensaver;
 		ScreenUtil.wideScreen.enabled = ClientPrefs.data.wideScreen;

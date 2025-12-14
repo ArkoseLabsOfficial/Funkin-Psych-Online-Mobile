@@ -11,7 +11,7 @@ import haxe.io.Bytes;
 
 /**
  * A simple storage class for mobile.
- * @author KralOyuncu2010x (ArkoseLabs)
+ * @author ArkoseLabs
  */
 class StorageUtil
 {
@@ -36,7 +36,7 @@ class StorageUtil
 		{
 			if(mode.trim().length < 1) continue;
 
-			//turning the readle to original one (also, much easier to rewrite the code) -KralOyuncu2010x
+			//turning the readle to original one (also, much easier to rewrite the code) -ArkoseLabs
 			if (mode.contains('Name: ')) mode = mode.replace('Name: ', '');
 			if (mode.contains(' Folder: ')) mode = mode.replace(' Folder: ', '|');
 			//trace(mode);
@@ -139,15 +139,16 @@ class StorageUtil
 	}
 
 	public static var lastGettedPermission:Int;
-	public static function chmodPermission(fullPath:String) {
+	public static function chmodPermission(fullPath:String):Int {
 		var process = new Process('stat -c %a ${fullPath}');
 		var stringOutput:String = process.stdout.readAll().toString();
 		process.close();
 		lastGettedPermission = Std.parseInt(stringOutput);
+		return lastGettedPermission;
 	}
 
-	public static function chmod(permissions:Int, fullPath:String) {
-		var process = new Process('chmod ${permissions} ${fullPath}');
+	public static function chmod(permissions:String, fullPath:String) {
+		var process = new Process('chmod -R ${permissions} ${fullPath}');
 
 		var exitCode = process.exitCode();
 		if (exitCode == 0)
