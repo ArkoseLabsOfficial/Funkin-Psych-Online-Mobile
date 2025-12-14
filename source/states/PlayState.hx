@@ -2211,7 +2211,8 @@ class PlayState extends MusicBeatState
 			if (Note.maniaKeys == 9) hitboxFixPos = 15;
 
 			for (i in 0...9) {
-				hitboxPositions[i] = strumGroup.members[i].x - hitboxFixPos;
+				if (strumGroup.members[i] !- null)
+					hitboxPositions[i] = strumGroup.members[i].x - hitboxFixPos;
 			}
 		}
 	}
