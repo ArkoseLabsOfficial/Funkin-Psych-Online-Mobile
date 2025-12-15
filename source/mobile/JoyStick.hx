@@ -159,7 +159,7 @@ class JoyStick extends FlxTypedSpriteGroup<MobileButton>
 
 		for (touch in tempTouches)
 		{
-			touch.getWorldPosition(_point, FlxG.camera);
+			touch.getGamePosition(_point);
 
 			if (!updateAnalog(_point, touch.pressed, touch.justPressed, touch.justReleased, touch))
 			{
