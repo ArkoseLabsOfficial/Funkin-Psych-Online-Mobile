@@ -33,6 +33,8 @@ class MusicBeatSubstate extends FlxSubState
 	public var mobilePadCam:FlxCamera;
 	public var hitbox:Hitbox;
 	public var hitboxCam:FlxCamera;
+	public var joyStick:JoyStick;
+	public var joyStickCam:FlxCamera;
 
 	public function addMobilePad(DPad:String, Action:String)
 	{
@@ -94,11 +96,41 @@ class MusicBeatSubstate extends FlxSubState
 		}
 	}
 
+	public function addJoyStick(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+	{
+		if (joyStick != null) removeJoyStick();
+		joyStick = new JoyStick(x, y, radius, ease, size);
+		add(joyStick);
+	}
+
+	public function removeJoyStick():Void
+	{
+		if (joyStick != null)
+		{
+			remove(joyStick);
+			joyStick = FlxDestroyUtil.destroy(joyStick);
+		}
+
+		if(joyStickCam != null)
+		{
+			FlxG.cameras.remove(joyStickCam);
+			joyStickCam = FlxDestroyUtil.destroy(joyStickCam);
+		}
+	}
+
+	public function addJoyStickCamera():Void {
+		joyStickCam = new FlxCamera();
+		joyStickCam.bgColor.alpha = 0;
+		FlxG.cameras.add(joyStickCam, false);
+		joyStick.cameras = [joyStickCam];
+	}
+
 	override function destroy()
 	{
 		//controls.isInSubstate = false;
 		removeMobilePad();
 		removeMobileControls();
+		removeJoyStick();
 
 		super.destroy();
 	}

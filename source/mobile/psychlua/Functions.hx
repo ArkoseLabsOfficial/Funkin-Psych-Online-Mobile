@@ -12,6 +12,21 @@ class MobileFunctions
 		#if LUA_ALLOWED
 		var lua:State = funk.lua;
 
+		Lua_helper.add_callback(lua, 'addJoyStick', function(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+		{
+			PlayState.instance.addJoyStick(x, y, radius, ease, size);
+		});
+
+		Lua_helper.add_callback(lua, 'addJoyStickCamera', function():Void
+		{
+			PlayState.instance.addLuaMobilePadCamera();
+		});
+
+		Lua_helper.add_callback(lua, 'removeJoyStick', function():Void
+		{
+			PlayState.instance.removeLuaMobilePad();
+		});
+
 		//Use them for 8k charts or something
 		Lua_helper.add_callback(lua, 'hitboxPressed', function(button:String):Bool
 		{
