@@ -2016,7 +2016,7 @@ class PlayState extends MusicBeatState
 			if (mobilePad.getButtonFromName('buttonP') != null)
 				button.deadZones.push(mobilePad.getButtonFromName('buttonP'));
 		});
-		if (ClientPrefs.data.VSliceControl) enableVSliceControls();
+		if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) enableVSliceControls();
 	}
 
 	public var defaultPlayerNotePositions:Array<Dynamic> = [-360, -140, 140, 360];

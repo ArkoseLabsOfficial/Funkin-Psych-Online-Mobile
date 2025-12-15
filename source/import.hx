@@ -73,12 +73,11 @@ import online.backend.Deflection;
 
 // Mobile Controls
 
-// FNF Spesific
-import backend.FunkinFileSystem;
+// Spesificly Extended Mobile-Controls Library Objects For FNF
 import mobile.objects.FunkinMobilePad as MobilePad;
 import mobile.objects.FunkinHitbox as Hitbox;
 // Others
-import mobile.*;
+import mobile.*; //mobile-controls v0.2.0 shits
 import mobile.backend.StorageUtil;
 import mobile.substates.MobileExtraControl;
 //Android
