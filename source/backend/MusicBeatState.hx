@@ -95,14 +95,14 @@ class MusicBeatState extends FlxUIState
 	{
 		if (joyStick != null) removeJoyStick();
 		joyStick = new JoyStick(x, y, radius, ease, size);
-		currentState.add(joyStick);
+		add(joyStick);
 	}
 
 	public function removeJoyStick():Void
 	{
 		if (joyStick != null)
 		{
-			currentState.remove(joyStick);
+			remove(joyStick);
 			joyStick = FlxDestroyUtil.destroy(joyStick);
 		}
 
