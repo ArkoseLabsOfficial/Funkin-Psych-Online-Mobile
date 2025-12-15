@@ -77,6 +77,7 @@ import online.backend.Deflection;
 import mobile.objects.FunkinMobilePad as MobilePad;
 import mobile.objects.FunkinHitbox as Hitbox;
 // Others
+import backend.FunkinFileSystem;
 import mobile.*; //mobile-controls v0.2.0 shits
 import mobile.backend.StorageUtil;
 import mobile.substates.MobileExtraControl;
