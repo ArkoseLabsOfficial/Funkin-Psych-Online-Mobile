@@ -177,8 +177,9 @@ class FunkinHitbox extends OGHitbox {
 	{
 		var hint:MobileButton = new MobileButton(x, y, returned);
 		hint.loadGraphic(createHintGraphic(width, height, color));
+		var VSliceAllowed:Bool = (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55);
 
-		if (ClientPrefs.data.hitboxhint && !ClientPrefs.data.VSliceControl) {
+		if (ClientPrefs.data.hitboxhint && !VSliceAllowed) {
 			var doHeightFix:Bool = false;
 			if (height == 144) doHeightFix = true;
 
@@ -204,17 +205,17 @@ class FunkinHitbox extends OGHitbox {
 		hint.onDown.callback = function()
 		{
 			onButtonDown.dispatch(hint, name, uniqueID);
-			if (hint.alpha != globalAlpha && !ClientPrefs.data.VSliceControl)
+			if (hint.alpha != globalAlpha && !VSliceAllowed)
 				hint.alpha = globalAlpha;
-			if ((hint.hintUp?.alpha != 0.00001 || hint.hintDown?.alpha != 0.00001) && hint.hintUp != null && hint.hintDown != null && !ClientPrefs.data.VSliceControl)
+			if ((hint.hintUp?.alpha != 0.00001 || hint.hintDown?.alpha != 0.00001) && hint.hintUp != null && hint.hintDown != null && !VSliceAllowed)
 				hint.hintUp.alpha = hint.hintDown.alpha = 0.00001;
 		}
 		hint.onOut.callback = hint.onUp.callback = function()
 		{
 			onButtonUp.dispatch(hint, name, uniqueID);
-			if (hint.alpha != 0.00001 && !ClientPrefs.data.VSliceControl)
+			if (hint.alpha != 0.00001 && !VSliceAllowed)
 				hint.alpha = 0.00001;
-			if ((hint.hintUp?.alpha != globalAlpha || hint.hintDown?.alpha != globalAlpha) && hint.hintUp != null && hint.hintDown != null && !ClientPrefs.data.VSliceControl)
+			if ((hint.hintUp?.alpha != globalAlpha || hint.hintDown?.alpha != globalAlpha) && hint.hintUp != null && hint.hintDown != null && !VSliceAllowed)
 				hint.hintUp.alpha = hint.hintDown.alpha = globalAlpha;
 		}
 		#if FLX_DEBUG

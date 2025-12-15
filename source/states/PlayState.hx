@@ -2902,7 +2902,7 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.data.noteUnderlayOpacity > 0 && strumGroup == getPlayerStrums() && ClientPrefs.data.noteUnderlayType == 'All-In-One') {
 			var vsliceControlFix:Float = 1;
-			if (ClientPrefs.data.VSliceControl) {
+			if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) {
 				switch (Note.maniaKeys) {
 					case 4: vsliceControlFix = 6.5 / 3.5;
 					case 5: vsliceControlFix = 6.5 / 5;
