@@ -19,12 +19,27 @@ class MobileFunctions
 
 		Lua_helper.add_callback(lua, 'addJoyStickCamera', function():Void
 		{
-			PlayState.instance.addLuaMobilePadCamera();
+			PlayState.instance.addJoyStickCamera();
 		});
 
 		Lua_helper.add_callback(lua, 'removeJoyStick', function():Void
 		{
-			PlayState.instance.removeLuaMobilePad();
+			PlayState.instance.removeJoyStick();
+		});
+
+		Lua_helper.add_callback(lua, 'joyStickPressed', function(button:String):Bool
+		{
+			return PlayState.instance.joyStick.joyStickPressed(button);
+		});
+
+		Lua_helper.add_callback(lua, 'joyStickJustPressed', function(button:String):Bool
+		{
+			return PlayState.instance.joyStick.joyStickJustPressed(button);
+		});
+
+		Lua_helper.add_callback(lua, 'joyStickJustReleased', function(button:String):Bool
+		{
+			return PlayState.instance.joyStick.joyStickJustReleased(button);
 		});
 
 		//Use them for 8k charts or something
