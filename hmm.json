@@ -19,8 +19,9 @@
     {
       "name": "flixel",
       "type": "git",
-      "ref": null,
-      "url": "https://github.com/FNF-SE/flixel"
+      "dir": null,
+      "ref": "peo-mobile",
+      "url": "https://github.com/ArkoseLabsOfficial/flixel-peo"
     },
     {
       "name": "flixel-addons",
