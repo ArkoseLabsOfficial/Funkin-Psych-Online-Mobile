@@ -104,7 +104,10 @@ class Controls
 		if(result) controllerMode = false;
 
 		try {
-			return result || _myGamepadJustPressed(gamepadBinds[key]) == true || hitboxJustPressed(mobileBinds[key]) == true || mobilePadJustPressed(mobileBinds[key]) == true;
+			if (mobileControls)
+				return result || _myGamepadJustPressed(gamepadBinds[key]) == true || hitboxJustPressed(mobileBinds[key]) == true || mobilePadJustPressed(mobileBinds[key]) == true;
+			else
+				return result || _myGamepadJustPressed(gamepadBinds[key]) == true;
 		} catch (e:haxe.Exception) {
 				return result || _myGamepadJustPressed(gamepadBinds[key]) == true;
 		}
@@ -121,7 +124,10 @@ class Controls
 		if(result) controllerMode = false;
 
 		try {
-			return result || _myGamepadPressed(gamepadBinds[key]) == true || hitboxPressed(mobileBinds[key]) == true || mobilePadPressed(mobileBinds[key]) == true;
+			if (mobileControls)
+				return result || _myGamepadPressed(gamepadBinds[key]) == true || hitboxPressed(mobileBinds[key]) == true || mobilePadPressed(mobileBinds[key]) == true;
+			else
+				return result || _myGamepadPressed(gamepadBinds[key]) == true;
 		} catch (e:haxe.Exception) {
 				return result || _myGamepadPressed(gamepadBinds[key]) == true;
 		}
@@ -138,7 +144,10 @@ class Controls
 		if(result) controllerMode = false;
 
 		try {
-			return result || _myGamepadJustReleased(gamepadBinds[key]) == true || hitboxJustReleased(mobileBinds[key]) == true || mobilePadJustReleased(mobileBinds[key]) == true;
+			if (mobileControls)
+				return result || _myGamepadJustReleased(gamepadBinds[key]) == true || hitboxJustReleased(mobileBinds[key]) == true || mobilePadJustReleased(mobileBinds[key]) == true;
+			else
+				return result || _myGamepadJustReleased(gamepadBinds[key]) == true;
 		} catch (e:haxe.Exception) {
 				return result || _myGamepadJustReleased(gamepadBinds[key]) == true;
 		}
@@ -228,7 +237,7 @@ class Controls
 	private function hitboxPressed(keys:Array<String>):Bool
 	{
 		if (keys != null && requestedHitbox != null)
-			if (requestedHitbox.buttonPressed(keys))
+			if (requestedHitbox.buttonPressed(keys) == true)
 				return true;
 
 		return false;
@@ -237,7 +246,7 @@ class Controls
 	private function hitboxJustPressed(keys:Array<String>):Bool
 	{
 		if (keys != null && requestedHitbox != null)
-			if (requestedHitbox.buttonJustPressed(keys))
+			if (requestedHitbox.buttonJustPressed(keys) == true)
 				return true;
 
 		return false;
@@ -246,7 +255,7 @@ class Controls
 	private function hitboxJustReleased(keys:Array<String>):Bool
 	{
 		if (keys != null && requestedHitbox != null)
-			if (requestedHitbox.buttonJustReleased(keys))
+			if (requestedHitbox.buttonJustReleased(keys) == true)
 				return true;
 
 		return false;
