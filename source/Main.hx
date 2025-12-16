@@ -101,11 +101,13 @@ class Main extends Sprite
 		Lib.current.addChild(new online.gui.sidebar.SideUI());
 	}
 
+	#if android
 	public function chmodPermissionCheck(folder:String):Bool {
 		if (StorageUtil.chmodPermission(folder) != 2777 && StorageUtil.chmodPermission(folder) != 777)
 			return true;
 		return false;
 	}
+	#end
 
 	public function new()
 	{
