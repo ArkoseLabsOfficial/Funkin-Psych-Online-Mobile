@@ -8,8 +8,8 @@
     {
       "name": "lime",
       "type": "git",
-      "ref": "9ecf10449bea0745af3b5de742539eea1eb351ef",
-      "url": "https://github.com/HomuHomu833-haxe-stuff/lime"
+      "ref": "main",
+      "url": "https://github.com/AnDevGo/lime-q"
     },
     {
       "name": "openfl",
