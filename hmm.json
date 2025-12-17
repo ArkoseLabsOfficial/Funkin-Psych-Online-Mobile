@@ -9,7 +9,7 @@
       "name": "lime",
       "type": "git",
       "ref": "main",
-      "url": "https://github.com/AlafandyPorting/lime-0.7.3"
+      "url": "https://github.com/Prohack202020/lime"
     },
     {
       "name": "openfl",
@@ -19,9 +19,8 @@
     {
       "name": "flixel",
       "type": "git",
-      "dir": null,
-      "ref": "peo-mobile",
-      "url": "https://github.com/ArkoseLabsOfficial/flixel-peo"
+      "ref": "main",
+      "url": "https://github.com/Prohack101010/flixel-5.8.0-fixed"
     },
     {
       "name": "flixel-addons",
