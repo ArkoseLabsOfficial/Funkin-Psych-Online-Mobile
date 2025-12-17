@@ -8,8 +8,8 @@
     {
       "name": "lime",
       "type": "git",
-      "ref": "main",
-      "url": "https://github.com/ArkoseLabsOfficial/lime"
+      "ref": "int-delta",
+      "url": "https://github.com/moxie-coder/lime-1"
     },
     {
       "name": "openfl",
