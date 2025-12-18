@@ -6658,15 +6658,17 @@ class PlayState extends MusicBeatState
 	public function addControls(?mode:String)
 	{
 		addMobileControls(mode);
-		if (replayData == null && !cpuControlled) {
-			hitbox.visible = true;
-			hitbox.onButtonDown.add(onButtonPress);
-			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
-		} else {
-			hitbox.visible = false;
-		}
+		try {
+			if (replayData == null && !cpuControlled) {
+				hitbox.visible = true;
+				hitbox.onButtonDown.add(onButtonPress);
+				hitbox.onButtonUp.add(onButtonRelease);
+				hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
+				hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
+			} else {
+				hitbox.visible = false;
+			}
+		} catch(e:Dynamic) {}
 	}
 
 	public function removeControls()
