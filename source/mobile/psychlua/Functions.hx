@@ -108,7 +108,7 @@ class MobileFunctions
 
 		Lua_helper.add_callback(lua, "setHitboxVisibilty", function(enabled:Bool = false):Void
 		{
-			MusicBeatState.getState().hitbox.visible = enabled;
+			MusicBeatState.getState().mobileManager.hitbox.visible = enabled;
 		});
 
 		Lua_helper.add_callback(lua, "reloadHitbox", function(?mode:String):Void

@@ -210,7 +210,7 @@ class Controls
 	private function mobilePadPressed(keys:Array<String>):Bool
 	{
 		if (keys != null && requestedInstance.mobilePad != null)
-			if (requestedInstance.mobilePad.buttonPressed(keys) == true)
+			if (requestedInstance.mobileManager.mobilePad.buttonPressed(keys) == true)
 				return true;
 
 		return false;
@@ -219,7 +219,7 @@ class Controls
 	private function mobilePadJustPressed(keys:Array<String>):Bool
 	{
 		if (keys != null && requestedInstance.mobilePad != null)
-			if (requestedInstance.mobilePad.buttonJustPressed(keys) == true)
+			if (requestedInstance.mobileManager.mobilePad.buttonJustPressed(keys) == true)
 				return true;
 
 		return false;
@@ -228,7 +228,7 @@ class Controls
 	private function mobilePadJustReleased(keys:Array<String>):Bool
 	{
 		if (keys != null && requestedInstance.mobilePad != null)
-			if (requestedInstance.mobilePad.buttonJustReleased(keys) == true)
+			if (requestedInstance.mobileManager.mobilePad.buttonJustReleased(keys) == true)
 				return true;
 
 		return false;

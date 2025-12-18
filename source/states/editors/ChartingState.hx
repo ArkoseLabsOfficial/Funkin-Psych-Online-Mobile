@@ -1472,7 +1472,7 @@ class ChartingState extends MusicBeatState
 			DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
 			#end
 		}
-		mobilePad.active = mobilePad.visible = true;
+		mobileManager.mobilePad.active = mobileManager.mobilePad.visible = true;
 		super.closeSubState();
 	}
 
@@ -1974,7 +1974,7 @@ class ChartingState extends MusicBeatState
 
 		if (!blockInput)
 		{
-			if ((FlxG.keys.justPressed.ESCAPE || mobilePad.getButtonFromName('buttonC').justPressed) && false)
+			if ((FlxG.keys.justPressed.ESCAPE || mobileManager.mobilePad.getButtonFromName('buttonC').justPressed) && false)
 			if (FlxG.keys.justPressed.ESCAPE && false)
 			{
 				FlxG.sound.music.pause();
@@ -1987,10 +1987,10 @@ class ChartingState extends MusicBeatState
 				playtesting = true;
 				playtestingTime = Conductor.songPosition;
 				playtestingOnComplete = FlxG.sound.music.onComplete;
-				mobilePad.active = mobilePad.visible = false;
+				mobileManager.mobilePad.active = mobileManager.mobilePad.visible = false;
 				openSubState(new states.editors.EditorPlayState(playbackSpeed));
 			}
-			if (FlxG.keys.justPressed.ENTER || mobilePad.getButtonFromName('buttonA').justPressed)
+			if (FlxG.keys.justPressed.ENTER || mobileManager.mobilePad.getButtonFromName('buttonA').justPressed)
 			{
 				autosaveSong();
 				FlxG.mouse.visible = false;
@@ -2007,18 +2007,18 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (mobilePad.getButtonFromName('buttonDown2').justPressed || FlxG.keys.justPressed.E)
+				if (mobileManager.mobilePad.getButtonFromName('buttonDown2').justPressed || FlxG.keys.justPressed.E)
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (mobilePad.getButtonFromName('buttonUp2').justPressed || FlxG.keys.justPressed.Q)
+				if (mobileManager.mobilePad.getButtonFromName('buttonUp2').justPressed || FlxG.keys.justPressed.Q)
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
 			}
 
 
-			if (FlxG.keys.justPressed.BACKSPACE || mobilePad.getButtonFromName('buttonB').justPressed) {
+			if (FlxG.keys.justPressed.BACKSPACE || mobileManager.mobilePad.getButtonFromName('buttonB').justPressed) {
 				// Protect against lost data when quickly leaving the chart editor.
 				autosaveSong();
 				PlayState.chartingMode = false;
@@ -2028,15 +2028,15 @@ class ChartingState extends MusicBeatState
 				return;
 			}
 
-			if(mobilePad.getButtonFromName('buttonV').justPressed || FlxG.keys.justPressed.Z && FlxG.keys.pressed.CONTROL) {
+			if(mobileManager.mobilePad.getButtonFromName('buttonV').justPressed || FlxG.keys.justPressed.Z && FlxG.keys.pressed.CONTROL) {
 				undo();
 			}
 
-			if(FlxG.keys.justPressed.Z || mobilePad.getButtonFromName('buttonZ').justPressed && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
+			if(FlxG.keys.justPressed.Z || mobileManager.mobilePad.getButtonFromName('buttonZ').justPressed && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
 				--curZoom;
 				updateZoom();
 			}
-			if(FlxG.keys.justPressed.X || mobilePad.getButtonFromName('buttonD').justPressed && curZoom < zoomList.length-1) {
+			if(FlxG.keys.justPressed.X || mobileManager.mobilePad.getButtonFromName('buttonD').justPressed && curZoom < zoomList.length-1) {
 				curZoom++;
 				updateZoom();
 			}
@@ -2057,7 +2057,7 @@ class ChartingState extends MusicBeatState
 				}
 			}
 
-			if (FlxG.keys.justPressed.SPACE || mobilePad.getButtonFromName('buttonX').justPressed)
+			if (FlxG.keys.justPressed.SPACE || mobileManager.mobilePad.getButtonFromName('buttonX').justPressed)
 			{
 				if (FlxG.sound.music.playing)
 				{
@@ -2121,17 +2121,17 @@ class ChartingState extends MusicBeatState
 
 
 
-			if ((FlxG.keys.pressed.W || FlxG.keys.pressed.S) || (mobilePad.getButtonFromName('buttonUp').pressed || mobilePad.getButtonFromName('buttonDown').pressed))
+			if ((FlxG.keys.pressed.W || FlxG.keys.pressed.S) || (mobileManager.mobilePad.getButtonFromName('buttonUp').pressed || mobileManager.mobilePad.getButtonFromName('buttonDown').pressed))
 			{
 				FlxG.sound.music.pause();
 
 				var holdingShift:Float = 1;
 				if (FlxG.keys.pressed.CONTROL) holdingShift = 0.25;
-				else if (FlxG.keys.pressed.SHIFT || mobilePad.getButtonFromName('buttonY').pressed) holdingShift = 4;
+				else if (FlxG.keys.pressed.SHIFT || mobileManager.mobilePad.getButtonFromName('buttonY').pressed) holdingShift = 4;
 
 				var daTime:Float = 700 * FlxG.elapsed * holdingShift;
 
-				if (FlxG.keys.pressed.W || mobilePad.getButtonFromName('buttonUp').pressed)
+				if (FlxG.keys.pressed.W || mobileManager.mobilePad.getButtonFromName('buttonUp').pressed)
 				{
 					FlxG.sound.music.time -= daTime;
 				}
@@ -2167,7 +2167,7 @@ class ChartingState extends MusicBeatState
 
 			var style = currentType;
 
-			if (FlxG.keys.pressed.SHIFT || mobilePad.getButtonFromName('buttonY').pressed){
+			if (FlxG.keys.pressed.SHIFT || mobileManager.mobilePad.getButtonFromName('buttonY').pressed){
 				style = 3;
 			}
 
@@ -2263,12 +2263,12 @@ class ChartingState extends MusicBeatState
 				}
 			}
 			var shiftThing:Int = 1;
-			if (FlxG.keys.pressed.SHIFT || mobilePad.getButtonFromName('buttonY').pressed)
+			if (FlxG.keys.pressed.SHIFT || mobileManager.mobilePad.getButtonFromName('buttonY').pressed)
 				shiftThing = 4;
 
-			if (FlxG.keys.justPressed.D || mobilePad.getButtonFromName('buttonRight').justPressed)
+			if (FlxG.keys.justPressed.D || mobileManager.mobilePad.getButtonFromName('buttonRight').justPressed)
 				changeSection(curSec + shiftThing);
-			if (FlxG.keys.justPressed.A || mobilePad.getButtonFromName('buttonLeft').justPressed) {
+			if (FlxG.keys.justPressed.A || mobileManager.mobilePad.getButtonFromName('buttonLeft').justPressed) {
 				if(curSec <= 0) {
 					changeSection(_song.notes.length-1);
 				} else {
@@ -2313,7 +2313,7 @@ class ChartingState extends MusicBeatState
 			playbackSpeed -= 0.01;
 		if (!holdingShift && pressedRB || holdingShift && holdingRB)
 			playbackSpeed += 0.01;
-		if (mobilePad.getButtonFromName('buttonG').justPressed || (FlxG.keys.pressed.ALT && (pressedLB || pressedRB || holdingLB || holdingRB)))
+		if (mobileManager.mobilePad.getButtonFromName('buttonG').justPressed || (FlxG.keys.pressed.ALT && (pressedLB || pressedRB || holdingLB || holdingRB)))
 			playbackSpeed = 1;
 		//
 

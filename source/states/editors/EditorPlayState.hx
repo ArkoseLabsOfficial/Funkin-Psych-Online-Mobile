@@ -134,7 +134,7 @@ class EditorPlayState extends MusicBeatSubstate
 		#if android
 		daButton = "BACK";
 		#else
-		if (controls.mobileControls)
+		if (controls.Hitbox)
 			daButton = "P";
 		else
 			daButton = "ESC";
@@ -147,10 +147,10 @@ class EditorPlayState extends MusicBeatSubstate
 		add(tipText);
 		FlxG.mouse.visible = false;
 
-		addMobileControls();
-		hitbox.visible = true;
-		hitbox.onButtonDown.add(onButtonPress);
-		hitbox.onButtonUp.add(onButtonRelease);
+		addHitbox();
+		mobileManager.hitbox.visible = true;
+		mobileManager.hitbox.onButtonDown.add(onButtonPress);
+		mobileManager.hitbox.onButtonUp.add(onButtonRelease);
 		
 		generateSong(PlayState.SONG.song);
 
@@ -172,9 +172,9 @@ class EditorPlayState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
-		if(#if android FlxG.android.justReleased.BACK #else mobilePad.getButtonFromName('buttonP').justPressed #end || controls.BACK || FlxG.keys.justPressed.ESCAPE)
+		if(#if android FlxG.android.justReleased.BACK #else mobileManager.mobilePad.getButtonFromName('buttonP').justPressed #end || controls.BACK || FlxG.keys.justPressed.ESCAPE)
 		{
-			hitbox.visible = false;
+			mobileManager.hitbox.visible = false;
 			endSong();
 			super.update(elapsed);
 			return;

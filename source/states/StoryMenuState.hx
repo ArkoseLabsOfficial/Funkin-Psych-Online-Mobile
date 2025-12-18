@@ -240,12 +240,12 @@ class StoryMenuState extends MusicBeatState
 			else if (upP || downP)
 				changeDifficulty();
 
-			if(mobilePad.getButtonFromName('buttonX').justPressed || FlxG.keys.justPressed.CONTROL)
+			if(mobileManager.mobilePad.getButtonFromName('buttonX').justPressed || FlxG.keys.justPressed.CONTROL)
 			{
 				persistentUpdate = false;
 				openSubState(new GameplayChangersSubstate());
 			}
-			else if(mobilePad.getButtonFromName('buttonY').justPressed || controls.RESET)
+			else if(mobileManager.mobilePad.getButtonFromName('buttonY').justPressed || controls.RESET)
 			{
 				persistentUpdate = false;
 				openSubState(new ResetScoreSubState('', curDifficulty, '', curWeek));

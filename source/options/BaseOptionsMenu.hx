@@ -220,7 +220,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				}
 			}
 
-			if(controls.RESET || mobilePad.getButtonFromName('buttonC').justPressed)
+			if(controls.RESET || mobileManager.mobilePad.getButtonFromName('buttonC').justPressed)
 			{
 				var leOption:Option = optionsArray[curSelected];
 				leOption.setValue(leOption.defaultValue);

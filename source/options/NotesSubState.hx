@@ -181,9 +181,9 @@ class NotesSubState extends MusicBeatSubstate
 
 		addMobilePad('NONE', 'B_C');
 		controls.isInSubstate = true;
-		mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
-		mobilePad.getButtonFromName('buttonC').x = 0;
-		mobilePad.getButtonFromName('buttonC').y = FlxG.height - 135;
+		mobileManager.mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
+		mobileManager.mobilePad.getButtonFromName('buttonC').x = 0;
+		mobileManager.mobilePad.getButtonFromName('buttonC').y = FlxG.height - 135;
 	}
 
 	function updateTip()
@@ -206,9 +206,9 @@ class NotesSubState extends MusicBeatSubstate
 		addMobilePad('NONE', 'B_C');
 		addMobilePadCamera();
 		controls.isInSubstate = true;
-		mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
-		mobilePad.getButtonFromName('buttonC').x = 0;
-		mobilePad.getButtonFromName('buttonC').y = FlxG.height - 135;
+		mobileManager.mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
+		mobileManager.mobilePad.getButtonFromName('buttonC').x = 0;
+		mobileManager.mobilePad.getButtonFromName('buttonC').y = FlxG.height - 135;
 	}
 
 	override function update(elapsed:Float) {
@@ -498,7 +498,7 @@ class NotesSubState extends MusicBeatSubstate
 				}
 			} 
 		}
-		else if(mobilePad.getButtonFromName('buttonC').justPressed || controls.RESET && hexTypeNum < 0)
+		else if(mobileManager.mobilePad.getButtonFromName('buttonC').justPressed || controls.RESET && hexTypeNum < 0)
 		{
 			if(FlxG.keys.pressed.SHIFT || FlxG.gamepads.anyJustPressed(LEFT_SHOULDER))
 			{

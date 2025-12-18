@@ -1993,6 +1993,11 @@ class PlayState extends MusicBeatState
 			setOnScripts('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
 			// if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
 		}
+
+		addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
+		addMobilePadCamera();
+		addPlayStateHitbox();
+		if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) enableVSliceControls();
 	}
 
 	public var defaultPlayerNotePositions:Array<Dynamic> = [-360, -140, 140, 360];
@@ -2109,10 +2114,6 @@ class PlayState extends MusicBeatState
 				swagCounter += 1;
 			}, 5);
 		}
-		addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
-		addMobilePadCamera();
-		addPlayStateHitbox();
-		if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) enableVSliceControls();
 		return true;
 	}
 
@@ -2174,7 +2175,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 		reloadPlayStateHitbox("V Slice");
-		//hitbox.cameras = [camHUD];
+		//mobileManager.hitbox.cameras = [camHUD];
 	}
 
 	public static var hitboxPositions:Array<Float> = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -3103,7 +3104,7 @@ class PlayState extends MusicBeatState
 			// }
 
 			if (cpuControlled) {
-				var shiftMult = (mobilePad.getButtonFromName('buttonX').pressed || FlxG.keys.pressed.SHIFT) ? 3 : 1;
+				var shiftMult = (mobileManager.mobilePad.getButtonFromName('buttonX').pressed || FlxG.keys.pressed.SHIFT) ? 3 : 1;
 				if (controls.UI_LEFT) {
 					if (playbackRate - elapsed * 0.25 * shiftMult > 0)
 						playbackRate -= elapsed * 0.25 * shiftMult;
@@ -3119,7 +3120,7 @@ class PlayState extends MusicBeatState
 					}
 					botplayTxt.text = "BOTPLAY\n" + '(${CoolUtil.floorDecimal(playbackRate, 2)}x)';
 				}
-				else if (mobilePad.getButtonFromName('buttonY').justPressed || controls.RESET) {
+				else if (mobileManager.mobilePad.getButtonFromName('buttonY').justPressed || controls.RESET) {
 					playbackRate = 1;
 					botplayTxt.text = "BOTPLAY";
 				}
@@ -3540,7 +3541,7 @@ class PlayState extends MusicBeatState
 
 	function pause() {
 		FlxG.camera.followLerp = 0;
-		mobilePad.visible = persistentUpdate = false;
+		mobileManager.mobilePad.visible = persistentUpdate = false;
 		persistentDraw = true;
 		paused = true;
 
@@ -3555,7 +3556,7 @@ class PlayState extends MusicBeatState
 		if (forcePause)
 			return;
 
-		mobilePad.visible = true;
+		mobileManager.mobilePad.visible = true;
 
 		if (FlxG.sound.music != null && !startingSong) {
 			resyncVocals();
@@ -4192,7 +4193,7 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong()
 	{
-		hitbox.visible = #if !android mobilePad.visible = #end false;
+		mobileManager.hitbox.visible = #if !android mobileManager.mobilePad.visible = #end false;
 		if (redditMod) {
 			health = 0;
 			doDeathCheck();
@@ -6624,7 +6625,7 @@ class PlayState extends MusicBeatState
 	//I don't need this anymore because Hitboxes can returnable to any keys
 	public static function checkHBoxPress(button:String, type = 'justPressed') {
 		var buttonObject:MobileButton = null;
-		if (MusicBeatState.getState().hitbox != null) buttonObject = MusicBeatState.getState().hitbox.getButtonFromName(button);
+		if (MusicBeatState.getState().hitbox != null) buttonObject = MusicBeatState.getState().mobileManager.hitbox.getButtonFromName(button);
 		if (buttonObject != null) return Reflect.getProperty(buttonObject, type);
 		return false;
 	}
@@ -6638,33 +6639,33 @@ class PlayState extends MusicBeatState
 
 	public function addPlayStateHitbox(?mode:String)
 	{
-		addMobileControls(mode);
+		addHitbox(mode);
 		if (replayData == null && !cpuControlled) {
 			hitbox?.onButtonDown?.add(onButtonPress);
 			hitbox?.onButtonUp?.add(onButtonRelease);
 			hitbox?.onButtonDown?.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder?.recordKeyMobileC(Conductor?.songPosition, ids, 0));
 			hitbox?.onButtonUp?.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder?.recordKeyMobileC(Conductor?.songPosition, ids, 1));
 		} else {
-			hitbox.visible = false;
+			mobileManager.hitbox.visible = false;
 		}
-		hitbox.forEachAlive((button) ->
+		mobileManager.hitbox.forEachAlive((button) ->
 		{
-			if (mobilePad.getButtonFromName('buttonT') != null)
-				button.deadZones.push(mobilePad.getButtonFromName('buttonT'));
-			if (mobilePad.getButtonFromName('buttonC') != null)
-				button.deadZones.push(mobilePad.getButtonFromName('buttonC'));
-			if (mobilePad.getButtonFromName('buttonP') != null)
-				button.deadZones.push(mobilePad.getButtonFromName('buttonP'));
+			if (mobileManager.mobilePad.getButtonFromName('buttonT') != null)
+				button.deadZones.push(mobileManager.mobilePad.getButtonFromName('buttonT'));
+			if (mobileManager.mobilePad.getButtonFromName('buttonC') != null)
+				button.deadZones.push(mobileManager.mobilePad.getButtonFromName('buttonC'));
+			if (mobileManager.mobilePad.getButtonFromName('buttonP') != null)
+				button.deadZones.push(mobileManager.mobilePad.getButtonFromName('buttonP'));
 		});
 	}
 
 	public function removePlayStateHitbox()
 	{
-		hitbox.forEachAlive((button) ->
+		mobileManager.hitbox.forEachAlive((button) ->
 		{
 			button.deadZones = [];
 		});
-		removeMobileControls();
+		removeHitbox();
 	}
 }
 
