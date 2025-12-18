@@ -204,7 +204,7 @@ class FunkinHitbox extends OGHitbox {
 		hint.uniqueID = uniqueID;
 		hint.onDown.callback = function()
 		{
-			onButtonDown.dispatch(hint, name, uniqueID);
+			onButtonDown?.dispatch(hint, name, uniqueID);
 			if (hint.alpha != globalAlpha && !VSliceAllowed)
 				hint.alpha = globalAlpha;
 			if ((hint.hintUp?.alpha != 0.00001 || hint.hintDown?.alpha != 0.00001) && hint.hintUp != null && hint.hintDown != null && !VSliceAllowed)
@@ -212,7 +212,7 @@ class FunkinHitbox extends OGHitbox {
 		}
 		hint.onOut.callback = hint.onUp.callback = function()
 		{
-			onButtonUp.dispatch(hint, name, uniqueID);
+			onButtonUp?.dispatch(hint, name, uniqueID);
 			if (hint.alpha != 0.00001 && !VSliceAllowed)
 				hint.alpha = 0.00001;
 			if ((hint.hintUp?.alpha != globalAlpha || hint.hintDown?.alpha != globalAlpha) && hint.hintUp != null && hint.hintDown != null && !VSliceAllowed)
