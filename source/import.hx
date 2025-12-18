@@ -80,6 +80,7 @@ import mobile.objects.FunkinHitbox;
 import backend.FunkinFileSystem;
 import mobile.ScreenUtil;
 import mobile.MobileConfig;
+import mobile.MobileButton;
 import mobile.MobileControlManager;
 import mobile.backend.StorageUtil;
 import mobile.substates.MobileExtraControl;
