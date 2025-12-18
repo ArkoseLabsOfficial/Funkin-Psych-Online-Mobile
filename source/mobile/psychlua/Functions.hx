@@ -27,40 +27,40 @@ class MobileFunctions
 			PlayState.instance.removeJoyStick();
 		});
 
-		Lua_helper.add_callback(lua, 'joyStickPressed', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'joyStickPressed', function(position:String):Bool
 		{
-			return PlayState.instance.joyStick.joyStickPressed(button);
+			return PlayState.instance.joyStick.joyStickPressed(position);
 		});
 
-		Lua_helper.add_callback(lua, 'joyStickJustPressed', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'joyStickJustPressed', function(position:String):Bool
 		{
-			return PlayState.instance.joyStick.joyStickJustPressed(button);
+			return PlayState.instance.joyStick.joyStickJustPressed(position);
 		});
 
-		Lua_helper.add_callback(lua, 'joyStickJustReleased', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'joyStickJustReleased', function(position:String):Bool
 		{
-			return PlayState.instance.joyStick.joyStickJustReleased(button);
+			return PlayState.instance.joyStick.joyStickJustReleased(position);
 		});
 
 		//Use them for 8k charts or something
-		Lua_helper.add_callback(lua, 'hitboxPressed', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxPressed', function(hint:String):Bool
 		{
-			return PlayState.checkHBoxPress(button, 'pressed');
+			return PlayState.checkHBoxPress(hint, 'pressed');
 		});
 
-		Lua_helper.add_callback(lua, 'hitboxJustPressed', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxJustPressed', function(hint:String):Bool
 		{
-			return PlayState.checkHBoxPress(button, 'justPressed');
+			return PlayState.checkHBoxPress(hint, 'justPressed');
 		});
 
-		Lua_helper.add_callback(lua, 'hitboxReleased', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxReleased', function(hint:String):Bool
 		{
-			return PlayState.checkHBoxPress(button, 'released');
+			return PlayState.checkHBoxPress(hint, 'released');
 		});
 
-		Lua_helper.add_callback(lua, 'hitboxJustReleased', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxJustReleased', function(hint:String):Bool
 		{
-			return PlayState.checkHBoxPress(button, 'justReleased');
+			return PlayState.checkHBoxPress(hint, 'justReleased');
 		});
 
 		//OMG
@@ -106,37 +106,23 @@ class MobileFunctions
 			PlayState.instance.removeLuaMobilePad();
 		});
 
-		Lua_helper.add_callback(lua, "MobileC", function(enabled:Bool = false):Void
+		Lua_helper.add_callback(lua, "setHitboxVisibilty", function(enabled:Bool = false):Void
 		{
 			MusicBeatState.getState().hitbox.visible = enabled;
 		});
 
-		//better support
-		Lua_helper.add_callback(lua, "changeMobileControls", function(?mode:String):Void
+		Lua_helper.add_callback(lua, "reloadHitbox", function(?mode:String):Void
 		{
 			if (mode == null && mode == '') mode = "NONE";
-			PlayState.instance.reloadControls(mode);
+			PlayState.instance.reloadPlayStateHitbox(mode);
 		});
 
-		Lua_helper.add_callback(lua, "setMobileControlPosition", function(?x:Float, ?y:Float):Void
-		{
-			if (MusicBeatState.getState().hitbox != null) {
-				if (x != null) MusicBeatState.getState().hitbox.x = x;
-				if (y != null) MusicBeatState.getState().hitbox.y = y;
-			}
-		});
-
-		Lua_helper.add_callback(lua, "reloadMobileControls", function():Void
-		{
-			PlayState.instance.reloadPlayStateHitbox();
-		});
-
-		Lua_helper.add_callback(lua, "addMobileControls", function(?mode:String):Void
+		Lua_helper.add_callback(lua, "addHitbox", function(?mode:String):Void
 		{
 			PlayState.instance.addPlayStateHitbox(mode);
 		});
 
-		Lua_helper.add_callback(lua, "removeMobileControls", function():Void
+		Lua_helper.add_callback(lua, "removeHitbox", function():Void
 		{
 			PlayState.instance.removePlayStateHitbox();
 		});
