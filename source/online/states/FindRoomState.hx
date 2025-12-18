@@ -168,7 +168,7 @@ class RoomBox extends FlxSpriteGroup {
 		hitbox = new FlxObject(0, 0, 700, 0);
 
         bg = new FlxSprite();
-		bg.makeGraphic(Std.int(mobileManager.hitbox.width), 1, 0x81000000);
+		bg.makeGraphic(Std.int(hitbox.width), 1, 0x81000000);
         add(bg);
 
 		title = new FlxText(0, 0, bg.width - 20, name + (points != null ? ' [${points}FP]' : ''));
@@ -197,8 +197,8 @@ class RoomBox extends FlxSpriteGroup {
     override function update(elapsed) {
         super.update(elapsed);
 
-		mobileManager.hitbox.x = x;
-		mobileManager.hitbox.y = y;
+		hitbox.x = x;
+		hitbox.y = y;
 
 		if (FlxG.mouse.overlaps(hitbox) && (FlxG.mouse.deltaScreenX != 0 || FlxG.mouse.deltaScreenY != 0 || FlxG.mouse.justPressed)) {
 			FindRoomState.instance.selected = ID;
@@ -207,8 +207,8 @@ class RoomBox extends FlxSpriteGroup {
 		if (ID == FindRoomState.instance.selected) {
             alpha = 1.0;
 			detailsTxt.visible = true;
-			mobileManager.hitbox.height = detailsTxt.y - mobileManager.hitbox.y + detailsTxt.height;
-			FindRoomState.instance.camFollow.setPosition(mobileManager.hitbox.getMidpoint().x, mobileManager.hitbox.getMidpoint().y);
+			hitbox.height = detailsTxt.y - hitbox.y + detailsTxt.height;
+			FindRoomState.instance.camFollow.setPosition(hitbox.getMidpoint().x, hitbox.getMidpoint().y);
 
 			if (FindRoomState.instance.controls.ACCEPT || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(hitbox))) {
 				GameClient.joinRoom('$code;${FindRoomState.instance.getAddress()}', (err) -> Waiter.putPersist(() -> {
@@ -222,11 +222,11 @@ class RoomBox extends FlxSpriteGroup {
         else {
             alpha = 0.6;
 			detailsTxt.visible = false;
-			mobileManager.hitbox.height = bg.height;
+			hitbox.height = bg.height;
         }
 
         if (ID <= 0)
             return;
-		y = FindRoomState.instance.items.members[ID - 1].y + FindRoomState.instance.items.members[ID - 1].mobileManager.hitbox.height + 20;
+		y = FindRoomState.instance.items.members[ID - 1].y + FindRoomState.instance.items.members[ID - 1].hitbox.height + 20;
     }
 }

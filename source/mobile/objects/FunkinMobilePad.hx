@@ -1,6 +1,6 @@
 package mobile.objects;
 
-import mobile.MobilePad as OGMobilePad;
+import mobile.MobilePad;
 import flixel.graphics.frames.FlxTileFrames;
 import flixel.graphics.FlxGraphic;
 import openfl.display.BitmapData;
@@ -8,7 +8,7 @@ import openfl.utils.Assets;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 
-class FunkinMobilePad extends OGMobilePad {
+class FunkinMobilePad extends MobilePad {
 	override public function createVirtualButton(x:Float, y:Float, framePath:String, ?scale:Float = 1.0, ?ColorS:Int = 0xFFFFFF):MobileButton {
 		var frames:FlxGraphic;
 

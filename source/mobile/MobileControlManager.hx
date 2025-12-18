@@ -4,8 +4,6 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.group.FlxGroup;
 import flixel.util.FlxDestroyUtil;
-import mobile.MobilePad;
-import mobile.Hitbox;
 import mobile.JoyStick;
 
 /**
@@ -15,12 +13,12 @@ import mobile.JoyStick;
 class MobileControlManager {
 	public var currentState:Dynamic;
 
-	public var mobilePad:MobilePad;
+	public var mobilePad:FunkinMobilePad;
 	public var mobilePadCam:FlxCamera;
 	public var joyStickCam:FlxCamera;
 	public var joyStick:JoyStick;
 	public var hitboxCam:FlxCamera;
-	public var hitbox:Hitbox;
+	public var hitbox:FunkinHitbox;
 
 	public function new(state:Dynamic):Void
 	{
@@ -31,7 +29,7 @@ class MobileControlManager {
 	public function addMobilePad(DPad:String, Action:String)
 	{
 		if (mobilePad != null) removeMobilePad();
-		mobilePad = new MobilePad(DPad, Action, ClientPrefs.data.mobilePadAlpha);
+		mobilePad = new FunkinMobilePad(DPad, Action, ClientPrefs.data.mobilePadAlpha);
 		currentState.add(mobilePad);
 	}
 
@@ -60,7 +58,7 @@ class MobileControlManager {
 
 	public function addHitbox(?mode:String, defaultDrawTarget:Bool = false) {
 		if (hitbox != null) removeHitbox();
-		hitbox = new Hitbox(mode);
+		hitbox = new FunkinHitbox(mode);
 		hitboxCam = new FlxCamera();
 		hitboxCam.bgColor.alpha = 0;
 		FlxG.cameras.add(hitboxCam, defaultDrawTarget);
