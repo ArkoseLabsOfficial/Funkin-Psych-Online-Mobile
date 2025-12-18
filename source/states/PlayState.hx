@@ -6583,7 +6583,7 @@ class PlayState extends MusicBeatState
 		return camGame.scroll.y = value - FlxG.height / 2;
 	}
 
-	public var luaMobilePad:MobilePad;
+	public var luaMobilePad:FunkinMobilePad;
 	public var luaMpadCam:FlxCamera;
 	public function makeLuaMobilePad(DPad:String, Action:String)
 	{
@@ -6592,7 +6592,7 @@ class PlayState extends MusicBeatState
 		if(!variables.exists("luaMobilePad"))
 			variables.set("luaMobilePad", luaMobilePad);
 
-		luaMobilePad = new MobilePad(DPad, Action);
+		luaMobilePad = new FunkinMobilePad(DPad, Action);
 		luaMobilePad.alpha = ClientPrefs.data.mobilePadAlpha;
 	}
 
