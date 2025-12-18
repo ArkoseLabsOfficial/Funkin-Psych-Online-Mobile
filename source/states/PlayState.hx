@@ -1993,20 +1993,6 @@ class PlayState extends MusicBeatState
 			setOnScripts('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
 			// if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
 		}
-
-		addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
-		addMobilePadCamera();
-		addControls();
-		hitbox.forEachAlive((button) ->
-		{
-			if (mobilePad.getButtonFromName('buttonT') != null)
-				button.deadZones.push(mobilePad.getButtonFromName('buttonT'));
-			if (mobilePad.getButtonFromName('buttonC') != null)
-				button.deadZones.push(mobilePad.getButtonFromName('buttonC'));
-			if (mobilePad.getButtonFromName('buttonP') != null)
-				button.deadZones.push(mobilePad.getButtonFromName('buttonP'));
-		});
-		if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) enableVSliceControls();
 	}
 
 	public var defaultPlayerNotePositions:Array<Dynamic> = [-360, -140, 140, 360];
@@ -2123,6 +2109,10 @@ class PlayState extends MusicBeatState
 				swagCounter += 1;
 			}, 5);
 		}
+		addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
+		addMobilePadCamera();
+		addPlayStateHitbox();
+		if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) enableVSliceControls();
 		return true;
 	}
 
@@ -2183,7 +2173,7 @@ class PlayState extends MusicBeatState
 				fixHitboxPos(strumGroup, (Note.maniaKeys == 4 ? true : false));
 			}
 		}
-		reloadControls("V Slice");
+		reloadPlayStateHitbox("V Slice");
 		//hitbox.cameras = [camHUD];
 	}
 
@@ -6640,10 +6630,24 @@ class PlayState extends MusicBeatState
 	}
 
 	//Lua Stuff for Mobile Controls
-	public function reloadControls(?mode:String)
+	public function reloadPlayStateHitbox(?mode:String)
 	{
-		removeControls();
-		addControls(mode);
+		removePlayStateHitbox();
+		addPlayStateHitbox(mode);
+	}
+
+	public function addPlayStateHitbox(?mode:String)
+	{
+		addMobileControls(mode);
+		if (replayData == null && !cpuControlled) {
+			hitbox.visible = true;
+			hitbox.onButtonDown.add(onButtonPress);
+			hitbox.onButtonUp.add(onButtonRelease);
+			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
+			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
+		} else {
+			hitbox.visible = false;
+		}
 		hitbox.forEachAlive((button) ->
 		{
 			if (mobilePad.getButtonFromName('buttonT') != null)
@@ -6655,23 +6659,7 @@ class PlayState extends MusicBeatState
 		});
 	}
 
-	public function addControls(?mode:String)
-	{
-		addMobileControls(mode);
-		try {
-			if (replayData == null && !cpuControlled) {
-				hitbox.visible = true;
-				hitbox.onButtonDown.add(onButtonPress);
-				hitbox.onButtonUp.add(onButtonRelease);
-				hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
-				hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
-			} else {
-				hitbox.visible = false;
-			}
-		} catch(e:Dynamic) {}
-	}
-
-	public function removeControls()
+	public function removePlayStateHitbox()
 	{
 		hitbox.forEachAlive((button) ->
 		{

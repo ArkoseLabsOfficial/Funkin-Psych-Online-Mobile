@@ -201,6 +201,7 @@ class ReplayRecorder extends FlxBasic {
 	}
 
 	public function recordKeyMobileC(time:Float, IDs:Array<String>, move:Int) {
+		trace(time + ' | ' + IDs + ' | ' + move);
 		if (IDs == null || IDs.length < 0)
 			return;
 

@@ -128,17 +128,17 @@ class MobileFunctions
 
 		Lua_helper.add_callback(lua, "reloadMobileControls", function():Void
 		{
-			PlayState.instance.reloadControls();
+			PlayState.instance.reloadPlayStateHitbox();
 		});
 
 		Lua_helper.add_callback(lua, "addMobileControls", function(?mode:String):Void
 		{
-			PlayState.instance.addControls(mode);
+			PlayState.instance.addPlayStateHitbox(mode);
 		});
 
 		Lua_helper.add_callback(lua, "removeMobileControls", function():Void
 		{
-			PlayState.instance.removeControls();
+			PlayState.instance.removePlayStateHitbox();
 		});
 		#end
 
