@@ -1994,19 +1994,9 @@ class PlayState extends MusicBeatState
 			// if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
 		}
 
-		addMobileControls();
 		addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
 		addMobilePadCamera();
-		if (replayData == null) {
-			hitbox.onButtonDown.add(onButtonPress);
-			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
-		} else {
-			hitbox.visible = false;
-		}
-		if (replayData == null && !cpuControlled)
-			hitbox.visible = true;
+		addControls();
 		hitbox.forEachAlive((button) ->
 		{
 			if (mobilePad.getButtonFromName('buttonT') != null)
@@ -2192,8 +2182,8 @@ class PlayState extends MusicBeatState
 				}
 				fixHitboxPos(strumGroup, (Note.maniaKeys == 4 ? true : false));
 			}
-			reloadControls("V Slice");
 		}
+		reloadControls("V Slice");
 		//hitbox.cameras = [camHUD];
 	}
 
@@ -6652,18 +6642,8 @@ class PlayState extends MusicBeatState
 	//Lua Stuff for Mobile Controls
 	public function reloadControls(?mode:String)
 	{
-		hitbox.forEachAlive((button) ->
-		{
-			button.deadZones = [];
-		});
-		removeMobileControls();
-		addMobileControls(mode);
-		if (replayData == null) {
-			hitbox.onButtonDown.add(onButtonPress);
-			hitbox.onButtonUp.add(onButtonRelease);
-			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
-			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
-		}
+		removeControls();
+		addControls(mode);
 		hitbox.forEachAlive((button) ->
 		{
 			if (mobilePad.getButtonFromName('buttonT') != null)
@@ -6678,11 +6658,14 @@ class PlayState extends MusicBeatState
 	public function addControls(?mode:String)
 	{
 		addMobileControls(mode);
-		if (replayData == null) {
+		if (replayData == null && !cpuControlled) {
+			hitbox.visible = true;
 			hitbox.onButtonDown.add(onButtonPress);
 			hitbox.onButtonUp.add(onButtonRelease);
 			hitbox.onButtonDown.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 0));
 			hitbox.onButtonUp.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder.recordKeyMobileC(Conductor.songPosition, ids, 1));
+		} else {
+			hitbox.visible = false;
 		}
 	}
 
