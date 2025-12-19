@@ -5521,8 +5521,9 @@ class PlayState extends MusicBeatState
 			hscriptArray.pop();
 		#end
 
-		if (luaMobilePad != null)
-			luaMobilePad = FlxDestroyUtil.destroy(luaMobilePad);
+		//destroy manager
+		for (managerName => manager in customManagers)
+			manager.destroy();
 
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
@@ -6596,7 +6597,7 @@ class PlayState extends MusicBeatState
 
 	public static function checkMPadPress(buttonName:String, type = 'justPressed', ?managerName:String) {
 		if (managerName != null || managerName != '') {
-			var button = customManagers.get(managerName).mobilePad.getButtonFromName(buttonName);
+			var button = instance.customManagers.get(managerName).mobilePad.getButtonFromName(buttonName);
 			return Reflect.getProperty(button, type);
 		}
 		return false;
@@ -6605,7 +6606,7 @@ class PlayState extends MusicBeatState
 	//I don't need this anymore because Hitboxes can returnable to any keys
 	public static function checkHBoxPress(button:String, type = 'justPressed', ?managerName:String) {
 		var manager = MusicBeatState.getState().mobileManager;
-		if (managerName != null || managerName != '') manager = customManagers.get(managerName);
+		if (managerName != null || managerName != '') manager = instance.customManagers.get(managerName);
 
 		var buttonObject:MobileButton = null;
 		if (manager.hitbox != null) buttonObject = manager.hitbox.getButtonFromName(button);

@@ -14,7 +14,7 @@ class MobileFunctions
 
 		Lua_helper.add_callback(lua, 'createNewMobileManager', function(name:String):Void
 		{
-			PlayState.instance.createNewMobileManager(name);
+			PlayState.instance.createNewManager(name);
 		});
 
 		//JoyStick
@@ -61,7 +61,7 @@ class MobileFunctions
 
 		Lua_helper.add_callback(lua, "removeHitbox", function(managerName:String):Void
 		{
-			PlayState.instance.customManagers.get(managerName).removeHitbox;
+			PlayState.instance.customManagers.get(managerName).removeHitbox();
 		});
 
 		Lua_helper.add_callback(lua, 'hitboxPressed', function(managerName:String, hint:String):Bool
@@ -134,10 +134,12 @@ class MobileFunctions
 			PlayState.instance.customManagers.get(managerName).hitbox.visible = enabled;
 		});
 
-		Lua_helper.add_callback(lua, "reloadHitbox", function(managerName:String, ?mode:String):Void
+		Lua_helper.add_callback(lua, "reloadHitbox", function(?managerName:String, ?mode:String):Void
 		{
-			if (mode == null && mode == '') mode = "NONE";
-			PlayState.instance.reloadPlayStateHitbox(mode, managerName);
+			var manager = PlayState.instance.mobileManager;
+			if (managerName != null || managerName != '') manager = PlayState.instance.customManagers.get(managerName);
+			manager.removeHitbox();
+			manager.addHitbox(mode);
 		});
 		#end
 
