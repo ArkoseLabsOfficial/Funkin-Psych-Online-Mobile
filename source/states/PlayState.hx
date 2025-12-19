@@ -576,16 +576,13 @@ class PlayState extends MusicBeatState
 		camGame = new FlxCamera();
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
-		luaMpadCam = new FlxCamera();
 		camLoading = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
-		luaMpadCam.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
-		FlxG.cameras.add(luaMpadCam, false);
 		FlxG.cameras.add(camLoading, false);
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
@@ -1090,6 +1087,10 @@ class PlayState extends MusicBeatState
 			uiGroup.cameras = [camHUD];
 			noteGroup.cameras = [camHUD];
 			comboGroup.cameras = [camHUD];
+
+			mobileManager.addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
+			mobileManager.addMobilePadCamera();
+			addPlayStateHitbox();
 		});
 
 		preloadTasks.push(() -> {
@@ -1994,9 +1995,6 @@ class PlayState extends MusicBeatState
 			// if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
 		}
 
-		mobileManager.addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
-		mobileManager.addMobilePadCamera();
-		addPlayStateHitbox();
 		if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) enableVSliceControls();
 	}
 
@@ -6582,50 +6580,35 @@ class PlayState extends MusicBeatState
 	function set_scrollYCenter(value) {
 		return camGame.scroll.y = value - FlxG.height / 2;
 	}
-
-	public var luaMobilePad:FunkinMobilePad;
-	public var luaMpadCam:FlxCamera;
-	public function makeLuaMobilePad(DPad:String, Action:String)
-	{
-		if(members.contains(luaMobilePad)) return;
-
-		if(!variables.exists("luaMobilePad"))
-			variables.set("luaMobilePad", luaMobilePad);
-
-		luaMobilePad = new FunkinMobilePad(DPad, Action);
-		luaMobilePad.alpha = ClientPrefs.data.mobilePadAlpha;
+	public var customManagers:Map<String, MobileControlManager> = [];
+	public function createNewManager(name:String) {
+		var mobileManagerNew = new MobileControlManager(this);
+		customManagers.set(name, mobileManagerNew);
+		if(!variables.exists(name))
+			variables.set(name, mobileManagerNew);
+		if(!variables.exists(name + '_mobilePad'))
+			variables.set(name + '_mobilePad', mobileManagerNew.mobilePad);
+		if(!variables.exists(name + '_hitbox'))
+			variables.set(name + '_hitbox', mobileManagerNew.hitbox);
+		if(!variables.exists(name + '_joyStick'))
+			variables.set(name + '_joyStick', mobileManagerNew.joyStick);
 	}
 
-	public function addLuaMobilePad() {
-		if(luaMobilePad == null || members.contains(luaMobilePad)) return;
-
-		var target:Dynamic = isDead ? GameOverSubstate.instance : PlayState.instance;
-		target.insert(target.members.length + 1, luaMobilePad);
-	}
-
-	public function addLuaMobilePadCamera()
-		if(luaMobilePad != null) luaMobilePad.cameras = [luaMpadCam];
-
-	public function removeLuaMobilePad()
-	{
-		if (luaMobilePad != null) {
-			luaMobilePad.kill();
-			luaMobilePad.destroy();
-			remove(luaMobilePad);
-			luaMobilePad = null;
+	public static function checkMPadPress(buttonName:String, type = 'justPressed', ?managerName:String) {
+		if (managerName != null || managerName != '') {
+			var button = customManagers.get(managerName).mobilePad.getButtonFromName(buttonName);
+			return Reflect.getProperty(button, type);
 		}
-	}
-
-	public static function checkMPadPress(buttonName:String, type = 'justPressed') {
-		var button = PlayState.instance.luaMobilePad.getButtonFromName(buttonName); //Access Spesific Button Name From Array
-		return Reflect.getProperty(button, type);
 		return false;
 	}
 
 	//I don't need this anymore because Hitboxes can returnable to any keys
-	public static function checkHBoxPress(button:String, type = 'justPressed') {
+	public static function checkHBoxPress(button:String, type = 'justPressed', ?managerName:String) {
+		var manager = MusicBeatState.getState().mobileManager;
+		if (managerName != null || managerName != '') manager = customManagers.get(managerName);
+
 		var buttonObject:MobileButton = null;
-		if (MusicBeatState.getState().mobileManager.hitbox != null) buttonObject = MusicBeatState.getState().mobileManager.hitbox.getButtonFromName(button);
+		if (manager.hitbox != null) buttonObject = manager.hitbox.getButtonFromName(button);
 		if (buttonObject != null) return Reflect.getProperty(buttonObject, type);
 		return false;
 	}

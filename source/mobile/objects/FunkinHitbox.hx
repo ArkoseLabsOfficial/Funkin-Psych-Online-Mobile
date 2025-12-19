@@ -10,7 +10,7 @@ import objects.Note;
 class FunkinHitbox extends Hitbox {
 	public function new(?mode:String, ?globalAlpha:Float = 0.7):Void
 	{
-		super(mode, globalAlpha, true); //true means basically-mobilecontrols's hitbox creation is disabled
+		super(mode, globalAlpha, true); //true means mobile-controls's hitbox creation is disabled
 		if ((ClientPrefs.data.hitboxmode == 'V Slice' && mode == null) || mode == 'V Slice')
 		{
 			var mania = Note.maniaKeys;
@@ -27,7 +27,7 @@ class FunkinHitbox extends Hitbox {
 		}
 		else
 		{
-			var Custom:String = mode != null ? mode : ClientPrefs.data.hitboxmode;
+			var Custom:String = (mode != null || mode != 'NONE') ? mode : ClientPrefs.data.hitboxmode;
 			if (!MobileConfig.hitboxModes.exists(Custom))
 				throw 'The Custom Hitbox File doesn\'t exists.';
 

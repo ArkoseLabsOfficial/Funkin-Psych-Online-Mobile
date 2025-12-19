@@ -26,10 +26,16 @@ class MobileControlManager {
 		trace("MobileControlManager initialized.");
 	}
 
-	public function addMobilePad(DPad:String, Action:String)
+	//for lua shit
+	public function makeMobilePad(DPad:String, Action:String)
 	{
 		if (mobilePad != null) removeMobilePad();
 		mobilePad = new FunkinMobilePad(DPad, Action, ClientPrefs.data.mobilePadAlpha);
+	}
+
+	public function addMobilePad(DPad:String, Action:String)
+	{
+		makeMobilePad(DPad, Action);
 		currentState.add(mobilePad);
 	}
 

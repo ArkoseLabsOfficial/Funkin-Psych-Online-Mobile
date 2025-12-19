@@ -12,119 +12,132 @@ class MobileFunctions
 		#if LUA_ALLOWED
 		var lua:State = funk.lua;
 
-		Lua_helper.add_callback(lua, 'addJoyStick', function(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+		Lua_helper.add_callback(lua, 'createNewMobileManager', function(name:String):Void
 		{
-			PlayState.instance.mobileManager.addJoyStick(x, y, radius, ease, size);
+			PlayState.instance.createNewMobileManager(name);
 		});
 
-		Lua_helper.add_callback(lua, 'addJoyStickCamera', function():Void
+		//JoyStick
+		Lua_helper.add_callback(lua, 'addJoyStick', function(managerName:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 		{
-			PlayState.instance.mobileManager.addJoyStickCamera();
+			PlayState.instance.customManagers.get(managerName).addJoyStick(x, y, radius, ease, size);
 		});
 
-		Lua_helper.add_callback(lua, 'removeJoyStick', function():Void
+		Lua_helper.add_callback(lua, 'addJoyStickCamera', function(managerName:String):Void
 		{
-			PlayState.instance.mobileManager.removeJoyStick();
+			PlayState.instance.customManagers.get(managerName).addJoyStickCamera();
 		});
 
-		Lua_helper.add_callback(lua, 'joyStickPressed', function(position:String):Bool
+		Lua_helper.add_callback(lua, 'removeJoyStick', function(managerName:String):Void
 		{
-			return PlayState.instance.mobileManager.joyStick.joyStickPressed(position);
+			PlayState.instance.customManagers.get(managerName).removeJoyStick();
 		});
 
-		Lua_helper.add_callback(lua, 'joyStickJustPressed', function(position:String):Bool
+		Lua_helper.add_callback(lua, 'joyStickPressed', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.mobileManager.joyStick.joyStickJustPressed(position);
+			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickPressed(position);
 		});
 
-		Lua_helper.add_callback(lua, 'joyStickJustReleased', function(position:String):Bool
+		Lua_helper.add_callback(lua, 'joyStickJustPressed', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.mobileManager.joyStick.joyStickJustReleased(position);
+			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustPressed(position);
 		});
 
-		//Use them for 8k charts or something
-		Lua_helper.add_callback(lua, 'hitboxPressed', function(hint:String):Bool
+		Lua_helper.add_callback(lua, 'joyStickJustReleased', function(managerName:String, position:String):Bool
 		{
-			return PlayState.checkHBoxPress(hint, 'pressed');
+			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustReleased(position);
 		});
 
-		Lua_helper.add_callback(lua, 'hitboxJustPressed', function(hint:String):Bool
+		//Hitbox
+		Lua_helper.add_callback(lua, "addHitbox", function(managerName:String, ?mode:String):Void
 		{
-			return PlayState.checkHBoxPress(hint, 'justPressed');
+			PlayState.instance.customManagers.get(managerName).addHitbox(mode);
 		});
 
-		Lua_helper.add_callback(lua, 'hitboxReleased', function(hint:String):Bool
+		Lua_helper.add_callback(lua, "addHitboxCamera", function(managerName:String):Void
 		{
-			return PlayState.checkHBoxPress(hint, 'released');
+			PlayState.instance.customManagers.get(managerName).addHitboxCamera();
 		});
 
-		Lua_helper.add_callback(lua, 'hitboxJustReleased', function(hint:String):Bool
+		Lua_helper.add_callback(lua, "removeHitbox", function(managerName:String):Void
 		{
-			return PlayState.checkHBoxPress(hint, 'justReleased');
+			PlayState.instance.customManagers.get(managerName).removeHitbox;
 		});
 
-		//OMG
-		Lua_helper.add_callback(lua, 'mobilePadPressed', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxPressed', function(managerName:String, hint:String):Bool
 		{
-			return PlayState.checkMPadPress(button, 'pressed');
+			return PlayState.checkHBoxPress(hint, 'pressed', managerName);
 		});
 
-		Lua_helper.add_callback(lua, 'mobilePadJustPressed', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxJustPressed', function(managerName:String, hint:String):Bool
 		{
-			return PlayState.checkMPadPress(button, 'justPressed');
+			return PlayState.checkHBoxPress(hint, 'justPressed', managerName);
 		});
 
-		Lua_helper.add_callback(lua, 'mobilePadReleased', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxReleased', function(managerName:String, hint:String):Bool
 		{
-			return PlayState.checkMPadPress(button, 'released');
+			return PlayState.checkHBoxPress(hint, 'released', managerName);
 		});
 
-		Lua_helper.add_callback(lua, 'mobilePadJustReleased', function(button:String):Bool
+		Lua_helper.add_callback(lua, 'hitboxJustReleased', function(managerName:String, hint:String):Bool
 		{
-			return PlayState.checkMPadPress(button, 'justReleased');
+			return PlayState.checkHBoxPress(hint, 'justReleased', managerName);
 		});
 
-		Lua_helper.add_callback(lua, 'addMobilePad', function(DPad:String, Action:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
+		//MobilePad
+		Lua_helper.add_callback(lua, 'addMobilePad', function(managerName:String, DPad:String, Action:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
 		{
-			PlayState.instance.makeLuaMobilePad(DPad, Action);
+			var manager = PlayState.instance.customManagers.get(managerName);
 			if (addToCustomSubstate)
 			{
-				if (PlayState.instance.luaMobilePad != null || !PlayState.instance.members.contains(PlayState.instance.luaMobilePad))
-					CustomSubstate.insertLuaMpad(posAtCustomSubstate);
+				manager.makeMobilePad(DPad, Action);
+				if (manager.mobilePad != null)
+					CustomSubstate.insertMobilePad(posAtCustomSubstate, managerName);
 			}
 			else
-				PlayState.instance.addLuaMobilePad();
+				manager.addMobilePad(DPad, Action);
 		});
 
-		Lua_helper.add_callback(lua, 'addMobilePadCamera', function():Void
+		Lua_helper.add_callback(lua, 'addMobilePadCamera', function(managerName:String):Void
 		{
-			PlayState.instance.addLuaMobilePadCamera();
+			PlayState.instance.customManagers.get(managerName).addMobilePadCamera();
 		});
 
-		Lua_helper.add_callback(lua, 'removeMobilePad', function():Void
+		Lua_helper.add_callback(lua, 'removeMobilePad', function(managerName:String):Void
 		{
-			PlayState.instance.removeLuaMobilePad();
+			PlayState.instance.customManagers.get(managerName).removeMobilePad();
 		});
 
-		Lua_helper.add_callback(lua, "setHitboxVisibilty", function(enabled:Bool = false):Void
+		Lua_helper.add_callback(lua, 'mobilePadPressed', function(managerName:String, button:String):Bool
 		{
-			MusicBeatState.getState().mobileManager.hitbox.visible = enabled;
+			return PlayState.checkMPadPress(button, 'pressed', managerName);
 		});
 
-		Lua_helper.add_callback(lua, "reloadHitbox", function(?mode:String):Void
+		Lua_helper.add_callback(lua, 'mobilePadJustPressed', function(managerName:String, button:String):Bool
+		{
+			return PlayState.checkMPadPress(button, 'justPressed', managerName);
+		});
+
+		Lua_helper.add_callback(lua, 'mobilePadReleased', function(managerName:String, button:String):Bool
+		{
+			return PlayState.checkMPadPress(button, 'released', managerName);
+		});
+
+		Lua_helper.add_callback(lua, 'mobilePadJustReleased', function(managerName:String, button:String):Bool
+		{
+			return PlayState.checkMPadPress(button, 'justReleased', managerName);
+		});
+
+		//Extra Things
+		Lua_helper.add_callback(lua, "setHitboxVisibilty", function(managerName:String, enabled:Bool = false):Void
+		{
+			PlayState.instance.customManagers.get(managerName).hitbox.visible = enabled;
+		});
+
+		Lua_helper.add_callback(lua, "reloadHitbox", function(managerName:String, ?mode:String):Void
 		{
 			if (mode == null && mode == '') mode = "NONE";
-			PlayState.instance.reloadPlayStateHitbox(mode);
-		});
-
-		Lua_helper.add_callback(lua, "addHitbox", function(?mode:String):Void
-		{
-			PlayState.instance.addPlayStateHitbox(mode);
-		});
-
-		Lua_helper.add_callback(lua, "removeHitbox", function():Void
-		{
-			PlayState.instance.removePlayStateHitbox();
+			PlayState.instance.reloadPlayStateHitbox(mode, managerName);
 		});
 		#end
 
