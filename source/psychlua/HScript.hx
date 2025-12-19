@@ -140,6 +140,123 @@ class HScript extends SScript
 
 		// For adding your own callbacks
 
+		//Mobile Control Shit
+		set('createNewMobileManager', function(name:String):Void
+		{
+			PlayState.instance.createNewManager(name);
+		});
+
+		//JoyStick
+		set('addJoyStick', function(managerName:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+		{
+			PlayState.instance.customManagers.get(managerName).addJoyStick(x, y, radius, ease, size);
+		});
+
+		set('addJoyStickCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
+		{
+			PlayState.instance.customManagers.get(managerName).addJoyStickCamera(defaultDrawTarget);
+		});
+
+		set('removeJoyStick', function(managerName:String):Void
+		{
+			PlayState.instance.customManagers.get(managerName).removeJoyStick();
+		});
+
+		set('joyStickPressed', function(managerName:String, position:String):Bool
+		{
+			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickPressed(position);
+		});
+
+		set('joyStickJustPressed', function(managerName:String, position:String):Bool
+		{
+			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustPressed(position);
+		});
+
+		set('joyStickJustReleased', function(managerName:String, position:String):Bool
+		{
+			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustReleased(position);
+		});
+
+		//Hitbox
+		set("addHitbox", function(managerName:String, ?mode:String, ?hints;Bool, ?defaultDrawTarget:Bool):Void
+		{
+			PlayState.instance.customManagers.get(managerName).addHitbox(mode, hints, defaultDrawTarget);
+		});
+
+		set("addHitboxCamera", function(managerName:String, defaultDrawTarget:Bool = false):Void
+		{
+			PlayState.instance.customManagers.get(managerName).addHitboxCamera(defaultDrawTarget);
+		});
+
+		set("removeHitbox", function(managerName:String):Void
+		{
+			PlayState.instance.customManagers.get(managerName).removeHitbox();
+		});
+
+		set('hitboxPressed', function(managerName:String, hint:String):Bool
+		{
+			return PlayState.checkHBoxPress(hint, 'pressed', managerName);
+		});
+
+		set('hitboxJustPressed', function(managerName:String, hint:String):Bool
+		{
+			return PlayState.checkHBoxPress(hint, 'justPressed', managerName);
+		});
+
+		set('hitboxReleased', function(managerName:String, hint:String):Bool
+		{
+			return PlayState.checkHBoxPress(hint, 'released', managerName);
+		});
+
+		set('hitboxJustReleased', function(managerName:String, hint:String):Bool
+		{
+			return PlayState.checkHBoxPress(hint, 'justReleased', managerName);
+		});
+
+		//MobilePad
+		set('addMobilePad', function(managerName:String, DPad:String, Action:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
+		{
+			var manager = PlayState.instance.customManagers.get(managerName);
+			if (addToCustomSubstate)
+			{
+				manager.makeMobilePad(DPad, Action);
+				if (manager.mobilePad != null)
+					CustomSubstate.insertMobilePad(posAtCustomSubstate, managerName);
+			}
+			else
+				manager.addMobilePad(DPad, Action);
+		});
+
+		set('addMobilePadCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
+		{
+			PlayState.instance.customManagers.get(managerName).addMobilePadCamera(defaultDrawTarget);
+		});
+
+		set('removeMobilePad', function(managerName:String):Void
+		{
+			PlayState.instance.customManagers.get(managerName).removeMobilePad();
+		});
+
+		set('mobilePadPressed', function(managerName:String, button:String):Bool
+		{
+			return PlayState.checkMPadPress(button, 'pressed', managerName);
+		});
+
+		set('mobilePadJustPressed', function(managerName:String, button:String):Bool
+		{
+			return PlayState.checkMPadPress(button, 'justPressed', managerName);
+		});
+
+		set('mobilePadReleased', function(managerName:String, button:String):Bool
+		{
+			return PlayState.checkMPadPress(button, 'released', managerName);
+		});
+
+		set('mobilePadJustReleased', function(managerName:String, button:String):Bool
+		{
+			return PlayState.checkMPadPress(button, 'justReleased', managerName);
+		});
+
 		// not very tested but should work
 		set('createGlobalCallback', function(name:String, func:Dynamic)
 		{

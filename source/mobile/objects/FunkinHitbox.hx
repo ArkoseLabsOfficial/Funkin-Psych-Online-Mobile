@@ -8,6 +8,7 @@ import flixel.util.FlxColor;
 import objects.Note;
 
 class FunkinHitbox extends Hitbox {
+	public var currentMode:String;
 	public function new(?mode:String, ?globalAlpha:Float = 0.7):Void
 	{
 		super(mode, globalAlpha, true); //true means mobile-controls's hitbox creation is disabled
@@ -112,14 +113,13 @@ class FunkinHitbox extends Hitbox {
 				   ClientPrefs.data.extraKeys == 1 && buttonData.extraKeyMode == 1 ||
 				   ClientPrefs.data.extraKeys == 2 && buttonData.extraKeyMode == 2 ||
 				   ClientPrefs.data.extraKeys == 3 && buttonData.extraKeyMode == 3 ||
-				   ClientPrefs.data.extraKeys == 4 && buttonData.extraKeyMode == 4)
+				   ClientPrefs.data.extraKeys == 4 && buttonData.extraKeyMode == 4 ||
+				   buttonData.extraKeyMode == null)
 				{
 					addButton = true;
 				}
-				else if(buttonData.extraKeyMode == null)
-					addButton = true;
 
-				for (i in 1...9) {
+				for (i in 1...5) {
 					var buttonString = 'buttonExtra${i}';
 					if (buttonData.button == buttonString && buttonReturn == null)
 						buttonReturn = Reflect.getProperty(ClientPrefs.data, 'extraKeyReturn${i}');
@@ -128,6 +128,7 @@ class FunkinHitbox extends Hitbox {
 					addHint(buttonName, buttonIDs, buttonUniqueID, buttonX, buttonY, buttonWidth, buttonHeight, Util.colorFromString(buttonColor), buttonReturn);
 			}
 		}
+		currentMode = mode;
 
 		scrollFactor.set();
 		updateTrackedButtons();
@@ -177,7 +178,7 @@ class FunkinHitbox extends Hitbox {
 	{
 		var hint:MobileButton = new MobileButton(x, y, returned);
 		hint.loadGraphic(createHintGraphic(width, height, color));
-		var VSliceAllowed:Bool = (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55);
+		var VSliceAllowed:Bool = (currentMode == 'V Slice' && Note.maniaKeys != 20 && Note.maniaKeys != 55);
 
 		if (ClientPrefs.data.hitboxhint && !VSliceAllowed) {
 			var doHeightFix:Bool = false;

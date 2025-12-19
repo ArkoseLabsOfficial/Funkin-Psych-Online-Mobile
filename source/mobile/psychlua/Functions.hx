@@ -23,9 +23,9 @@ class MobileFunctions
 			PlayState.instance.customManagers.get(managerName).addJoyStick(x, y, radius, ease, size);
 		});
 
-		Lua_helper.add_callback(lua, 'addJoyStickCamera', function(managerName:String):Void
+		Lua_helper.add_callback(lua, 'addJoyStickCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addJoyStickCamera();
+			PlayState.instance.customManagers.get(managerName).addJoyStickCamera(defaultDrawTarget);
 		});
 
 		Lua_helper.add_callback(lua, 'removeJoyStick', function(managerName:String):Void
@@ -49,14 +49,14 @@ class MobileFunctions
 		});
 
 		//Hitbox
-		Lua_helper.add_callback(lua, "addHitbox", function(managerName:String, ?mode:String):Void
+		Lua_helper.add_callback(lua, "addHitbox", function(managerName:String, ?mode:String, ?hints;Bool, ?defaultDrawTarget:Bool):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addHitbox(mode);
+			PlayState.instance.customManagers.get(managerName).addHitbox(mode, hints, defaultDrawTarget);
 		});
 
-		Lua_helper.add_callback(lua, "addHitboxCamera", function(managerName:String):Void
+		Lua_helper.add_callback(lua, "addHitboxCamera", function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addHitboxCamera();
+			PlayState.instance.customManagers.get(managerName).addHitboxCamera(defaultDrawTarget);
 		});
 
 		Lua_helper.add_callback(lua, "removeHitbox", function(managerName:String):Void
@@ -98,9 +98,9 @@ class MobileFunctions
 				manager.addMobilePad(DPad, Action);
 		});
 
-		Lua_helper.add_callback(lua, 'addMobilePadCamera', function(managerName:String):Void
+		Lua_helper.add_callback(lua, 'addMobilePadCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addMobilePadCamera();
+			PlayState.instance.customManagers.get(managerName).addMobilePadCamera(defaultDrawTarget);
 		});
 
 		Lua_helper.add_callback(lua, 'removeMobilePad', function(managerName:String):Void
