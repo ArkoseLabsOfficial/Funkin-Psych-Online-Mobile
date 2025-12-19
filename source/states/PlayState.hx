@@ -1994,8 +1994,8 @@ class PlayState extends MusicBeatState
 			// if(ClientPrefs.data.middleScroll) opponentStrums.members[i].visible = false;
 		}
 
-		addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
-		addMobilePadCamera();
+		mobileManager.addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
+		mobileManager.addMobilePadCamera();
 		addPlayStateHitbox();
 		if (ClientPrefs.data.VSliceControl && Note.maniaKeys != 20 && Note.maniaKeys != 55) enableVSliceControls();
 	}
@@ -6639,7 +6639,7 @@ class PlayState extends MusicBeatState
 
 	public function addPlayStateHitbox(?mode:String)
 	{
-		addHitbox(mode);
+		mobileManager.addHitbox(mode);
 		if (replayData == null && !cpuControlled) {
 			hitbox?.onButtonDown?.add(onButtonPress);
 			hitbox?.onButtonUp?.add(onButtonRelease);
@@ -6665,7 +6665,7 @@ class PlayState extends MusicBeatState
 		{
 			button.deadZones = [];
 		});
-		removeHitbox();
+		mobileManager.removeHitbox();
 	}
 }
 

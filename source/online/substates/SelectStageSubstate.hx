@@ -77,7 +77,7 @@ class SelectStageSubstate extends MusicBeatSubstate {
         }
 
         coolCam.setScrollBounds(FlxG.width, FlxG.width, 0, endScrollY > FlxG.height ? endScrollY : FlxG.height);
-		addMobilePad('NONE', 'B');
+		managerMobile.addMobilePad('NONE', 'B');
         controls.isInSubstate = true;
     }
 

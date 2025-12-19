@@ -100,8 +100,8 @@ class SetupModsState extends MusicBeatState {
 
 		changeSelection(0);
 
-		addMobilePad('UP_DOWN', 'A_B_C');
-		addMobilePadCamera();
+		managerMobile.addMobilePad('UP_DOWN', 'A_B_C');
+		managerMobile.addMobilePadCamera();
 	}
 
 	override function update(elapsed:Float) {

@@ -70,7 +70,7 @@ class MenuCharacterEditorState extends MusicBeatState
 		FlxG.mouse.visible = true;
 		updateCharTypeBox();
 		
-		addMobilePad("MENU_CHARACTER", "MENU_CHARACTER");
+		managerMobile.addMobilePad("MENU_CHARACTER", "MENU_CHARACTER");
 
 		super.create();
 	}

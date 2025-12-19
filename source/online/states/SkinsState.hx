@@ -430,8 +430,8 @@ class SkinsState extends MusicBeatState {
 		
 		CustomFadeTransition.nextCamera = hud; // wat
 
-		addMobilePad('FULL', 'A_B_C_D_V_X_Y_Z');
-		addMobilePadCamera();
+		managerMobile.addMobilePad('FULL', 'A_B_C_D_V_X_Y_Z');
+		managerMobile.addMobilePadCamera();
 
 		GameClient.send("status", "Selects their skin");
     }
@@ -513,7 +513,7 @@ class SkinsState extends MusicBeatState {
 				if (selectTimer != null)
 					selectTimer.active = true;
 				setCharacter(i - curCharacter);
-				removeMobilePad();
+				managerMobile.removeMobilePad();
 				return true;
 			}, (i, leText) -> {
 				Mods.currentModDirectory = charactersMod.get(charactersName[i]);
@@ -675,9 +675,9 @@ class SkinsState extends MusicBeatState {
 
 		super.closeSubState();
 		if (mobilePad != null)
-			removeMobilePad();
-		addMobilePad('FULL', 'A_B_C_D_V_X_Y_Z');
-		addMobilePadCamera();
+			managerMobile.removeMobilePad();
+		managerMobile.addMobilePad('FULL', 'A_B_C_D_V_X_Y_Z');
+		managerMobile.addMobilePadCamera();
 	}
 
 	override function destroy() {

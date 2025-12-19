@@ -80,8 +80,8 @@ class SoFunkinSubstate extends MusicBeatSubstate {
 
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 
-		addMobilePad("FULL", "A_B_S");
-		addMobilePadCamera();
+		managerMobile.addMobilePad("FULL", "A_B_S");
+		managerMobile.addMobilePadCamera();
 
 		super.create();
 	}

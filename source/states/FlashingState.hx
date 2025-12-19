@@ -32,7 +32,7 @@ class FlashingState extends MusicBeatState
 		warnText.screenCenter(Y);
 		add(warnText);
 
-		addMobilePad('NONE', 'A_B');
+		managerMobile.addMobilePad('NONE', 'A_B');
 	}
 
 	override function update(elapsed:Float)

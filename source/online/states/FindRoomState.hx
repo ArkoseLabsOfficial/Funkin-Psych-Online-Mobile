@@ -72,7 +72,7 @@ class FindRoomState extends MusicBeatState {
 		emptyMessage.visible = false;
 		add(emptyMessage);
 
-		addMobilePad('UP_DOWN', 'B_C');
+		managerMobile.addMobilePad('UP_DOWN', 'B_C');
     }
 
     override function update(elapsed) {

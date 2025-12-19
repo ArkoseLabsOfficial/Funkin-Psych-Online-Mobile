@@ -179,7 +179,7 @@ class NotesSubState extends MusicBeatSubstate
 		controllerPointer.visible = controls.controllerMode;
 		_lastControllerMode = controls.controllerMode;
 
-		addMobilePad('NONE', 'B_C');
+		managerMobile.addMobilePad('NONE', 'B_C');
 		controls.isInSubstate = true;
 		mobileManager.mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
 		mobileManager.mobilePad.getButtonFromName('buttonC').x = 0;
@@ -201,10 +201,10 @@ class NotesSubState extends MusicBeatSubstate
 		NUMPADSEVEN => '7', NUMPADEIGHT => '8', NUMPADNINE => '9', A => 'A', B => 'B', C => 'C', D => 'D', E => 'E', F => 'F'];
 
 	override function closeSubState() {
-		removeMobilePad();
+		managerMobile.removeMobilePad();
 		super.closeSubState();
-		addMobilePad('NONE', 'B_C');
-		addMobilePadCamera();
+		managerMobile.addMobilePad('NONE', 'B_C');
+		managerMobile.addMobilePadCamera();
 		controls.isInSubstate = true;
 		mobileManager.mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
 		mobileManager.mobilePad.getButtonFromName('buttonC').x = 0;

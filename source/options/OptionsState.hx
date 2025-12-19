@@ -18,7 +18,7 @@ class OptionsState extends MusicBeatState
 
 	function openSelectedSubstate(label:String) {
 		if (label != "Adjust Delay and Combo"){
-			removeMobilePad();
+			managerMobile.removeMobilePad();
 			persistentUpdate = false;
 		}
 		switch(label) {
@@ -84,7 +84,7 @@ class OptionsState extends MusicBeatState
 
 		super.create();
 
-		addMobilePad("UP_DOWN", "A_B_E");
+		managerMobile.addMobilePad("UP_DOWN", "A_B_E");
 
 		online.GameClient.send("status", "In the Game Options");
 	}
@@ -94,8 +94,8 @@ class OptionsState extends MusicBeatState
 		FlxG.mouse.visible = true;
 		ClientPrefs.saveSettings();
 		controls.isInSubstate = false;
-		removeMobilePad();
-		addMobilePad('UP_DOWN', 'A_B_E');
+		managerMobile.removeMobilePad();
+		managerMobile.addMobilePad('UP_DOWN', 'A_B_E');
 		persistentUpdate = true;
 	}
 

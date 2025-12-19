@@ -188,7 +188,7 @@ class NoteSplashDebugState extends MusicBeatState
 		loadFrames();
 		changeSelection();
 		super.create();
-		addMobilePad("NOTE_SPLASH_DEBUG", "NOTE_SPLASH_DEBUG");
+		managerMobile.addMobilePad("NOTE_SPLASH_DEBUG", "NOTE_SPLASH_DEBUG");
 		FlxG.mouse.visible = true;
 	}
 

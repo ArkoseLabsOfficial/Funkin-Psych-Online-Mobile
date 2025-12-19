@@ -414,7 +414,7 @@ class ChartingState extends MusicBeatState
 
 		updateGrid();
 
-		addMobilePad("CHART_EDITOR", "CHART_EDITOR");
+		managerMobile.addMobilePad("CHART_EDITOR", "CHART_EDITOR");
 
 		super.create();
 	}

@@ -178,8 +178,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 			MusicBeatState.getState().mobileManager.mobilePad.visible = false;
 		}
 
-		addMobilePad('FULL', 'A_B_C');
-		addMobilePadCamera();
+		managerMobile.addMobilePad('FULL', 'A_B_C');
+		managerMobile.addMobilePadCamera();
 	}
 
 	function receiveChange(_:Dynamic, __:Dynamic) {

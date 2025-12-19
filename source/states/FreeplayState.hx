@@ -625,8 +625,8 @@ class FreeplayState extends MusicBeatState
 		updateTexts();
 		searchString = searchString;
 
-		addMobilePad('FULL', (GameClient.isConnected()) ? 'FREEPLAY_ONLINE' : 'FREEPLAY');
-		addMobilePadCamera();
+		managerMobile.addMobilePad('FULL', (GameClient.isConnected()) ? 'FREEPLAY_ONLINE' : 'FREEPLAY');
+		managerMobile.addMobilePadCamera();
 
 		super.create();
 
@@ -770,9 +770,9 @@ class FreeplayState extends MusicBeatState
 
 		super.closeSubState();
 		mobileManager.mobilePad.visible = true;
-		removeMobilePad();
-		addMobilePad('FULL', (GameClient.isConnected()) ? 'FREEPLAY_ONLINE' : 'FREEPLAY');
-		addMobilePadCamera();
+		managerMobile.removeMobilePad();
+		managerMobile.addMobilePad('FULL', (GameClient.isConnected()) ? 'FREEPLAY_ONLINE' : 'FREEPLAY');
+		managerMobile.addMobilePadCamera();
 	}
 
 	function setDiffVisibility(value:Bool) {

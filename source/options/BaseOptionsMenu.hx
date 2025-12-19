@@ -99,8 +99,8 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		changeSelection();
 		reloadCheckboxes();
 
-		addMobilePad("FULL", "A_B_C");
-		addMobilePadCamera();
+		managerMobile.addMobilePad("FULL", "A_B_C");
+		managerMobile.addMobilePadCamera();
 	}
 
 	public function addOption(option:Option) {

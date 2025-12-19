@@ -147,7 +147,7 @@ class EditorPlayState extends MusicBeatSubstate
 		add(tipText);
 		FlxG.mouse.visible = false;
 
-		addHitbox();
+		mobileManager.addHitbox();
 		mobileManager.hitbox.visible = true;
 		mobileManager.hitbox.onButtonDown.add(onButtonPress);
 		mobileManager.hitbox.onButtonUp.add(onButtonRelease);
@@ -163,8 +163,8 @@ class EditorPlayState extends MusicBeatSubstate
 		#end
 
 		#if !android
-		addMobilePad("NONE", "P");
-		addMobilePadCamera();
+		managerMobile.addMobilePad("NONE", "P");
+		managerMobile.addMobilePadCamera();
 		#end
 
 		RecalculateRating();

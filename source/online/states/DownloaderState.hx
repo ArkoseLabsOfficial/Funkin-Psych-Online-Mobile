@@ -131,7 +131,7 @@ class DownloaderState extends MusicBeatState {
 
 		loadNextPage(true);
 
-		addMobilePad('LEFT_RIGHT', 'B');
+		managerMobile.addMobilePad('LEFT_RIGHT', 'B');
 	}
 
 	function loadNextPage(?value:Int = 0, ?newSearch:Bool = false) {
