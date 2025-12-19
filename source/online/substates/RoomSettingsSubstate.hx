@@ -201,8 +201,8 @@ class RoomSettingsSubstate extends MusicBeatSubstate {
 
 		GameClient.send("status", "In the Room Settings");
 
-		managerMobile.addMobilePad('NONE', 'B');
-		managerMobile.addMobilePadCamera();
+		mobileManager.addMobilePad('NONE', 'B');
+		mobileManager.addMobilePadCamera();
 		controls.isInSubstate = true;
 	}
 

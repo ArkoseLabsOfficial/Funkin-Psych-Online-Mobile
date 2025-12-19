@@ -85,7 +85,7 @@ class ControlsSubState extends MusicBeatSubstate
 		add(text);
 
 		createTexts();
-		managerMobile.addMobilePad('NONE', 'B');
+		mobileManager.addMobilePad('NONE', 'B');
 	}
 
 	var lastID:Int = 0;

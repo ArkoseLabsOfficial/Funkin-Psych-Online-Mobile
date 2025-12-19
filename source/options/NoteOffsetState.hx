@@ -653,18 +653,18 @@ class NoteOffsetState extends MusicBeatState
 			controllerPointer.visible = controls.controllerMode;
 		}
 
-		managerMobile.removeMobilePad();
+		mobileManager.removeMobilePad();
 
 		var str:String;
 		var str2:String;
 		if(onComboMenu) {
 			str = 'Combo Offset';
-			managerMobile.addMobilePad('NONE', 'A_B_C');
-			managerMobile.addMobilePadCamera();
+			mobileManager.addMobilePad('NONE', 'A_B_C');
+			mobileManager.addMobilePadCamera();
 		} else {
 			str = 'Note/Beat Delay';
-			managerMobile.addMobilePad('FULL', 'A_B_C');
-			managerMobile.addMobilePadCamera();
+			mobileManager.addMobilePad('FULL', 'A_B_C');
+			mobileManager.addMobilePadCamera();
 		}
 
 		if(controls.mobileControls)

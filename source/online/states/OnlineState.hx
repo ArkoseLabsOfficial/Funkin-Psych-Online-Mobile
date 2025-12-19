@@ -299,7 +299,7 @@ class OnlineState extends MusicBeatState {
 
 		FlxG.mouse.visible = true;
 
-		managerMobile.addMobilePad('NONE', 'B');
+		mobileManager.addMobilePad('NONE', 'B');
 	}
 
 	override function destroy() {

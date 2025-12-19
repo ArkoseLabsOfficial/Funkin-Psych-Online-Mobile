@@ -210,8 +210,8 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		add(new online.objects.DebugPosHelper());
 
-		managerMobile.addMobilePad('NONE', 'A_B');
-		managerMobile.addMobilePadCamera();
+		mobileManager.addMobilePad('NONE', 'A_B');
+		mobileManager.addMobilePadCamera();
 	}
 
 	public var startedDeath:Bool = false;

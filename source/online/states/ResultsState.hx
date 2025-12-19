@@ -574,8 +574,8 @@ class ResultsState extends MusicBeatState {
 		debugPoser.cameras = [camHUD];
 		add(debugPoser);
 
-		managerMobile.addMobilePad('NONE', 'B_C_T');
-		managerMobile.addMobilePadCamera();
+		mobileManager.addMobilePad('NONE', 'B_C_T');
+		mobileManager.addMobilePadCamera();
 	}
 
 	function registerMessages() {

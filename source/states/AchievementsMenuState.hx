@@ -120,7 +120,7 @@ class AchievementsMenuState extends MusicBeatState
 		add(nameText);
 		
 		_changeSelection();
-		managerMobile.addMobilePad("FULL", "A_B_C");
+		mobileManager.addMobilePad("FULL", "A_B_C");
 		super.create();
 		
 		FlxG.camera.follow(camFollow, null, 0.15);
@@ -255,8 +255,8 @@ class AchievementsMenuState extends MusicBeatState
 	override function closeSubState() {
 		persistentUpdate = true;
 		controls.isInSubstate = false;
-		managerMobile.removeMobilePad();
-		managerMobile.addMobilePad("FULL", "A_B_C");
+		mobileManager.removeMobilePad();
+		mobileManager.addMobilePad("FULL", "A_B_C");
 		super.closeSubState();
 	}
 }
@@ -302,7 +302,7 @@ class ResetAchievementSubstate extends MusicBeatSubstate
 		add(noText);
 		updateOptions();
 
-		managerMobile.addMobilePad('LEFT_RIGHT', 'A_B');
+		mobileManager.addMobilePad('LEFT_RIGHT', 'A_B');
 	}
 
 	override function update(elapsed:Float)

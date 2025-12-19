@@ -179,7 +179,7 @@ class MainMenuState extends MusicBeatState
 			online.backend.DateEvent.isHalloween = true;
 		}
 
-		managerMobile.addMobilePad("UP_DOWN", "A_B_E");
+		mobileManager.addMobilePad("UP_DOWN", "A_B_E");
 
 		super.create();
 	}

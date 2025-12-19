@@ -98,7 +98,7 @@ class DialogueEditorState extends MusicBeatState
 		daText.setScale(0.7);
 		add(daText);
 		changeText();
-		managerMobile.addMobilePad("FULL", "A_B_X_Y");
+		mobileManager.addMobilePad("FULL", "A_B_X_Y");
 		super.create();
 	}
 

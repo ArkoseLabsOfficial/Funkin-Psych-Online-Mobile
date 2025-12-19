@@ -6641,10 +6641,10 @@ class PlayState extends MusicBeatState
 	{
 		mobileManager.addHitbox(mode);
 		if (replayData == null && !cpuControlled) {
-			hitbox?.onButtonDown?.add(onButtonPress);
-			hitbox?.onButtonUp?.add(onButtonRelease);
-			hitbox?.onButtonDown?.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder?.recordKeyMobileC(Conductor?.songPosition, ids, 0));
-			hitbox?.onButtonUp?.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder?.recordKeyMobileC(Conductor?.songPosition, ids, 1));
+			mobileManager.hitbox?.onButtonDown?.add(onButtonPress);
+			mobileManager.hitbox?.onButtonUp?.add(onButtonRelease);
+			mobileManager.hitbox?.onButtonDown?.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder?.recordKeyMobileC(Conductor?.songPosition, ids, 0));
+			mobileManager.hitbox?.onButtonUp?.add((button:MobileButton, ids:Array<String>, unique:Int) -> replayRecorder?.recordKeyMobileC(Conductor?.songPosition, ids, 1));
 		} else {
 			mobileManager.hitbox.visible = false;
 		}

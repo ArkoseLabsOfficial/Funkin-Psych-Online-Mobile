@@ -163,8 +163,8 @@ class EditorPlayState extends MusicBeatSubstate
 		#end
 
 		#if !android
-		managerMobile.addMobilePad("NONE", "P");
-		managerMobile.addMobilePadCamera();
+		mobileManager.addMobilePad("NONE", "P");
+		mobileManager.addMobilePadCamera();
 		#end
 
 		RecalculateRating();

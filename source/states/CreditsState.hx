@@ -134,7 +134,7 @@ class CreditsState extends MusicBeatState
 		bg.color = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		intendedColor = bg.color;
 		changeSelection();
-		managerMobile.addMobilePad('UP_DOWN', 'A_B');
+		mobileManager.addMobilePad('UP_DOWN', 'A_B');
 		super.create();
 	}
 

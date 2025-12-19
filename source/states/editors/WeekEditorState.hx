@@ -110,7 +110,7 @@ class WeekEditorState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
-		managerMobile.addMobilePad("UP_DOWN", "B");
+		mobileManager.addMobilePad("UP_DOWN", "B");
 
 		super.create();
 	}
@@ -623,7 +623,7 @@ class WeekEditorFreeplayState extends MusicBeatState
 
 		addEditorBox();
 		changeSelection();
-		managerMobile.addMobilePad("UP_DOWN", "B");
+		mobileManager.addMobilePad("UP_DOWN", "B");
 		super.create();
 	}
 	

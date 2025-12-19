@@ -25,7 +25,7 @@ class OutdatedState extends MusicBeatState
 		warnText.screenCenter(Y);
 		add(warnText);
 
-		managerMobile.addMobilePad('NONE', 'A_B');
+		mobileManager.addMobilePad('NONE', 'A_B');
 	}
 
 	override function update(elapsed:Float)

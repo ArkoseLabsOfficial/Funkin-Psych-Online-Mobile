@@ -489,8 +489,8 @@ class RoomState extends MusicBeatState #if interpret implements interpret.Interp
 
 		GameClient.send("status", "In the Lobby");
 
-		managerMobile.addMobilePad('FULL', 'B_C_Y_T_M');
-		managerMobile.addMobilePadCamera();
+		mobileManager.addMobilePad('FULL', 'B_C_Y_T_M');
+		mobileManager.addMobilePadCamera();
 		mobileManager.mobilePad.y -= 300;
 
 		registerMessages();

@@ -14,32 +14,32 @@ class MobileFunctions
 
 		Lua_helper.add_callback(lua, 'addJoyStick', function(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 		{
-			PlayState.instance.addJoyStick(x, y, radius, ease, size);
+			PlayState.instance.mobileManager.addJoyStick(x, y, radius, ease, size);
 		});
 
 		Lua_helper.add_callback(lua, 'addJoyStickCamera', function():Void
 		{
-			PlayState.instance.addJoyStickCamera();
+			PlayState.instance.mobileManager.addJoyStickCamera();
 		});
 
 		Lua_helper.add_callback(lua, 'removeJoyStick', function():Void
 		{
-			PlayState.instance.removeJoyStick();
+			PlayState.instance.mobileManager.removeJoyStick();
 		});
 
 		Lua_helper.add_callback(lua, 'joyStickPressed', function(position:String):Bool
 		{
-			return PlayState.instance.joyStick.joyStickPressed(position);
+			return PlayState.instance.mobileManager.joyStick.joyStickPressed(position);
 		});
 
 		Lua_helper.add_callback(lua, 'joyStickJustPressed', function(position:String):Bool
 		{
-			return PlayState.instance.joyStick.joyStickJustPressed(position);
+			return PlayState.instance.mobileManager.joyStick.joyStickJustPressed(position);
 		});
 
 		Lua_helper.add_callback(lua, 'joyStickJustReleased', function(position:String):Bool
 		{
-			return PlayState.instance.joyStick.joyStickJustReleased(position);
+			return PlayState.instance.mobileManager.joyStick.joyStickJustReleased(position);
 		});
 
 		//Use them for 8k charts or something

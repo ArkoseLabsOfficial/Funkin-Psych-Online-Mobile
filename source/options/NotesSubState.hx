@@ -179,7 +179,7 @@ class NotesSubState extends MusicBeatSubstate
 		controllerPointer.visible = controls.controllerMode;
 		_lastControllerMode = controls.controllerMode;
 
-		managerMobile.addMobilePad('NONE', 'B_C');
+		mobileManager.addMobilePad('NONE', 'B_C');
 		controls.isInSubstate = true;
 		mobileManager.mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
 		mobileManager.mobilePad.getButtonFromName('buttonC').x = 0;
@@ -201,10 +201,10 @@ class NotesSubState extends MusicBeatSubstate
 		NUMPADSEVEN => '7', NUMPADEIGHT => '8', NUMPADNINE => '9', A => 'A', B => 'B', C => 'C', D => 'D', E => 'E', F => 'F'];
 
 	override function closeSubState() {
-		managerMobile.removeMobilePad();
+		mobileManager.removeMobilePad();
 		super.closeSubState();
-		managerMobile.addMobilePad('NONE', 'B_C');
-		managerMobile.addMobilePadCamera();
+		mobileManager.addMobilePad('NONE', 'B_C');
+		mobileManager.addMobilePadCamera();
 		controls.isInSubstate = true;
 		mobileManager.mobilePad.getButtonFromName('buttonB').x = FlxG.width - 132;
 		mobileManager.mobilePad.getButtonFromName('buttonC').x = 0;
@@ -212,7 +212,7 @@ class NotesSubState extends MusicBeatSubstate
 	}
 
 	override function update(elapsed:Float) {
-		if (controls.BACK || mobilePad?.getButtonFromName('buttonB')?.justPressed) {
+		if (controls.BACK || mobileManager.mobilePad?.getButtonFromName('buttonB')?.justPressed) {
 			if (GameClient.isConnected()) {
 				GameClient.send('updateArrColors', ClientPrefs.getArrowRGBCompleteMaps());
 			}
