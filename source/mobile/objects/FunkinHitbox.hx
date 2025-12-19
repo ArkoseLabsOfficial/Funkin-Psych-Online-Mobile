@@ -27,9 +27,9 @@ class FunkinHitbox extends Hitbox {
 		}
 		else
 		{
-			var Custom:String = (mode != null || mode != 'NONE') ? mode : ClientPrefs.data.hitboxmode;
+			var Custom:String = mode != null ? mode : ClientPrefs.data.hitboxmode;
 			if (!MobileConfig.hitboxModes.exists(Custom))
-				throw 'The Custom Hitbox File doesn\'t exists.';
+				throw 'The ${Custom} Hitbox File doesn\'t exists.';
 
 			var currentHint = MobileConfig.hitboxModes.get(Custom).hints;
 			if (MobileConfig.hitboxModes.get(Custom).none != null)

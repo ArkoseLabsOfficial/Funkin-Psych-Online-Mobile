@@ -1087,10 +1087,6 @@ class PlayState extends MusicBeatState
 			uiGroup.cameras = [camHUD];
 			noteGroup.cameras = [camHUD];
 			comboGroup.cameras = [camHUD];
-
-			mobileManager.addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE', (GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
-			mobileManager.addMobilePadCamera();
-			addPlayStateHitbox();
 		});
 
 		preloadTasks.push(() -> {
@@ -1469,6 +1465,11 @@ class PlayState extends MusicBeatState
 		loaderGroup.add(asyncLoop);
 
 		orderOffset = 2;
+
+		mobileManager.addMobilePad((replayData != null || cpuControlled) ? 'LEFT_RIGHT' : 'NONE',
+										(GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
+		mobileManager.addMobilePadCamera();
+		addPlayStateHitbox();
 
 		super.create();
 	}
