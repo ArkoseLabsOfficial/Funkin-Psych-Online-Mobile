@@ -49,7 +49,7 @@ class MobileFunctions
 		});
 
 		//Hitbox
-		Lua_helper.add_callback(lua, "addHitbox", function(managerName:String, ?mode:String, ?hints;Bool, ?defaultDrawTarget:Bool):Void
+		Lua_helper.add_callback(lua, "addHitbox", function(managerName:String, ?mode:String, ?hints:Bool, ?defaultDrawTarget:Bool):Void
 		{
 			PlayState.instance.customManagers.get(managerName).addHitbox(mode, hints, defaultDrawTarget);
 		});

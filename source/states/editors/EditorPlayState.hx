@@ -148,6 +148,7 @@ class EditorPlayState extends MusicBeatSubstate
 		FlxG.mouse.visible = false;
 
 		mobileManager.addHitbox();
+		mobileManager.addHitboxCamera();
 		mobileManager.hitbox.visible = true;
 		mobileManager.hitbox.onButtonDown.add(onButtonPress);
 		mobileManager.hitbox.onButtonUp.add(onButtonRelease);

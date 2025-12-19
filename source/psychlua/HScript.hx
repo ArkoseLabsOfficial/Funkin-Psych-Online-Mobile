@@ -178,7 +178,7 @@ class HScript extends SScript
 		});
 
 		//Hitbox
-		set("addHitbox", function(managerName:String, ?mode:String, ?hints;Bool, ?defaultDrawTarget:Bool):Void
+		set("addHitbox", function(managerName:String, ?mode:String, ?hints:Bool, ?defaultDrawTarget:Bool):Void
 		{
 			PlayState.instance.customManagers.get(managerName).addHitbox(mode, hints, defaultDrawTarget);
 		});
