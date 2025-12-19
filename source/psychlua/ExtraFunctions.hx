@@ -340,7 +340,7 @@ class ExtraFunctions
 
 		//Custom return thing
 		if (MusicBeatState.getState().mobileManager.hitbox != null) {
-			var hitbox:Dynamic = MusicBeatState.getState().mobileManager.hitbox;
+			var hitbox:FunkinHitbox = MusicBeatState.getState().mobileManager.hitbox;
 			for (num in hitbox.hints.length+1) {
 				var hitboxButton:Dynamic = hitbox.hints[num];
 				if (key.toUpperCase() == hitboxButton.returnedKey)
@@ -350,7 +350,7 @@ class ExtraFunctions
 		}
 
 		if (MusicBeatState.getState().mobileManager.mobilePad != null) {
-			var mobilePad:Dynamic = MusicBeatState.getState().mobileManager.mobilePad;
+			var mobilePad:FunkinMobilePad = MusicBeatState.getState().mobileManager.mobilePad;
 			for (num in mobilePad.dpads.length+1) {
 				var mobilePadButton:Dynamic = mobilePad.dpads[num];
 				if (key.toUpperCase() == mobilePadButton.returnedKey)
