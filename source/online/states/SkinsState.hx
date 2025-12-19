@@ -674,7 +674,7 @@ class SkinsState extends MusicBeatState {
 		persistentUpdate = true;
 
 		super.closeSubState();
-		if (mobilePad != null)
+		if (mobileManager.mobilePad != null)
 			mobileManager.removeMobilePad();
 		mobileManager.addMobilePad('FULL', 'A_B_C_D_V_X_Y_Z');
 		mobileManager.addMobilePadCamera();
