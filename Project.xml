@@ -131,6 +131,7 @@
 	<haxelib name="extension-androidtools" if="legacy_lime"/>
 	<haxelib name="mobile-controls"/>
 	<haxedef name="mobile_controls_file_support"/>
+	<haxedef name="mobile_controls_allow_mouse_clicks"/>
 
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED" />
