@@ -259,8 +259,8 @@ class ReplayRecorder extends FlxBasic {
 		var directions = ["note_left", "note_down", "note_up", "note_right"];
 		var dirName = directions[noteData];
 
-		inputs.push([time, dirName, 0]);
-		inputs.push([time + holdTime, dirName, 1]);
+		data.inputs.push([time, dirName, 0]);
+		data.inputs.push([time + holdTime, dirName, 1]);
 	}
 
 	public function save():Float {

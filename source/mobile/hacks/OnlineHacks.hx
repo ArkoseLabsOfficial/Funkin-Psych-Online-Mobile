@@ -1,4 +1,4 @@
-package mobile.online;
+package mobile.hacks;
 
 import openfl.display.Sprite;
 import openfl.display.Shape;
