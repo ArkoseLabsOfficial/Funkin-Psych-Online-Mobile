@@ -145,7 +145,7 @@ class HScript extends SScript
 		{
 			PlayState.instance.createNewManager(name);
 		});
-		set('getMobileManager', function(name:String):Void
+		set('getMobileManager', function(name:String)
 		{
 			return PlayState.instance.customManagers.get(name);
 		});
