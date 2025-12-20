@@ -6589,7 +6589,7 @@ class PlayState extends MusicBeatState
 	public static inline function checkManager(managerName:String):MobileControlManager {
 		if (managerName == null || managerName == '') {
 			instance.lastGettedManagerName = 'default';
-			instance.lastGettedManager MusicBeatState.getState().mobileManager;
+			instance.lastGettedManager = MusicBeatState.getState().mobileManager;
 		}
 		else if (instance.lastGettedManagerName != managerName) {
 			instance.lastGettedManagerName = managerName;
