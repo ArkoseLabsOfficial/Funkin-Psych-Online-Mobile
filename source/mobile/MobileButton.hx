@@ -396,7 +396,7 @@ class TypedMobileButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 			{
 				var button = FlxMouseButton.getByID(buttonID);
 
-				final worldPos:FlxPoint = button.getWorldPosition(camera, _point);
+				final worldPos:FlxPoint = FlxG.mouse.getWorldPosition(camera, _point);
 
 				for (zone in deadZones) {
 					if (zone != null) {
