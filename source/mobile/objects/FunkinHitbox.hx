@@ -11,8 +11,10 @@ class FunkinHitbox extends Hitbox {
 	public var currentMode:String;
 	public function new(?mode:String, ?globalAlpha:Float = 0.7):Void
 	{
-		super(mode, globalAlpha, true); //true means mobile-controls's hitbox creation is disabled
-		if ((ClientPrefs.data.hitboxmode == 'V Slice' && mode == null) || mode == 'V Slice')
+		super(mode, globalAlpha, true); //true means mobile-controls's hitbox creation is disabled.
+		currentMode = mode; //use this there.
+
+		if (mode == 'V Slice') //override this name.
 		{
 			var mania = Note.maniaKeys;
 			if (mania == 4) {
@@ -128,7 +130,6 @@ class FunkinHitbox extends Hitbox {
 					addHint(buttonName, buttonIDs, buttonUniqueID, buttonX, buttonY, buttonWidth, buttonHeight, Util.colorFromString(buttonColor), buttonReturn);
 			}
 		}
-		currentMode = mode;
 
 		scrollFactor.set();
 		updateTrackedButtons();

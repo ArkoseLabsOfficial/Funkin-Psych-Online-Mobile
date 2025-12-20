@@ -6582,7 +6582,22 @@ class PlayState extends MusicBeatState
 	function set_scrollYCenter(value) {
 		return camGame.scroll.y = value - FlxG.height / 2;
 	}
+
 	public var customManagers:Map<String, MobileControlManager> = [];
+	public var lastGettedManager:MobileControlManager;
+	public var lastGettedManagerName:String;
+	public static inline function checkManager(managerName:String):MobileControlManager {
+		if (managerName == null || managerName == '') {
+			instance.lastGettedManagerName = 'default';
+			instance.lastGettedManager MusicBeatState.getState().mobileManager;
+		}
+		else if (instance.lastGettedManagerName != managerName) {
+			instance.lastGettedManagerName = managerName;
+			instance.lastGettedManager = instance.customManagers.get(managerName);
+		}
+		return instance.lastGettedManager;
+	}
+
 	public function createNewManager(name:String) {
 		var mobileManagerNew = new MobileControlManager(this);
 		customManagers.set(name, mobileManagerNew);
@@ -6597,17 +6612,17 @@ class PlayState extends MusicBeatState
 	}
 
 	public static function checkMPadPress(buttonName:String, type = 'justPressed', ?managerName:String) {
-		if (managerName != null || managerName != '') {
-			var button = instance.customManagers.get(managerName).mobilePad.getButtonFromName(buttonName);
-			return Reflect.getProperty(button, type);
-		}
+		var manager = checkManager(managerName);
+
+		var button:MobileButton = null;
+		if (manager.mobilePad != null) button = manager.mobilePad.getButtonFromName(buttonName);
+		if (button != null) return Reflect.getProperty(button, type);
 		return false;
 	}
 
-	//I don't need this anymore because Hitboxes can returnable to any keys
+	//for lua shit
 	public static function checkHBoxPress(button:String, type = 'justPressed', ?managerName:String) {
-		var manager = MusicBeatState.getState().mobileManager;
-		if (managerName != null || managerName != '') manager = instance.customManagers.get(managerName);
+		var manager = checkManager(managerName);
 
 		var buttonObject:MobileButton = null;
 		if (manager.hitbox != null) buttonObject = manager.hitbox.getButtonFromName(button);

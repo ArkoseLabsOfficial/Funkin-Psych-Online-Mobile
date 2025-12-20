@@ -145,52 +145,60 @@ class HScript extends SScript
 		{
 			PlayState.instance.createNewManager(name);
 		});
+		set('getMobileManager', function(name:String):Void
+		{
+			PlayState.instance.customManagers.get(name);
+		});
 
 		//JoyStick
 		set('addJoyStick', function(managerName:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addJoyStick(x, y, radius, ease, size);
+			var manager = PlayState.checkManager(managerName);
+			manager.addJoyStick(x, y, radius, ease, size);
+			if(variables.exists(name + '_joyStick')) variables.set(name + '_joyStick', manager.joyStick);
 		});
 
 		set('addJoyStickCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addJoyStickCamera(defaultDrawTarget);
+			PlayState.checkManager(managerName).addJoyStickCamera(defaultDrawTarget);
 		});
 
 		set('removeJoyStick', function(managerName:String):Void
 		{
-			PlayState.instance.customManagers.get(managerName).removeJoyStick();
+			PlayState.checkManager(managerName).removeJoyStick();
 		});
 
 		set('joyStickPressed', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickPressed(position);
+			return PlayState.checkManager(managerName).joyStick.joyStickPressed(position);
 		});
 
 		set('joyStickJustPressed', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustPressed(position);
+			return PlayState.checkManager(managerName).joyStick.joyStickJustPressed(position);
 		});
 
 		set('joyStickJustReleased', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustReleased(position);
+			return PlayState.checkManager(managerName).joyStick.joyStickJustReleased(position);
 		});
 
 		//Hitbox
 		set("addHitbox", function(managerName:String, ?mode:String, ?hints:Bool):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addHitbox(mode, hints);
+			var manager = PlayState.checkManager(managerName);
+			manager.addHitbox(mode, hints);
+			if(variables.exists(name + '_hitbox')) variables.set(name + '_hitbox', manager.hitbox);
 		});
 
 		set("addHitboxCamera", function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addHitboxCamera(defaultDrawTarget);
+			PlayState.checkManager(managerName).addHitboxCamera(defaultDrawTarget);
 		});
 
 		set("removeHitbox", function(managerName:String):Void
 		{
-			PlayState.instance.customManagers.get(managerName).removeHitbox();
+			PlayState.checkManager(managerName).removeHitbox();
 		});
 
 		set('hitboxPressed', function(managerName:String, hint:String):Bool
@@ -216,7 +224,7 @@ class HScript extends SScript
 		//MobilePad
 		set('addMobilePad', function(managerName:String, DPad:String, Action:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
 		{
-			var manager = PlayState.instance.customManagers.get(managerName);
+			var manager = PlayState.checkManager(managerName);
 			if (addToCustomSubstate)
 			{
 				manager.makeMobilePad(DPad, Action);
@@ -225,16 +233,17 @@ class HScript extends SScript
 			}
 			else
 				manager.addMobilePad(DPad, Action);
+			if(variables.exists(name + '_mobilePad')) variables.set(name + '_mobilePad', manager.mobilePad);
 		});
 
 		set('addMobilePadCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addMobilePadCamera(defaultDrawTarget);
+			PlayState.checkManager(managerName).addMobilePadCamera(defaultDrawTarget);
 		});
 
 		set('removeMobilePad', function(managerName:String):Void
 		{
-			PlayState.instance.customManagers.get(managerName).removeMobilePad();
+			PlayState.checkManager(managerName).removeMobilePad();
 		});
 
 		set('mobilePadPressed', function(managerName:String, button:String):Bool

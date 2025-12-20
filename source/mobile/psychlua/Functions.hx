@@ -20,48 +20,52 @@ class MobileFunctions
 		//JoyStick
 		Lua_helper.add_callback(lua, 'addJoyStick', function(managerName:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addJoyStick(x, y, radius, ease, size);
+			var manager = PlayState.checkManager(managerName);
+			manager.addJoyStick(x, y, radius, ease, size);
+			if(variables.exists(name + '_joyStick')) variables.set(name + '_joyStick', manager.joyStick);
 		});
 
 		Lua_helper.add_callback(lua, 'addJoyStickCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addJoyStickCamera(defaultDrawTarget);
+			PlayState.checkManager(managerName).addJoyStickCamera(defaultDrawTarget);
 		});
 
 		Lua_helper.add_callback(lua, 'removeJoyStick', function(managerName:String):Void
 		{
-			PlayState.instance.customManagers.get(managerName).removeJoyStick();
+			PlayState.checkManager(managerName).removeJoyStick();
 		});
 
 		Lua_helper.add_callback(lua, 'joyStickPressed', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickPressed(position);
+			return PlayState.checkManager(managerName).joyStick.joyStickPressed(position);
 		});
 
 		Lua_helper.add_callback(lua, 'joyStickJustPressed', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustPressed(position);
+			return PlayState.checkManager(managerName).joyStick.joyStickJustPressed(position);
 		});
 
 		Lua_helper.add_callback(lua, 'joyStickJustReleased', function(managerName:String, position:String):Bool
 		{
-			return PlayState.instance.customManagers.get(managerName).joyStick.joyStickJustReleased(position);
+			return PlayState.checkManager(managerName).joyStick.joyStickJustReleased(position);
 		});
 
 		//Hitbox
 		Lua_helper.add_callback(lua, "addHitbox", function(managerName:String, ?mode:String, ?hints:Bool):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addHitbox(mode, hints);
+			var manager = PlayState.checkManager(managerName);
+			manager.addHitbox(mode, hints);
+			if(variables.exists(name + '_hitbox')) variables.set(name + '_hitbox', manager.hitbox);
 		});
 
 		Lua_helper.add_callback(lua, "addHitboxCamera", function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addHitboxCamera(defaultDrawTarget);
+			PlayState.checkManager(managerName).addHitboxCamera(defaultDrawTarget);
 		});
 
 		Lua_helper.add_callback(lua, "removeHitbox", function(managerName:String):Void
 		{
-			PlayState.instance.customManagers.get(managerName).removeHitbox();
+			PlayState.checkManager(managerName).removeHitbox();
 		});
 
 		Lua_helper.add_callback(lua, 'hitboxPressed', function(managerName:String, hint:String):Bool
@@ -87,7 +91,7 @@ class MobileFunctions
 		//MobilePad
 		Lua_helper.add_callback(lua, 'addMobilePad', function(managerName:String, DPad:String, Action:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
 		{
-			var manager = PlayState.instance.customManagers.get(managerName);
+			var manager = PlayState.checkManager(managerName);
 			if (addToCustomSubstate)
 			{
 				manager.makeMobilePad(DPad, Action);
@@ -96,16 +100,17 @@ class MobileFunctions
 			}
 			else
 				manager.addMobilePad(DPad, Action);
+			if(variables.exists(name + '_mobilePad')) variables.set(name + '_mobilePad', manager.mobilePad);
 		});
 
 		Lua_helper.add_callback(lua, 'addMobilePadCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).addMobilePadCamera(defaultDrawTarget);
+			PlayState.checkManager(managerName).addMobilePadCamera(defaultDrawTarget);
 		});
 
 		Lua_helper.add_callback(lua, 'removeMobilePad', function(managerName:String):Void
 		{
-			PlayState.instance.customManagers.get(managerName).removeMobilePad();
+			PlayState.checkManager(managerName).removeMobilePad();
 		});
 
 		Lua_helper.add_callback(lua, 'mobilePadPressed', function(managerName:String, button:String):Bool
@@ -131,13 +136,12 @@ class MobileFunctions
 		//Extra Things
 		Lua_helper.add_callback(lua, "setHitboxVisibilty", function(managerName:String, enabled:Bool = false):Void
 		{
-			PlayState.instance.customManagers.get(managerName).hitbox.visible = enabled;
+			PlayState.checkManager(managerName).hitbox.visible = enabled;
 		});
 
 		Lua_helper.add_callback(lua, "reloadHitbox", function(?managerName:String, ?mode:String):Void
 		{
-			var manager = PlayState.instance.mobileManager;
-			if (managerName != null || managerName != '') manager = PlayState.instance.customManagers.get(managerName);
+			var manager = PlayState.checkManager(managerName);
 			manager.removeHitbox();
 			manager.addHitbox(mode);
 		});
