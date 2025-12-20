@@ -103,7 +103,7 @@ class MobileControlManager {
 
 	public function addJoyStick(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 	{
-		makeJoyStick(x, y, radius, ease, size)
+		makeJoyStick(x, y, radius, ease, size);
 		currentState.add(joyStick);
 	}
 
