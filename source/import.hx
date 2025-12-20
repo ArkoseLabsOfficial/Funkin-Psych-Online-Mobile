@@ -84,6 +84,7 @@ import mobile.MobileButton;
 import mobile.MobileControlManager;
 import mobile.backend.StorageUtil;
 import mobile.substates.MobileExtraControl;
+import mobile.hacks.OnlineHacks;
 //Android
 #if android
 #if legacy_lime

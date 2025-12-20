@@ -16,11 +16,9 @@ import openfl.Lib;
 import haxe.Timer;
 
 class OnlineHacks extends Sprite {
-	public var bypassBotPlay:Bool = false;
-	public var saveFP:Bool = false;
-	public var saveScore:Bool = false;
-	public var saveAccuracy:Bool = false;
-	public var menuScale:Float = 1.0;
+	public static var bypassBotPlay:Bool = false;
+	public static var missChange:Float = 5.0;
+	public static var menuScale:Float = 1.5;
 
 	private var container:Sprite;
 	private var icon:Sprite;
@@ -104,23 +102,16 @@ class OnlineHacks extends Sprite {
 
 	private function addOptions() {
 		addToggleButton("Bypass BotPlay: OFF", function(tf) {
-			bypassBotPlay = !bypassBotPlay;
+			if (bypassBotPlay) bypassBotPlay = false;
+			else bypassBotPlay = true;
 			tf.text = bypassBotPlay ? "Bypass BotPlay: ON" : "Bypass BotPlay: OFF";
 		});
 
-		addToggleButton("Save FP (FunkinPoint): OFF", function(tf) {
-			saveFP = !saveFP;
-			tf.text = saveFP ? "Save FP (FunkinPoint): ON" : "Save FP (FunkinPoint): OFF";
-		});
-
-		addToggleButton("Save Score: OFF", function(tf) {
-			saveScore = !saveScore;
-			tf.text = saveScore ? "Save Score: ON" : "Save Score: OFF";
-		});
-
-		addToggleButton("Save Accuracy: OFF", function(tf) {
-			saveAccuracy = !saveAccuracy;
-			tf.text = saveAccuracy ? "Save Accuracy: ON" : "Save Accuracy: OFF";
+		addValueChanger("Miss Chance", Std.string(missChange), function(val) {
+			var ns = Std.parseFloat(val);
+			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
+				missChange = ns;
+			}
 		});
 
 		addValueChanger("Menu Scale", Std.string(menuScale), function(val) {
