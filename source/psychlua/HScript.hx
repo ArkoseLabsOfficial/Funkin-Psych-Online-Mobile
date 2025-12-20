@@ -155,7 +155,7 @@ class HScript extends SScript
 		{
 			var manager = PlayState.checkManager(managerName);
 			manager.addJoyStick(x, y, radius, ease, size);
-			if(PlayState.instance.variables.exists(name + '_joyStick')) PlayState.instance.variables.set(name + '_joyStick', manager.joyStick);
+			if(PlayState.instance.variables.exists(managerName + '_joyStick')) PlayState.instance.variables.set(managerName + '_joyStick', manager.joyStick);
 		});
 
 		set('addJoyStickCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
@@ -188,7 +188,7 @@ class HScript extends SScript
 		{
 			var manager = PlayState.checkManager(managerName);
 			manager.addHitbox(mode, hints);
-			if(PlayState.instance.variables.exists(name + '_hitbox')) PlayState.instance.variables.set(name + '_hitbox', manager.hitbox);
+			if(PlayState.instance.variables.exists(managerName + '_hitbox')) PlayState.instance.variables.set(managerName + '_hitbox', manager.hitbox);
 		});
 
 		set("addHitboxCamera", function(managerName:String, defaultDrawTarget:Bool = false):Void
@@ -233,7 +233,7 @@ class HScript extends SScript
 			}
 			else
 				manager.addMobilePad(DPad, Action);
-			if(PlayState.instance.variables.exists(name + '_mobilePad')) PlayState.instance.variables.set(name + '_mobilePad', manager.mobilePad);
+			if(PlayState.instance.variables.exists(managerName + '_mobilePad')) PlayState.instance.variables.set(managerName + '_mobilePad', manager.mobilePad);
 		});
 
 		set('addMobilePadCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
