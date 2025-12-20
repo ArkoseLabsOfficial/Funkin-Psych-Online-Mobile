@@ -151,17 +151,17 @@ class HScript extends SScript
 		});
 
 		//JoyStick
-		set('addJoyStick', function(?managerName:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
+		set('addJoyStick', function(?managerName:String, ?stickPath:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
 		{
 			var manager = PlayState.checkManager(managerName);
 			if (addToCustomSubstate)
 			{
-				manager.makeJoyStick(x, y, radius, ease, size);
+				manager.makeJoyStick(stickPath, x, y, radius, ease, size);
 				if (manager.joyStick != null)
 					CustomSubstate.insertObject(posAtCustomSubstate, manager.joyStick);
 			}
 			else
-				manager.addJoyStick(x, y, radius, ease, size);
+				manager.addJoyStick(stickPath, x, y, radius, ease, size);
 			if(PlayState.instance.variables.exists(managerName + '_joyStick')) PlayState.instance.variables.set(managerName + '_joyStick', manager.joyStick);
 		});
 

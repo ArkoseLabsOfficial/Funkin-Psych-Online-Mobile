@@ -95,15 +95,15 @@ class MobileControlManager {
 		hitbox.cameras = [hitboxCam];
 	}
 
-	public function makeJoyStick(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+	public function makeJoyStick(?stickPath:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 	{
 		if (joyStick != null) removeJoyStick();
-		joyStick = new JoyStick(x, y, radius, ease, size);
+		joyStick = new JoyStick(stickPath, x, y, radius, ease, size);
 	}
 
-	public function addJoyStick(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+	public function addJoyStick(?stickPath:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 	{
-		makeJoyStick(x, y, radius, ease, size);
+		makeJoyStick(stickPath, x, y, radius, ease, size);
 		currentState.add(joyStick);
 	}
 
