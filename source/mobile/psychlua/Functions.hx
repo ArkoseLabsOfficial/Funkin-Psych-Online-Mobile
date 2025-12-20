@@ -22,7 +22,7 @@ class MobileFunctions
 		{
 			var manager = PlayState.checkManager(managerName);
 			manager.addJoyStick(x, y, radius, ease, size);
-			if(variables.exists(name + '_joyStick')) variables.set(name + '_joyStick', manager.joyStick);
+			if(PlayState.instance.variables.exists(name + '_joyStick')) PlayState.instance.variables.set(name + '_joyStick', manager.joyStick);
 		});
 
 		Lua_helper.add_callback(lua, 'addJoyStickCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
@@ -55,7 +55,7 @@ class MobileFunctions
 		{
 			var manager = PlayState.checkManager(managerName);
 			manager.addHitbox(mode, hints);
-			if(variables.exists(name + '_hitbox')) variables.set(name + '_hitbox', manager.hitbox);
+			if(PlayState.instance.variables.exists(name + '_hitbox')) PlayState.instance.variables.set(name + '_hitbox', manager.hitbox);
 		});
 
 		Lua_helper.add_callback(lua, "addHitboxCamera", function(managerName:String, defaultDrawTarget:Bool = false):Void
@@ -100,7 +100,7 @@ class MobileFunctions
 			}
 			else
 				manager.addMobilePad(DPad, Action);
-			if(variables.exists(name + '_mobilePad')) variables.set(name + '_mobilePad', manager.mobilePad);
+			if(PlayState.instance.variables.exists(name + '_mobilePad')) PlayState.instance.variables.set(name + '_mobilePad', manager.mobilePad);
 		});
 
 		Lua_helper.add_callback(lua, 'addMobilePadCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
