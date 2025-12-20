@@ -99,12 +99,10 @@ class CustomSubstate extends MusicBeatSubstate
 		super.destroy();
 	}
 
-	public static function insertMobilePad(?pos:Int = -1, managerName:String)
+	public static function insertObject(?pos:Int = -1, tagObject:FlxObject)
 	{
 		if(instance != null)
 		{
-			var tagObject:FlxObject = PlayState.instance.customManagers.get(managerName).mobilePad;
-
 			if(tagObject != null)
 			{
 				if(pos < 0) instance.add(tagObject);

@@ -9,10 +9,12 @@ import objects.Note;
 
 class FunkinHitbox extends Hitbox {
 	public var currentMode:String;
-	public function new(?mode:String, ?globalAlpha:Float = 0.7):Void
+	public var showHints:Bool;
+	public function new(?mode:String, ?showHints:Bool, ?globalAlpha:Float = 0.7):Void
 	{
 		super(mode, globalAlpha, true); //true means mobile-controls's hitbox creation is disabled.
 		currentMode = mode; //use this there.
+		this.showHints = showHints;
 
 		if (mode == 'V Slice') //override this name.
 		{
@@ -181,7 +183,7 @@ class FunkinHitbox extends Hitbox {
 		hint.loadGraphic(createHintGraphic(width, height, color));
 		var VSliceAllowed:Bool = (currentMode == 'V Slice' && Note.maniaKeys != 20 && Note.maniaKeys != 55);
 
-		if (ClientPrefs.data.hitboxhint && !VSliceAllowed) {
+		if (showHints && !VSliceAllowed) {
 			var doHeightFix:Bool = false;
 			if (height == 144) doHeightFix = true;
 

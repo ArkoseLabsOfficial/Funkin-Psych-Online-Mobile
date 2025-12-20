@@ -62,9 +62,13 @@ class MobileControlManager {
 		mobilePad.cameras = [mobilePadCam];
 	}
 
-	public function addHitbox(?mode:String, ?hints:Bool) {
+	public function makeHitbox(?mode:String, ?hints:Bool) {
 		if (hitbox != null) removeHitbox();
-		hitbox = new FunkinHitbox(mode);
+		hitbox = new FunkinHitbox(mode, hints);
+	}
+
+	public function addHitbox(?mode:String, ?hints:Bool) {
+		makeHitbox(mode, hints);
 		currentState.add(hitbox);
 	}
 
@@ -91,10 +95,15 @@ class MobileControlManager {
 		hitbox.cameras = [hitboxCam];
 	}
 
-	public function addJoyStick(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+	public function makeJoyStick(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
 	{
 		if (joyStick != null) removeJoyStick();
 		joyStick = new JoyStick(x, y, radius, ease, size);
+	}
+
+	public function addJoyStick(x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+	{
+		makeJoyStick(x, y, radius, ease, size)
 		currentState.add(joyStick);
 	}
 

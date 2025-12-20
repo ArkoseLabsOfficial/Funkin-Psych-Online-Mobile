@@ -147,121 +147,135 @@ class HScript extends SScript
 		});
 		set('getMobileManager', function(name:String):Void
 		{
-			PlayState.instance.customManagers.get(name);
+			return PlayState.instance.customManagers.get(name);
 		});
 
 		//JoyStick
-		set('addJoyStick', function(managerName:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1):Void
+		set('addJoyStick', function(?managerName:String, x:Float, y:Float, radius:Float = 0, ease:Float = 0.25, size:Float = 1, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
 		{
 			var manager = PlayState.checkManager(managerName);
-			manager.addJoyStick(x, y, radius, ease, size);
+			if (addToCustomSubstate)
+			{
+				manager.makeJoyStick(x, y, radius, ease, size);
+				if (manager.joyStick != null)
+					CustomSubstate.insertObject(posAtCustomSubstate, manager.joyStick);
+			}
+			else
+				manager.addJoyStick(x, y, radius, ease, size);
 			if(PlayState.instance.variables.exists(managerName + '_joyStick')) PlayState.instance.variables.set(managerName + '_joyStick', manager.joyStick);
 		});
 
-		set('addJoyStickCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
+		set('addJoyStickCamera', function(?managerName:String, defaultDrawTarget:Bool = false):Void
 		{
 			PlayState.checkManager(managerName).addJoyStickCamera(defaultDrawTarget);
 		});
 
-		set('removeJoyStick', function(managerName:String):Void
+		set('removeJoyStick', function(?managerName:String):Void
 		{
 			PlayState.checkManager(managerName).removeJoyStick();
 		});
 
-		set('joyStickPressed', function(managerName:String, position:String):Bool
+		set('joyStickPressed', function(?managerName:String, ?position:String):Bool
 		{
 			return PlayState.checkManager(managerName).joyStick.joyStickPressed(position);
 		});
 
-		set('joyStickJustPressed', function(managerName:String, position:String):Bool
+		set('joyStickJustPressed', function(?managerName:String, ?position:String):Bool
 		{
 			return PlayState.checkManager(managerName).joyStick.joyStickJustPressed(position);
 		});
 
-		set('joyStickJustReleased', function(managerName:String, position:String):Bool
+		set('joyStickJustReleased', function(?managerName:String, ?position:String):Bool
 		{
 			return PlayState.checkManager(managerName).joyStick.joyStickJustReleased(position);
 		});
 
 		//Hitbox
-		set("addHitbox", function(managerName:String, ?mode:String, ?hints:Bool):Void
+		set("addHitbox", function(?managerName:String, ?mode:String, ?hints:Bool, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
 		{
 			var manager = PlayState.checkManager(managerName);
-			manager.addHitbox(mode, hints);
+			if (addToCustomSubstate)
+			{
+				manager.makeHitbox(mode, hints);
+				if (manager.hitbox != null)
+					CustomSubstate.insertObject(posAtCustomSubstate, manager.hitbox);
+			}
+			else
+				manager.addHitbox(mode, hints);
 			if(PlayState.instance.variables.exists(managerName + '_hitbox')) PlayState.instance.variables.set(managerName + '_hitbox', manager.hitbox);
 		});
 
-		set("addHitboxCamera", function(managerName:String, defaultDrawTarget:Bool = false):Void
+		set("addHitboxCamera", function(?managerName:String, defaultDrawTarget:Bool = false):Void
 		{
 			PlayState.checkManager(managerName).addHitboxCamera(defaultDrawTarget);
 		});
 
-		set("removeHitbox", function(managerName:String):Void
+		set("removeHitbox", function(?managerName:String):Void
 		{
 			PlayState.checkManager(managerName).removeHitbox();
 		});
 
-		set('hitboxPressed', function(managerName:String, hint:String):Bool
+		set('hitboxPressed', function(?managerName:String, ?hint:String):Bool
 		{
 			return PlayState.checkHBoxPress(hint, 'pressed', managerName);
 		});
 
-		set('hitboxJustPressed', function(managerName:String, hint:String):Bool
+		set('hitboxJustPressed', function(?managerName:String, ?hint:String):Bool
 		{
 			return PlayState.checkHBoxPress(hint, 'justPressed', managerName);
 		});
 
-		set('hitboxReleased', function(managerName:String, hint:String):Bool
+		set('hitboxReleased', function(?managerName:String, ?hint:String):Bool
 		{
 			return PlayState.checkHBoxPress(hint, 'released', managerName);
 		});
 
-		set('hitboxJustReleased', function(managerName:String, hint:String):Bool
+		set('hitboxJustReleased', function(?managerName:String, ?hint:String):Bool
 		{
 			return PlayState.checkHBoxPress(hint, 'justReleased', managerName);
 		});
 
 		//MobilePad
-		set('addMobilePad', function(managerName:String, DPad:String, Action:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
+		set('addMobilePad', function(?managerName:String, DPad:String, Action:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1):Void
 		{
 			var manager = PlayState.checkManager(managerName);
 			if (addToCustomSubstate)
 			{
 				manager.makeMobilePad(DPad, Action);
 				if (manager.mobilePad != null)
-					CustomSubstate.insertMobilePad(posAtCustomSubstate, managerName);
+					CustomSubstate.insertObject(posAtCustomSubstate, manager.mobilePad);
 			}
 			else
 				manager.addMobilePad(DPad, Action);
 			if(PlayState.instance.variables.exists(managerName + '_mobilePad')) PlayState.instance.variables.set(managerName + '_mobilePad', manager.mobilePad);
 		});
 
-		set('addMobilePadCamera', function(managerName:String, defaultDrawTarget:Bool = false):Void
+		set('addMobilePadCamera', function(?managerName:String, defaultDrawTarget:Bool = false):Void
 		{
 			PlayState.checkManager(managerName).addMobilePadCamera(defaultDrawTarget);
 		});
 
-		set('removeMobilePad', function(managerName:String):Void
+		set('removeMobilePad', function(?managerName:String):Void
 		{
 			PlayState.checkManager(managerName).removeMobilePad();
 		});
 
-		set('mobilePadPressed', function(managerName:String, button:String):Bool
+		set('mobilePadPressed', function(?managerName:String, ?button:String):Bool
 		{
 			return PlayState.checkMPadPress(button, 'pressed', managerName);
 		});
 
-		set('mobilePadJustPressed', function(managerName:String, button:String):Bool
+		set('mobilePadJustPressed', function(?managerName:String, ?button:String):Bool
 		{
 			return PlayState.checkMPadPress(button, 'justPressed', managerName);
 		});
 
-		set('mobilePadReleased', function(managerName:String, button:String):Bool
+		set('mobilePadReleased', function(?managerName:String, ?button:String):Bool
 		{
 			return PlayState.checkMPadPress(button, 'released', managerName);
 		});
 
-		set('mobilePadJustReleased', function(managerName:String, button:String):Bool
+		set('mobilePadJustReleased', function(?managerName:String, ?button:String):Bool
 		{
 			return PlayState.checkMPadPress(button, 'justReleased', managerName);
 		});
