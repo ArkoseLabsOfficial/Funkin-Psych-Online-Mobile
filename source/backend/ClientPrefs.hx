@@ -22,6 +22,7 @@ import states.TitleState;
 	/* Bool Options */
 	public var hitboxhint:Bool = false;
 	public var VSliceControl:Bool = false; //There we go
+	public var showHackMenu:Bool = false;
 
 	/* Int/Float Options */
 	public var extraKeys:Int = 2;
