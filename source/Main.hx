@@ -100,6 +100,8 @@ class Main extends Sprite
 		Lib.current.addChild(daMain);
 		Lib.current.setChildIndex(daMain, Lib.current.getChildIndex(view3D) + 1);
 		Lib.current.addChild(new online.gui.sidebar.SideUI());
+		onlineHacks = new mobile.hacks.OnlineHacks();
+		Lib.current.addChild(onlineHacks);
 	}
 
 	public function new()
@@ -197,7 +199,6 @@ class Main extends Sprite
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
-		addChild(onlineHacks = new mobile.hacks.OnlineHacks());
 
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
