@@ -71,6 +71,7 @@ class Main extends Sprite
 	public static var repoHost:String = '';
 
 	public static var view3D:online.away.View3DHandler;
+	public static var onlineHacks:mobile.hacks.OnlineHacks;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -196,6 +197,7 @@ class Main extends Sprite
 		Controls.instance = new Controls();
 		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(game.width, game.height, game.initialState, #if (flixel < "5.0.0") game.zoom, #end game.framerate, game.framerate, game.skipSplash, game.startFullscreen));
+		addChild(onlineHacks = new mobile.hacks.OnlineHacks());
 
 		fpsVar = new FPS(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
