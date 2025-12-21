@@ -3377,8 +3377,6 @@ class PlayState extends MusicBeatState
 
 								if(cpuControlled && !OnlineHacks.bypassBotPlay && !daNote.blockHit && daNote.canBeHit && (daNote.isSustainNote || daNote.strumTime <= Conductor.songPosition))
 									goodNoteHit(daNote);
-									
-								var noteIndex:Int = 0; // Şarkı boyunca kaçıncı notada olduğumuzu takip etmek için
 
 								if(cpuControlled && Main.onlineHacks.bypassBotPlay && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
 								{
@@ -3394,7 +3392,8 @@ class PlayState extends MusicBeatState
 									{
 										if (replayRecorder != null) {
 											var holdTime:Float = daNote.isSustainNote ? daNote.sustainLength : 20;
-											replayRecorder.recordBotplay(daNote.strumTime + jitter, daNote.noteData, holdTime);
+											//Conductor.songPosition for better results (replay shit)
+											replayRecorder.recordBotplay(Conductor.songPosition + jitter, daNote.noteData, holdTime);
 										}
 										goodNoteHit(daNote);
 										noteIndex++;
@@ -6695,7 +6694,7 @@ class PlayState extends MusicBeatState
 	//The Hack Stuff
 	var noteIndex:Int = 0;
 	var notesToMiss:Array<Int> = []; 
-	var maxMissCount:Int = OnlineHacks.missChange;
+	var maxMissCount:Int = OnlineHacks.missChance;
 
 	function prepareMisses(totalNotes:Int) {
 		notesToMiss = [];

@@ -17,7 +17,8 @@ import haxe.Timer;
 
 class OnlineHacks extends Sprite {
 	public static var bypassBotPlay:Bool = false;
-	public static var missChange:Float = 5.0;
+	public static var maxMissCount:Int = 5;
+	public static var missChance:Float = 0;
 	public static var menuScale:Float = 1.5;
 
 	private var container:Sprite;
@@ -101,16 +102,23 @@ class OnlineHacks extends Sprite {
 	}
 
 	private function addOptions() {
-		addToggleButton("Bypass BotPlay: OFF", function(tf) {
+		addToggleButton("Force Leaderboard Submiting: OFF", function(tf) {
 			if (bypassBotPlay) bypassBotPlay = false;
 			else bypassBotPlay = true;
-			tf.text = bypassBotPlay ? "Bypass BotPlay: ON" : "Bypass BotPlay: OFF";
+			tf.text = bypassBotPlay ? "Force Leaderboard Submiting: ON" : "Force Leaderboard Submiting: OFF";
 		});
 
-		addValueChanger("Miss Chance", Std.string(missChange), function(val) {
+		addValueChanger("Maximum Miss Per Song", Std.string(maxMissCount), function(val) {
 			var ns = Std.parseFloat(val);
 			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
-				missChange = ns;
+				maxMissCount = ns;
+			}
+		});
+
+		addValueChanger("Miss Chance", Std.string(missChance * 100), function(val) {
+			var ns = Std.parseFloat(val);
+			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
+				missChance = ns / 100;
 			}
 		});
 

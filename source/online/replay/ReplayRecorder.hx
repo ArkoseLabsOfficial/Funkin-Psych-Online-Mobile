@@ -257,16 +257,13 @@ class ReplayRecorder extends FlxBasic {
 	public function recordBotplay(time:Float, noteData:Int, holdTime:Float):Void
 	{
 		var directions = ["note_left", "note_down", "note_up", "note_right"];
-		var dirName = directions[noteData];
-		
-		Note.maniaKeys
-		
 		if (Note.maniaKeys != 4) {
 			directions = [];
 			for (key in 0...Note.maniaKeys) {
 				directions.push('${Note.maniaKeys}k_note_${key + 1}');
 			}
 		}
+		var dirName = directions[noteData];
 
 		data.inputs.push([time, dirName, 0]);
 		data.inputs.push([time + holdTime, dirName, 1]);
