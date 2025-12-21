@@ -79,16 +79,23 @@ class Mods
 
 		var mergedList:Array<String> = [];
 		var paths:Array<String> = directoriesWithFile(defaultDirectory, path);
+		trace(defaultDirectory);
+		trace(path);
+		trace(paths);
 
 		var defaultPath:String = defaultDirectory + path;
+		trace(paths);
+		trace(defaultPath);
 		if(paths.contains(defaultPath))
 		{
 			paths.remove(defaultPath);
 			paths.insert(0, defaultPath);
 		}
+		    trace(paths);
 
 		for (file in paths)
 		{
+			trace(file);
 			var list:Array<String> = CoolUtil.coolTextFile(file);
 			trace(list);
 			for (value in list)
