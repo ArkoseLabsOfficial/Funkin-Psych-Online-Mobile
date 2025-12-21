@@ -148,7 +148,7 @@ class StorageUtil
 	}
 
 	public static function chmod(permissions:String, fullPath:String) {
-		var process = new Process('chmod -R ${permissions} ${fullPath}');
+		var process = new Process('chmod ${permissions} ${fullPath}');
 
 		var exitCode = process.exitCode();
 		if (exitCode == 0)

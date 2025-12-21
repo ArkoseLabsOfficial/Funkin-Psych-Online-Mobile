@@ -3377,24 +3377,27 @@ class PlayState extends MusicBeatState
 
 								if(cpuControlled && !OnlineHacks.bypassBotPlay && !daNote.blockHit && daNote.canBeHit && (daNote.isSustainNote || daNote.strumTime <= Conductor.songPosition))
 									goodNoteHit(daNote);
+									
+								var noteIndex:Int = 0; // Şarkı boyunca kaçıncı notada olduğumuzu takip etmek için
 
-								if(cpuControlled && OnlineHacks.bypassBotPlay && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
+								if(cpuControlled && Main.onlineHacks.bypassBotPlay && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
 								{
-									var missChance:Float = OnlineHacks.missChange;
-									if (FlxG.random.bool(missChance)) {
-										daNote.wasGoodHit = false; 
+									if (notesToMiss.contains(noteIndex)) {
 										daNote.blockHit = true;
+										noteIndex++;
 										return; 
 									}
-									var jitter:Float = FlxG.random.float(-10, 10);
 
-									if (daNote.strumTime <= Conductor.songPosition)
+									var jitter:Float = flixel.FlxG.random.float(-12, 12);
+
+									if (daNote.strumTime <= Conductor.songPosition + jitter) 
 									{
 										if (replayRecorder != null) {
 											var holdTime:Float = daNote.isSustainNote ? daNote.sustainLength : 20;
 											replayRecorder.recordBotplay(daNote.strumTime + jitter, daNote.noteData, holdTime);
 										}
 										goodNoteHit(daNote);
+										noteIndex++;
 									}
 								}
 							}
@@ -6687,6 +6690,23 @@ class PlayState extends MusicBeatState
 			button.deadZones = [];
 		});
 		mobileManager.removeHitbox();
+	}
+
+	//The Hack Stuff
+	var noteIndex:Int = 0;
+	var notesToMiss:Array<Int> = []; 
+	var maxMissCount:Int = OnlineHacks.missChange;
+
+	function prepareMisses(totalNotes:Int) {
+		notesToMiss = [];
+		if (maxMissCount <= 0) return;
+
+		for (i in 0...maxMissCount) {
+			var randomNoteIdx = flixel.FlxG.random.int(0, totalNotes - 1);
+			if (!notesToMiss.contains(randomNoteIdx)) {
+				notesToMiss.push(randomNoteIdx);
+			}
+		}
 	}
 }
 
