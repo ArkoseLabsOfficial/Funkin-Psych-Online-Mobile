@@ -16,9 +16,9 @@ import openfl.Lib;
 import haxe.Timer;
 
 class OnlineHacks extends Sprite {
-	public static var bypassBotPlay:Bool = false;
+	public static var forceLeaderboardSubmiting:Bool = false;
 	public static var maxMissCount:Int = 5;
-	public static var missChance:Float = 0;
+	public static var noteClickMS:Float = 0.2; //0.2 is default
 	public static var menuScale:Float = 1.5;
 
 	private var container:Sprite;
@@ -103,9 +103,9 @@ class OnlineHacks extends Sprite {
 
 	private function addOptions() {
 		addToggleButton("Force Leaderboard Submiting: OFF", function(tf) {
-			if (bypassBotPlay) bypassBotPlay = false;
-			else bypassBotPlay = true;
-			tf.text = bypassBotPlay ? "Force Leaderboard Submiting: ON" : "Force Leaderboard Submiting: OFF";
+			if (forceLeaderboardSubmiting) forceLeaderboardSubmiting = false;
+			else forceLeaderboardSubmiting = true;
+			tf.text = forceLeaderboardSubmiting ? "Force Leaderboard Submiting: ON" : "Force Leaderboard Submiting: OFF";
 		});
 
 		addValueChanger("Maximum Miss Per Song", Std.string(maxMissCount), function(val) {
@@ -115,10 +115,10 @@ class OnlineHacks extends Sprite {
 			}
 		});
 
-		addValueChanger("Miss Chance", Std.string(missChance * 100), function(val) {
+		addValueChanger("Miss Chance", Std.string(noteClickMS * 100), function(val) {
 			var ns = Std.parseFloat(val);
 			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
-				missChance = ns / 100;
+				noteClickMS = ns / 100;
 			}
 		});
 

@@ -298,7 +298,7 @@ class PlayState extends MusicBeatState
 			if (cpuControlled)
 				return cpuControlled;
 
-			if (v && !OnlineHacks.bypassBotPlay)
+			if (v && !OnlineHacks.forceLeaderboardSubmiting)
 				GameClient.send("botplay");
 		}
 
@@ -1471,7 +1471,7 @@ class PlayState extends MusicBeatState
 		mobileManager.addMobilePadCamera();
 		addPlayStateHitbox();
 
-		if (cpuControlled && OnlineHacks.bypassBotPlay) prepareMisses();
+		if (cpuControlled && OnlineHacks.forceLeaderboardSubmiting) prepareMisses();
 
 		super.create();
 	}
@@ -2313,7 +2313,7 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
-		if (ClientPrefs.data.scoreZoom && !miss && (!cpuControlled || OnlineHacks.bypassBotPlay)) {
+		if (ClientPrefs.data.scoreZoom && !miss && (!cpuControlled || OnlineHacks.forceLeaderboardSubmiting)) {
 			if (scoreTxtTween != null) {
 				scoreTxtTween.cancel();
 			}
@@ -3283,7 +3283,7 @@ class PlayState extends MusicBeatState
 		FlxG.watch.addQuick("stepShit", curStep);
 
 		// RESET = Quick Game Over Screen
-		if (!GameClient.isConnected() && !ClientPrefs.data.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong && canInput() && replayData == null && (!cpuControlled || OnlineHacks.bypassBotPlay))
+		if (!GameClient.isConnected() && !ClientPrefs.data.noReset && controls.RESET && canReset && !inCutscene && startedCountdown && !endingSong && canInput() && replayData == null && (!cpuControlled || OnlineHacks.forceLeaderboardSubmiting))
 		{
 			subsHealth(9999);
 			trace("RESET = True");
@@ -3377,29 +3377,26 @@ class PlayState extends MusicBeatState
 								if (!isPlayNoteNear && Conductor.songPosition - daNote.strumTime < 500)
 									isPlayNoteNear = true;
 
-								if(cpuControlled && !OnlineHacks.bypassBotPlay && !daNote.blockHit && daNote.canBeHit && (daNote.isSustainNote || daNote.strumTime <= Conductor.songPosition))
+								if(cpuControlled && !OnlineHacks.forceLeaderboardSubmiting && !daNote.blockHit && daNote.canBeHit && (daNote.isSustainNote || daNote.strumTime <= Conductor.songPosition))
 									goodNoteHit(daNote);
 
 								//The Hack Shit
-								if(cpuControlled && OnlineHacks.bypassBotPlay && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
+								if(cpuControlled && OnlineHacks.forceLeaderboardSubmiting && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
 								{
 									if (notesToMiss.contains(noteIndex)) {
 										daNote.blockHit = true;
 										noteIndex++;
-										return; 
-									}
-
-									var jitter:Float = flixel.FlxG.random.float(-12, 12);
-
-									if (daNote.strumTime <= Conductor.songPosition + jitter) 
-									{
-										if (replayRecorder != null) {
-											var holdTime:Float = daNote.isSustainNote ? daNote.sustainLength : 20;
-											//Conductor.songPosition for better results (replay shit)
-											replayRecorder.recordBotplay(Conductor.songPosition + jitter, daNote.noteData, holdTime);
+									} else {
+										if (daNote.strumTime <= Conductor.songPosition) 
+										{
+											if (replayRecorder != null) {
+												var holdTime:Float = daNote.isSustainNote ? daNote.sustainLength : 10;
+												var fakeTime:Float = daNote.strumTime + FlxG.random.float(-OnlineHacks.noteClickMS, OnlineHacks.noteClickMS);
+												replayRecorder.recordBotplay(fakeTime, daNote.noteData, holdTime);
+											}
+											goodNoteHit(daNote);
+											noteIndex++;
 										}
-										goodNoteHit(daNote);
-										noteIndex++;
 									}
 								}
 							}
@@ -3411,7 +3408,7 @@ class PlayState extends MusicBeatState
 							// Kill extremely late notes and cause misses
 							if (Conductor.songPosition - daNote.strumTime > noteKillOffset)
 							{
-								if (isPlayerNote(daNote) && (!cpuControlled || OnlineHacks.bypassBotPlay) &&!daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit))
+								if (isPlayerNote(daNote) && (!cpuControlled || OnlineHacks.forceLeaderboardSubmiting) &&!daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit))
 									noteMiss(daNote);
 
 								daNote.active = false;
@@ -4709,7 +4706,7 @@ class PlayState extends MusicBeatState
 			// RecalculateRating(false);
 		}
 
-		if (!practiceMode && (!cpuControlled || OnlineHacks.bypassBotPlay)) {
+		if (!practiceMode && (!cpuControlled || OnlineHacks.forceLeaderboardSubmiting)) {
 			//todo:  maybe replace with set? idk 
 			GameClient.send("addScore", score);
 			GameClient.send("addHitJudge", note.rating);
@@ -5366,7 +5363,7 @@ class PlayState extends MusicBeatState
 
 		if (!note.wasGoodHit)
 		{
-			if((cpuControlled && !OnlineHacks.bypassBotPlay) && (note.ignoreNote || note.hitCausesMiss)) return;
+			if((cpuControlled && !OnlineHacks.forceLeaderboardSubmiting) && (note.ignoreNote || note.hitCausesMiss)) return;
 
 			note.wasGoodHit = true;
 			if (ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled)
@@ -6131,7 +6128,7 @@ class PlayState extends MusicBeatState
 
 	var forceInvalidScore = false;
 	function isInvalidScore() {
-		return (cpuControlled && !OnlineHacks.bypassBotPlay) || controls.moodyBlues != null || noBadNotes || forceInvalidScore;
+		return (cpuControlled && !OnlineHacks.forceLeaderboardSubmiting) || controls.moodyBlues != null || noBadNotes || forceInvalidScore;
 	}
 
 	// MULTIPLAYER STUFF HERE
@@ -6702,14 +6699,11 @@ class PlayState extends MusicBeatState
 		notesToMiss = [];
 		var totalNotes = unspawnNotes.length;
 
-		if (totalNotes <= 0 || OnlineHacks.maxMissCount <= 0) return;
-
-		for (i in 0...totalNotes) {
-			if (flixel.FlxG.random.bool(OnlineHacks.missChance * 100))
-				notesToMiss.push(i);
-
-			if (notesToMiss.length >= OnlineHacks.maxMissCount)
-				break;
+		for (i in 0...OnlineHacks.maxMissCount) {
+			var randomNoteIdx = flixel.FlxG.random.int(0, totalNotes - 1);
+			if (!notesToMiss.contains(randomNoteIdx)) {
+				notesToMiss.push(randomNoteIdx);
+			}
 		}
 	}
 }
