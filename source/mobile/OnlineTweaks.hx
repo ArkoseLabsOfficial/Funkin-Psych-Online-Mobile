@@ -1,4 +1,4 @@
-package mobile.hacks;
+package mobile;
 import mobile.ModMenu;
 
 class OnlineTweaks extends ModMenu {
@@ -11,11 +11,11 @@ class OnlineTweaks extends ModMenu {
 
 	private override function addOptions() {
 		addToggleButton('Simulate BotPlay: ${simulateBotplay}', function(tf) {
-			forceLeaderboardSubmiting = !forceLeaderboardSubmiting;
+			simulateBotplay = !simulateBotplay;
 			tf.text = 'Simulate BotPlay: ${simulateBotplay}';
 		});
 
-		addValueChanger("BotPlay Accuracy", Std.string(maxMissCount), function(val) {
+		addValueChanger("BotPlay Accuracy", Std.string(botPlayAccuracy), function(val) {
 			var ns = Std.parseInt(val);
 			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
 				botPlayAccuracy = ns;

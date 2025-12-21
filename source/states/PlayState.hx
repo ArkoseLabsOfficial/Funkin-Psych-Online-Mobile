@@ -3401,7 +3401,7 @@ class PlayState extends MusicBeatState
 											callOnScripts('onButtonRelease', [daNote.noteData]);
 											if (replayRecorder != null) {
 												var dirName = replayRecorder.getDirectionNameFromData(daNote.noteData);
-												replayRecorder.inputs.push([Conductor.songPosition, dirName, 1]);
+												replayRecorder.data.inputs.push([Conductor.songPosition, dirName, 1]);
 											}
 										});
 									}

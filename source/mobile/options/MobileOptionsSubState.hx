@@ -115,11 +115,11 @@ class MobileOptionsSubState extends BaseOptionsMenu {
 		addOption(option);
 		#end
 
-		option = new Option('Hack Menu',
-			'If checked, A mod menu for Psych Online will be shown.\n(WARNING: Do not use this)',
-			'showHackMenu',
+		option = new Option('Tweak Menu',
+			'If checked, A mod menu for Psych Online will be shown.\n(WARNING: Do not use this use this for hacking)',
+			'showTweakMenu',
 			'bool');
-		option.onChange = () -> Main.toggleHackMenu(ClientPrefs.data.showHackMenu);
+		option.onChange = () -> Main.toggleTweakMenu(ClientPrefs.data.showTweakMenu);
 		addOption(option);
 		super();
 	}

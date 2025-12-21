@@ -100,10 +100,10 @@ class Main extends Sprite
 		Lib.current.addChild(daMain);
 		Lib.current.setChildIndex(daMain, Lib.current.getChildIndex(view3D) + 1);
 		Lib.current.addChild(new online.gui.sidebar.SideUI());
-		toggleHackMenu(ClientPrefs.data.showHackMenu);
+		toggleTweakMenu(ClientPrefs.data.showTweakMenu);
 	}
 	
-	public static function toggleHackMenu(show:Bool):Void {
+	public static function toggleTweakMenu(show:Bool):Void {
 		if (show) {
 			if (onlineTweaks == null) {
 				onlineTweaks = new OnlineTweaks();
