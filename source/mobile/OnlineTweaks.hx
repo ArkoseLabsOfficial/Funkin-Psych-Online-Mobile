@@ -5,8 +5,8 @@ class OnlineTweaks extends ModMenu {
 	public static var simulateBotplay:Bool = false;
 	public static var botPlayAccuracy:Float = 99.8;
 
-	public function new(startX:Float = 50, startY:Float = 50) {
-		super(startX, startY);
+	public function new(?floatText:String, startX:Float = 50, startY:Float = 50) {
+		super(floatText, startX, startY);
 	}
 
 	private override function addOptions() {
