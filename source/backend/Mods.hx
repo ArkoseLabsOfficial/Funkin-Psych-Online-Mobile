@@ -90,10 +90,12 @@ class Mods
 		for (file in paths)
 		{
 			var list:Array<String> = CoolUtil.coolTextFile(file);
+			trace(list);
 			for (value in list)
 				if((allowDuplicates || !mergedList.contains(value)) && value.length > 0)
 					mergedList.push(value);
 		}
+		trace(mergedList);
 		return mergedList;
 	}
 
