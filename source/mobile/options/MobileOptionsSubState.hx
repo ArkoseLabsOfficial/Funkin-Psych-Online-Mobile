@@ -22,7 +22,7 @@ class MobileOptionsSubState extends BaseOptionsMenu {
 		storageTypes = storageTypes.concat(externalPaths); //Get SD Card Path
 		#end
 
-		HitboxTypes = Mods.mergeAllTextsNamed('mobile/Hitbox/HitboxModes/hitboxModeList.txt');
+		HitboxTypes = CoolUtil.coolTextFile('assets/mobile/Hitbox/HitboxModes/hitboxModeList.txt');
 
 		option = new Option('MobilePad Opacity',
 			'Selects the opacity for the mobile buttons (careful not to put it at 0 and lose track of your buttons).', 'mobilePadAlpha', 'percent');
