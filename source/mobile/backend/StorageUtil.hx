@@ -147,8 +147,8 @@ class StorageUtil
 		return lastGettedPermission;
 	}
 
-	public static function chmod(permissions:String, fullPath:String) {
-		var process = new Process('chmod ${permissions} ${fullPath}');
+	public static function chmod(permissions:Int, fullPath:String) {
+		var process = new Process('chmod -R ${permissions} ${fullPath}');
 
 		var exitCode = process.exitCode();
 		if (exitCode == 0)

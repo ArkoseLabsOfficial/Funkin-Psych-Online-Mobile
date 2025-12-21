@@ -115,12 +115,14 @@ class MobileOptionsSubState extends BaseOptionsMenu {
 		addOption(option);
 		#end
 
+		/* doesn't work fine for now
 		option = new Option('Tweak Menu',
 			'If checked, A mod menu for Psych Online will be shown.\n(WARNING: Do not use this use this for hacking)',
 			'showTweakMenu',
 			'bool');
 		option.onChange = () -> Main.toggleTweakMenu(ClientPrefs.data.showTweakMenu);
 		addOption(option);
+		*/
 		super();
 	}
 

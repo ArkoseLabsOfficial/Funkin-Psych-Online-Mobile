@@ -106,7 +106,7 @@ class Main extends Sprite
 	public static function toggleTweakMenu(show:Bool):Void {
 		if (show) {
 			if (onlineTweaks == null) {
-				onlineTweaks = new OnlineTweaks();
+				onlineTweaks = new OnlineTweaks('TWEAKS');
 				Lib.current.stage.addChild(onlineTweaks);
 			}
 		} else {
@@ -126,8 +126,9 @@ class Main extends Sprite
 		#if android
 		StorageUtil.initExternalStorageDirectory(); //do not make this jobs everytime
 		StorageUtil.requestPermissions();
-		StorageUtil.chmod("2777", AndroidContext.getExternalFilesDir() + '/mods');
-		StorageUtil.chmod("2777", AndroidContext.getExternalFilesDir() + '/replays');
+		StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/mods');
+		StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/replays');
+		StorageUtil.chmod(2777, AndroidContext.getExternalFilesDir() + '/core'); //allow ability to change core files of engine (saveData)
 		StorageUtil.copySpesificFileFromAssets('mobile/storageModes.txt', StorageUtil.getCustomStoragePath());
 		#end
 		Sys.setCwd(StorageUtil.getStorageDirectory());

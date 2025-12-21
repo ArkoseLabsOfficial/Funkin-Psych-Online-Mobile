@@ -36,20 +36,20 @@ class ModMenu extends Sprite {
 	private var startX:Float;
 	private var startY:Float;
 
-	public function new(startX:Float = 50, startY:Float = 50) {
+	public function new(?floatText:String, startX:Float = 50, startY:Float = 50) {
 		super();
 		this.startX = startX;
 		this.startY = startY;
-		if (stage != null) init();
+		if (stage != null) init(floatText);
 		else addEventListener(Event.ADDED_TO_STAGE, function(_) init());
 	}
 
-	private function init() {
+	private function init(?floatText:String) {
 		icon = new Sprite();
 		icon.x = startX; icon.y = startY;
 		icon.graphics.beginFill(0xFF0000, 0.7);
 		icon.graphics.drawRoundRect(0, 0, 80, 80, 20, 20);
-		icon.addChild(createText(0, 28, "HACK", 16, 80, true));
+		icon.addChild(createText(0, 28, floatText, 16, 80, true));
 		icon.addEventListener(MouseEvent.MOUSE_DOWN, function(_) icon.startDrag());
 		icon.addEventListener(MouseEvent.MOUSE_UP, function(_) { icon.stopDrag(); toggleMenu(true); });
 		addChild(icon);
