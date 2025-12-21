@@ -79,30 +79,37 @@ class Mods
 
 		var mergedList:Array<String> = [];
 		var paths:Array<String> = directoriesWithFile(defaultDirectory, path);
+		trace(defaultDirectory);
+		trace(path);
+		trace(paths);
 
 		var defaultPath:String = defaultDirectory + path;
+		trace(paths);
+		trace(defaultPath);
 		if(paths.contains(defaultPath))
 		{
 			paths.remove(defaultPath);
 			paths.insert(0, defaultPath);
 		}
+		    trace(paths);
 
 		for (file in paths)
 		{
+			trace(file);
 			var list:Array<String> = CoolUtil.coolTextFile(file);
+			trace(list);
 			for (value in list)
 				if((allowDuplicates || !mergedList.contains(value)) && value.length > 0)
 					mergedList.push(value);
 		}
+		trace(mergedList);
 		return mergedList;
 	}
 
 	inline public static function directoriesWithFile(path:String, fileToFind:String, mods:Bool = true)
 	{
 		var foldersToCheck:Array<String> = [];
-		#if sys
-		if(FileSystem.exists(path + fileToFind))
-		#end
+		if(FunkinFileSystem.exists(path + fileToFind))
 			foldersToCheck.push(path + fileToFind);
 
 		#if MODS_ALLOWED
