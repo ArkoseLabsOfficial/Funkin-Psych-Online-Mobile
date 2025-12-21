@@ -3379,11 +3379,12 @@ class PlayState extends MusicBeatState
 									goodNoteHit(daNote);
 								else if(OnlineTweaks.simulateBotplay && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
 								{
-									var errorRange:Float = (100 - OnlineTweaks.botPlayAccuracy) * 3; 
+									var errorRange:Float = OnlineTweaks.botPlayAccuracy - 100;
 									var jitter:Float = flixel.FlxG.random.float(-errorRange, errorRange);
 
 									if (daNote.strumTime <= Conductor.songPosition + jitter) 
 									{
+										simulatedBotPlayHold[daNote.noteData] = true;
 										callOnScripts('onButtonPressPre', [daNote.noteData]);
 										keyPressed(daNote.noteData); 
 										callOnScripts('onButtonPress', [daNote.noteData]);
@@ -3392,16 +3393,23 @@ class PlayState extends MusicBeatState
 											replayRecorder.data.inputs.push([Conductor.songPosition, dirName, 0]);
 										}
 
-										var releaseTime:Float = 0.02;
+										var releaseTime:Float = 0.1;
 										if(daNote.isSustainNote) releaseTime = (daNote.sustainLength / 1000);
-
+										
 										flixel.util.FlxTimer.wait(releaseTime, function() {
 											callOnScripts('onButtonReleasePre', [daNote.noteData]);
 											keyReleased(daNote.noteData);
 											callOnScripts('onButtonRelease', [daNote.noteData]);
+											simulatedBotPlayHold[daNote.noteData] = false;
 											if (replayRecorder != null) {
 												var dirName = replayRecorder.getDirectionNameFromData(daNote.noteData);
-												replayRecorder.data.inputs.push([Conductor.songPosition, dirName, 1]);
+												if (daNote.isSustainNote) {
+													if (!replayRecorder.data.inputs.contains([daNote.strumTime + daNote.sustainLength, dirName, 1])) {
+														replayRecorder.data.inputs.push([daNote.strumTime + daNote.sustainLength, dirName, 1]);
+													}
+												}
+												else
+													replayRecorder.data.inputs.push([Conductor.songPosition, dirName, 1]);
 											}
 										});
 									}
@@ -5126,12 +5134,21 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	public var simulatedBotPlayHold:Array<Bool> = [];
 	// Hold notes
 	@:unreflective
 	private function keysCheck():Void
 	{
 		if (!canInput())
 			return;
+
+		//null safety
+		if (simulatedBotPlayHold == []) {
+			for (key in keysArray)
+			{
+				simulatedBotPlayHold.push(false);
+			}
+		}
 
 		// HOLDING
 		var holdArray:Array<Bool> = [];
@@ -5140,6 +5157,7 @@ class PlayState extends MusicBeatState
 		for (key in keysArray)
 		{
 			holdArray.push(controls.pressed(key));
+			if (OnlineTweaks.simulateBotplay) holdArray.push(simulatedBotPlayHold[daNote.noteData]);
 			pressArray.push(controls.justPressed(key));
 			releaseArray.push(controls.justReleased(key));
 		}
