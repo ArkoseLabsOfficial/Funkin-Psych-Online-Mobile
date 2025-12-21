@@ -71,7 +71,7 @@ class Main extends Sprite
 	public static var repoHost:String = '';
 
 	public static var view3D:online.away.View3DHandler;
-	public static var onlineHacks:mobile.hacks.OnlineHacks;
+	public static var onlineTweaks:OnlineTweaks;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -105,16 +105,16 @@ class Main extends Sprite
 	
 	public static function toggleHackMenu(show:Bool):Void {
 		if (show) {
-			if (onlineHacks == null) {
-				onlineHacks = new OnlineHacks();
-				Lib.current.stage.addChild(onlineHacks);
+			if (onlineTweaks == null) {
+				onlineTweaks = new OnlineTweaks();
+				Lib.current.stage.addChild(onlineTweaks);
 			}
 		} else {
-			if (onlineHacks != null) {
-				if (Lib.current.stage.contains(onlineHacks)) {
-					Lib.current.stage.removeChild(onlineHacks);
+			if (onlineTweaks != null) {
+				if (Lib.current.stage.contains(onlineTweaks)) {
+					Lib.current.stage.removeChild(onlineTweaks);
 				}
-				onlineHacks = null;
+				onlineTweaks = null;
 			}
 		}
 	}

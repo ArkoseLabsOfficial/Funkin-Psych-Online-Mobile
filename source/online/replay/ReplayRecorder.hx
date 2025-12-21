@@ -254,7 +254,7 @@ class ReplayRecorder extends FlxBasic {
 	}
 
 	//TODO: add extra key support
-	public function recordBotplay(time:Float, noteData:Int, holdTime:Float):Void
+	public function getDirectionNameFromData(noteData:Dynamic)
 	{
 		var directions = ["note_left", "note_down", "note_up", "note_right"];
 		if (Note.maniaKeys != 4) {
@@ -263,10 +263,7 @@ class ReplayRecorder extends FlxBasic {
 				directions.push('${Note.maniaKeys}k_note_${key + 1}');
 			}
 		}
-		var dirName = directions[noteData];
-
-		data.inputs.push([time, dirName, 0]);
-		data.inputs.push([time + holdTime, dirName, 1]);
+		return directions[noteData];
 	}
 
 	public function save():Float {

@@ -1,4 +1,4 @@
-package mobile.hacks;
+package mobile;
 
 import openfl.display.Sprite;
 import openfl.display.Shape;
@@ -15,10 +15,7 @@ import openfl.geom.ColorTransform;
 import openfl.Lib;
 import haxe.Timer;
 
-class OnlineHacks extends Sprite {
-	public static var forceLeaderboardSubmiting:Bool = false;
-	public static var maxMissCount:Int = 5;
-	public static var noteClickMS:Float = 0.2; //0.2 is default
+class ModMenu extends Sprite {
 	public static var menuScale:Float = 1.5;
 
 	private var container:Sprite;
@@ -102,26 +99,6 @@ class OnlineHacks extends Sprite {
 	}
 
 	private function addOptions() {
-		addToggleButton("Force Leaderboard Submiting: OFF", function(tf) {
-			if (forceLeaderboardSubmiting) forceLeaderboardSubmiting = false;
-			else forceLeaderboardSubmiting = true;
-			tf.text = forceLeaderboardSubmiting ? "Force Leaderboard Submiting: ON" : "Force Leaderboard Submiting: OFF";
-		});
-
-		addValueChanger("Maximum Miss Per Song", Std.string(maxMissCount), function(val) {
-			var ns = Std.parseInt(val);
-			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
-				maxMissCount = ns;
-			}
-		});
-
-		addValueChanger("Miss Chance", Std.string(noteClickMS * 100), function(val) {
-			var ns = Std.parseFloat(val);
-			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
-				noteClickMS = ns / 100;
-			}
-		});
-
 		addValueChanger("Menu Scale", Std.string(menuScale), function(val) {
 			var ns = Std.parseFloat(val);
 			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
