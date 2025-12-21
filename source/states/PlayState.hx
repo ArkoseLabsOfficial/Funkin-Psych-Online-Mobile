@@ -1470,9 +1470,8 @@ class PlayState extends MusicBeatState
 										(GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
 		mobileManager.addMobilePadCamera();
 		addPlayStateHitbox();
-		
+
 		if (cpuControlled && OnlineHacks.bypassBotPlay) prepareMisses();
-}
 
 		super.create();
 	}
