@@ -5157,7 +5157,6 @@ class PlayState extends MusicBeatState
 		for (key in keysArray)
 		{
 			holdArray.push(controls.pressed(key));
-			if (OnlineTweaks.simulateBotplay) holdArray.push(simulatedBotPlayHold[daNote.noteData]);
 			pressArray.push(controls.justPressed(key));
 			releaseArray.push(controls.justReleased(key));
 		}
@@ -5175,6 +5174,9 @@ class PlayState extends MusicBeatState
 			{
 				notes.forEachAlive(function(daNote:Note)
 				{
+					if (OnlineTweaks.simulateBotplay && holdArray[daNote.noteData] == false) {
+						holdArray[daNote.noteData] = simulatedBotPlayHold[daNote.noteData];
+					}
 					// hold note functions
 					if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && holdArray[daNote.noteData] && daNote.canBeHit
 					&& isPlayerNote(daNote) && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit) {
