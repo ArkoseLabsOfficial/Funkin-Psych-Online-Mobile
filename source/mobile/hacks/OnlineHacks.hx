@@ -109,7 +109,7 @@ class OnlineHacks extends Sprite {
 		});
 
 		addValueChanger("Maximum Miss Per Song", Std.string(maxMissCount), function(val) {
-			var ns = Std.parseFloat(val);
+			var ns = Std.parseInt(val);
 			if (!Math.isNaN(ns) && ns >= 0.5 && ns <= 2.0) {
 				maxMissCount = ns;
 			}

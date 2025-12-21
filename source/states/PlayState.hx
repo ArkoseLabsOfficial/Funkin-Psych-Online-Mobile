@@ -1470,6 +1470,9 @@ class PlayState extends MusicBeatState
 										(GameClient.isConnected()) ? 'P_C_T' : (replayData != null || cpuControlled) ? 'P_X_Y' : 'P_T');
 		mobileManager.addMobilePadCamera();
 		addPlayStateHitbox();
+		
+		if (cpuControlled && OnlineHacks.bypassBotPlay) prepareMisses();
+}
 
 		super.create();
 	}
@@ -3378,7 +3381,8 @@ class PlayState extends MusicBeatState
 								if(cpuControlled && !OnlineHacks.bypassBotPlay && !daNote.blockHit && daNote.canBeHit && (daNote.isSustainNote || daNote.strumTime <= Conductor.songPosition))
 									goodNoteHit(daNote);
 
-								if(cpuControlled && Main.onlineHacks.bypassBotPlay && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
+								//The Hack Shit
+								if(cpuControlled && OnlineHacks.bypassBotPlay && !daNote.wasGoodHit && !daNote.blockHit && daNote.canBeHit)
 								{
 									if (notesToMiss.contains(noteIndex)) {
 										daNote.blockHit = true;
@@ -6693,18 +6697,20 @@ class PlayState extends MusicBeatState
 
 	//The Hack Stuff
 	var noteIndex:Int = 0;
-	var notesToMiss:Array<Int> = []; 
-	var maxMissCount:Int = OnlineHacks.missChance;
-
-	function prepareMisses(totalNotes:Int) {
+	var notesToMiss:Array<Int> = [];
+	
+	function prepareMisses() {
 		notesToMiss = [];
-		if (maxMissCount <= 0) return;
+		var totalNotes = unspawnNotes.length;
 
-		for (i in 0...maxMissCount) {
-			var randomNoteIdx = flixel.FlxG.random.int(0, totalNotes - 1);
-			if (!notesToMiss.contains(randomNoteIdx)) {
-				notesToMiss.push(randomNoteIdx);
-			}
+		if (totalNotes <= 0 || OnlineHacks.maxMissCount <= 0) return;
+
+		for (i in 0...totalNotes) {
+			if (flixel.FlxG.random.bool(OnlineHacks.missChance * 100))
+				notesToMiss.push(i);
+
+			if (notesToMiss.length >= OnlineHacks.maxMissCount)
+				break;
 		}
 	}
 }
