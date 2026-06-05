@@ -3,6 +3,7 @@ package flixel.addons.ui;
 import lime.system.Clipboard;
 import flash.errors.Error;
 import flash.events.KeyboardEvent;
+import flash.events.IMEEvent;
 import flash.geom.Rectangle;
 import flixel.addons.ui.FlxUI.NamedString;
 
@@ -10,6 +11,10 @@ import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 
 import flixel.util.FlxDestroyUtil;
+
+#if android
+import openfl.system.Native;
+#end
 
 /**
  * FlxInputText v1.11, ported to Haxe
@@ -44,6 +49,13 @@ class FlxInputText extends FlxText
 	public static inline var PASTE_ACTION:String = "paste"; // text paste
 	public static inline var COPY_ACTION:String = "copy"; // text copy
 	public static inline var CUT_ACTION:String = "cut"; // text copy
+
+	#if android
+	private static var _inputTarget:FlxInputText;
+	#end
+	#if (cpp || windows || mac || linux)
+	private var _imeEnable:Bool = false;
+	#end
 
 	/**
 	 * This regular expression will filter out (remove) everything that matches.
@@ -188,6 +200,45 @@ class FlxInputText extends FlxText
 	 */
 	private var lastScroll:Int;
 
+	#if android
+	/**安卓原生输入法回调入口*/
+	public static function onReceiveIMEString(content:String):Void
+	{
+		if(_inputTarget == null) return;
+		var inst = _inputTarget;
+		var newStr = inst.filter(content);
+		if(inst.maxLength == 0 || newStr.length <= inst.maxLength)
+		{
+			inst.text = newStr;
+			inst.caretIndex = newStr.length;
+			inst.onChange(INPUT_ACTION);
+		}
+		inst.hasFocus = false;
+		_inputTarget = null;
+	}
+	#end
+
+	#if (cpp || windows || mac || linux)
+	/**PC系统IME中文输入回调*/
+	private function onImeInput(e:IMEEvent):Void
+	{
+		if (!hasFocus || !_imeEnable) return;
+		var inputStr = filter(e.text);
+		if(inputStr.length == 0) return;
+
+		if(maxLength > 0 && text.length + inputStr.length > maxLength)
+		{
+			var allowLen = maxLength - text.length;
+			if(allowLen <=0) return;
+			inputStr = inputStr.substr(0,allowLen);
+		}
+
+		text = insertSubstring(text, inputStr, caretIndex);
+		caretIndex += inputStr.length;
+		onChange(INPUT_ACTION);
+	}
+	#end
+
 	/**
 	 * @param	X				The X position of the text.
 	 * @param	Y				The Y position of the text.
@@ -226,6 +277,9 @@ class FlxInputText extends FlxText
 
 		lines = 1;
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+		#if (cpp || windows || mac || linux)
+		FlxG.stage.addEventListener(IMEEvent.IME_COMPOSITION, onImeInput);
+		#end
 
 		if (Text == null)
 		{
@@ -243,6 +297,9 @@ class FlxInputText extends FlxText
 	override public function destroy():Void
 	{
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+		#if (cpp || windows || mac || linux)
+		FlxG.stage.removeEventListener(IMEEvent.IME_COMPOSITION, onImeInput);
+		#end
 
 		backgroundSprite = FlxDestroyUtil.destroy(backgroundSprite);
 		fieldBorderSprite = FlxDestroyUtil.destroy(fieldBorderSprite);
@@ -309,14 +366,37 @@ class FlxInputText extends FlxText
 			var hadFocus:Bool = hasFocus;
 			if (mouseOverlapping())
 			{
+				#if android
+				// Android：弹出系统软键盘
+				_inputTarget = this;
+				Native.callStatic("com.funkin.TextInput","openIME","请输入",text);
+				FlxG.stage.window.textInputEnabled = false;
+				#elseif (cpp || windows || mac || linux)
+				// PC桌面端：开启系统IME中文输入法
+				caretIndex = getCaretIndex();
+				hasFocus = true;
+				_imeEnable = true;
+				FlxG.stage.imeEnabled = true;
+				if (!hadFocus && focusGained != null) focusGained();
+				#else
+				// HTML/Flash保留原版按键输入
 				caretIndex = getCaretIndex();
 				hasFocus = FlxG.stage.window.textInputEnabled = true;
 				if (!hadFocus && focusGained != null)
 					focusGained();
+				#end
 			}
 			else
 			{
 				hasFocus = false;
+				#if android
+				_inputTarget = null;
+				#end
+				#if (cpp || windows || mac || linux)
+				// 失焦关闭IME
+				_imeEnable = false;
+				FlxG.stage.imeEnabled = false;
+				#end
 				if (hadFocus && focusLost != null)
 					focusLost();
 			}
@@ -341,6 +421,11 @@ class FlxInputText extends FlxText
 	 */
 	private function onKeyDown(e:KeyboardEvent):Void
 	{
+		#if android
+		// 安卓屏蔽原生按键，只用系统软键盘
+		return;
+		#end
+
 		var key:Int = e.keyCode;
 
 		if (hasFocus)
@@ -457,11 +542,19 @@ class FlxInputText extends FlxText
 			else if (key == 13)
 			{
 				FlxG.stage.window.textInputEnabled = false;
+				#if (cpp || windows || mac || linux)
+				_imeEnable = false;
+				FlxG.stage.imeEnabled = false;
+				#end
 				onChange(ENTER_ACTION);
 			}
 			// Actually add some text
 			else
 			{
+				#if (cpp || windows || mac || linux)
+				//PC开启IME时，普通字符交给系统输入法，屏蔽单字符录入
+				if(_imeEnable) return;
+				#end
 				if (e.charCode == 0) // non-printable characters crash String.fromCharCode
 				{
 					return;
