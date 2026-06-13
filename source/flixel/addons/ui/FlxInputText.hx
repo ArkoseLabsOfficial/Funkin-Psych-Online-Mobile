@@ -11,15 +11,6 @@ import flixel.math.FlxRect;
 
 import flixel.util.FlxDestroyUtil;
 
-// IMEEvent仅PC桌面平台导入
-#if (cpp || windows || mac || linux)
-import flash.events.IMEEvent;
-#end
-// Native仅安卓平台导入
-#if android
-import openfl.system.Native;
-#end
-
 /**
  * FlxInputText v1.11, ported to Haxe
  * @author larsiusprime, (Lars Doucet)
@@ -53,50 +44,6 @@ class FlxInputText extends FlxText
 	public static inline var PASTE_ACTION:String = "paste"; // text paste
 	public static inline var COPY_ACTION:String = "copy"; // text copy
 	public static inline var CUT_ACTION:String = "cut"; // text copy
-
-	#if android
-	private static var _inputTarget:FlxInputText;
-	/**安卓原生输入法回调，Java调用此静态方法回传中文*/
-	public static function onReceiveIMEString(content:String):Void
-	{
-		if(_inputTarget == null) return;
-		var inst = _inputTarget;
-		var newStr = inst.filter(content);
-		if(inst.maxLength == 0 || newStr.length <= inst.maxLength)
-		{
-			inst.text = newStr;
-			inst.caretIndex = newStr.length;
-			inst.onChange(INPUT_ACTION);
-		}
-		inst.hasFocus = false;
-		_inputTarget = null;
-	}
-	#end
-
-	#if (cpp || windows || mac || linux)
-	private var _imeEnable:Bool = false;
-	#end
-
-	#if (cpp || windows || mac || linux)
-	/**PC系统IME中文输入回调*/
-	private function onImeInput(e:IMEEvent):Void
-	{
-		if (!hasFocus || !_imeEnable) return;
-		var inputStr = filter(e.text);
-		if(inputStr.length == 0) return;
-
-		if(maxLength > 0 && text.length + inputStr.length > maxLength)
-		{
-			var allowLen = maxLength - text.length;
-			if(allowLen <=0) return;
-			inputStr = inputStr.substr(0,allowLen);
-		}
-
-		text = insertSubstring(text, inputStr, caretIndex);
-		caretIndex += inputStr.length;
-		onChange(INPUT_ACTION);
-	}
-	#end
 
 	/**
 	 * This regular expression will filter out (remove) everything that matches.
@@ -279,10 +226,6 @@ class FlxInputText extends FlxText
 
 		lines = 1;
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-		// 仅PC平台注册IME监听
-		#if (cpp || windows || mac || linux)
-		FlxG.stage.addEventListener(IMEEvent.IME_COMPOSITION, onImeInput);
-		#end
 
 		if (Text == null)
 		{
@@ -300,9 +243,6 @@ class FlxInputText extends FlxText
 	override public function destroy():Void
 	{
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
-		#if (cpp || windows || mac || linux)
-		FlxG.stage.removeEventListener(IMEEvent.IME_COMPOSITION, onImeInput);
-		#end
 
 		backgroundSprite = FlxDestroyUtil.destroy(backgroundSprite);
 		fieldBorderSprite = FlxDestroyUtil.destroy(fieldBorderSprite);
@@ -369,35 +309,14 @@ class FlxInputText extends FlxText
 			var hadFocus:Bool = hasFocus;
 			if (mouseOverlapping())
 			{
-				#if android
-				// Android：唤起原生软键盘
-				_inputTarget = this;
-				Native.callStatic("com.funkin.TextInput","openIME","请输入",text);
-				FlxG.stage.window.textInputEnabled = false;
-				#elseif (cpp || windows || mac || linux)
-				// PC开启系统IME中文输入法
-				caretIndex = getCaretIndex();
-				hasFocus = true;
-				_imeEnable = true;
-				FlxG.stage.imeEnabled = true;
-				if (!hadFocus && focusGained != null) focusGained();
-				#else
-				// HTML沿用原版
 				caretIndex = getCaretIndex();
 				hasFocus = FlxG.stage.window.textInputEnabled = true;
-				if (!hadFocus && focusGained != null) focusGained();
-				#end
+				if (!hadFocus && focusGained != null)
+					focusGained();
 			}
 			else
 			{
 				hasFocus = false;
-				#if android
-				_inputTarget = null;
-				#end
-				#if (cpp || windows || mac || linux)
-				_imeEnable = false;
-				FlxG.stage.imeEnabled = false;
-				#end
 				if (hadFocus && focusLost != null)
 					focusLost();
 			}
@@ -422,24 +341,24 @@ class FlxInputText extends FlxText
 	 */
 	private function onKeyDown(e:KeyboardEvent):Void
 	{
-		#if android
-		//安卓屏蔽原生按键，只用系统软键盘
-		return;
-		#end
-
 		var key:Int = e.keyCode;
 
 		if (hasFocus)
 		{
 
 			  //// Crtl/Cmd + C to copy text to the clipboard
+			  // This copies the entire input, because i'm too lazy to do caret selection, and if i did it i whoud probabbly make it a pr in flixel-ui.
+
 			  #if (macos)
 			  if (key == 67 && e.commandKey) {
 			  #else
 			  if (key == 67 && e.ctrlKey) {
 		 	  #end
 				Clipboard.text = text;
+
 				onChange(COPY_ACTION);
+
+				// Stops the function to go further, because it whoud type in a c to the input
 				return;
 			  }
 
@@ -450,16 +369,20 @@ class FlxInputText extends FlxText
 			  if (key == 86 && e.ctrlKey) {
 			  #end
 				var newText:String = filter(Clipboard.text);
+
 				if (newText.length > 0 && (maxLength == 0 || (text.length + newText.length) < maxLength)) {
 					text = insertSubstring(text, newText, caretIndex);
 					caretIndex += newText.length;
 					onChange(INPUT_ACTION);
 					onChange(PASTE_ACTION);
 				}
+
+				// Same as before, but prevents typing out a v
 				return;
 			}
 
 			//// Crtl/Cmd + X to cut the text from the input to the clipboard
+			// Again, this copies the entire input text because there is no caret selection.
 			#if (macos)
 			if (key == 88 && e.commandKey) {
 			#else
@@ -468,8 +391,11 @@ class FlxInputText extends FlxText
 				Clipboard.text = text;
 				text = '';
 				caretIndex = 0;
+
 				onChange(INPUT_ACTION);
 				onChange(CUT_ACTION);
+
+				// Same as before, but prevents typing out a x
 				return;
 			}
 
@@ -531,19 +457,11 @@ class FlxInputText extends FlxText
 			else if (key == 13)
 			{
 				FlxG.stage.window.textInputEnabled = false;
-				#if (cpp || windows || mac || linux)
-				_imeEnable = false;
-				FlxG.stage.imeEnabled = false;
-				#end
 				onChange(ENTER_ACTION);
 			}
 			// Actually add some text
 			else
 			{
-				#if (cpp || windows || mac || linux)
-				//PC开启IME时，普通字符交给系统输入法，屏蔽单字符录入
-				if(_imeEnable) return;
-				#end
 				if (e.charCode == 0) // non-printable characters crash String.fromCharCode
 				{
 					return;
@@ -645,6 +563,8 @@ class FlxInputText extends FlxText
 		var lastW:Float = 0;
 
 		// Flash textFields have a "magic number" 2 pixel gutter all around
+		// It does not seem to vary with font, size, border, etc, and does not seem to be customizable.
+		// We simply reproduce this behavior here
 		var magicX:Float = 2;
 		var magicY:Float = 2;
 
@@ -682,9 +602,11 @@ class FlxInputText extends FlxText
 				switch (getAlignStr())
 				{
 					case RIGHT:
-						X = X - textField.width + textField.textWidth;
+						X = X - textField.width + textField.textWidth
+							;
 					case CENTER:
-						X = X - textField.width / 2 + textField.textWidth / 2;
+						X = X - textField.width / 2 + textField.textWidth / 2
+							;
 					default:
 				}
 			}
@@ -759,6 +681,8 @@ class FlxInputText extends FlxText
 
 		if (boundary != null)
 		{
+			// Checks if carret is out of textfield bounds
+			// if it is update scroll, otherwise maintain the same scroll as last check.
 			var diffW:Int = 0;
 			if (boundary.right > lastScroll + textField.width - 2)
 			{
@@ -820,38 +744,48 @@ class FlxInputText extends FlxText
 
 		if (caret != null)
 		{
+			// Generate the properly sized caret and also draw a border that matches that of the textfield (if a border style is set)
+			// borderQuality can be safely ignored since the caret is always a rectangle
+
 			var cw:Int = caretWidth; // Basic size of the caret
 			var ch:Int = Std.int(size + 2);
 
+			// Make sure alpha channels are correctly set
 			var borderC:Int = (0xff000000 | (borderColor & 0x00ffffff));
 			var caretC:Int = (0xff000000 | (caretColor & 0x00ffffff));
 
+			// Generate unique key for the caret so we don't cause weird bugs if someone makes some random flxsprite of this size and color
 			var caretKey:String = "caret" + cw + "x" + ch + "c:" + caretC + "b:" + borderStyle + "," + borderSize + "," + borderC;
 			switch (borderStyle)
 			{
 				case NONE:
+					// No border, just make the caret
 					caret.makeGraphic(cw, ch, caretC, false, caretKey);
 					caret.offset.x = caret.offset.y = 0;
 
 				case SHADOW:
+					// Shadow offset to the lower-right
 					cw += Std.int(borderSize);
-					ch += Std.int(borderSize);
-					caret.makeGraphic(cw, ch, FlxColor.TRANSPARENT, false, caretKey);
+					ch += Std.int(borderSize); // expand canvas on one side for shadow
+					caret.makeGraphic(cw, ch, FlxColor.TRANSPARENT, false, caretKey); // start with transparent canvas
 					var r:Rectangle = new Rectangle(borderSize, borderSize, caretWidth, Std.int(size + 2));
-					caret.pixels.fillRect(r, borderC);
+					caret.pixels.fillRect(r, borderC); // draw shadow
 					r.x = r.y = 0;
-					caret.pixels.fillRect(r, caretC);
+					caret.pixels.fillRect(r, caretC); // draw caret
 					caret.offset.x = caret.offset.y = 0;
 
 				case OUTLINE_FAST, OUTLINE:
+					// Border all around it
 					cw += Std.int(borderSize * 2);
-					ch += Std.int(borderSize * 2);
-					caret.makeGraphic(cw, ch, borderC, false, caretKey);
+					ch += Std.int(borderSize * 2); // expand canvas on both sides
+					caret.makeGraphic(cw, ch, borderC, false, caretKey); // start with borderColor canvas
 					var r = new Rectangle(borderSize, borderSize, caretWidth, Std.int(size + 2));
-					caret.pixels.fillRect(r, caretC);
+					caret.pixels.fillRect(r, caretC); // draw caret
+					// we need to offset caret's drawing position since the caret is now larger than normal
 					caret.offset.x = caret.offset.y = borderSize;
 				case _: //temp fix for 5.9.0
 			}
+			// Update width/height so caret's dimensions match its pixels
 			caret.width = cw;
 			caret.height = ch;
 
@@ -954,6 +888,7 @@ class FlxInputText extends FlxText
 		}
 		else
 		{
+			// Graphics
 			caret.visible = false;
 			if (_caretTimer != null)
 			{
@@ -989,14 +924,14 @@ class FlxInputText extends FlxText
 			case RIGHT:
 				offx = textField.width - 2 - textField.textWidth - 2;
 				if (offx < 0)
-					offx = 0;
+					offx = 0; // hack, fix negative offset.
 
 			case CENTER:
 				#if !js
 				offx = (textField.width - 2 - textField.textWidth) / 2 + textField.scrollH / 2;
 				#end
 				if (offx <= 1)
-					offx = 0;
+					offx = 0; // hack, fix ofset rounding alignment.
 
 			default:
 				offx = 0;
@@ -1004,15 +939,18 @@ class FlxInputText extends FlxText
 
 		caretIndex = newCaretIndex;
 
+		// If caret is too far to the right something is wrong
 		if (caretIndex > (text.length + 1))
 		{
 			caretIndex = -1;
 		}
 
+		// Caret is OK, proceed to position
 		if (caretIndex != -1)
 		{
 			var boundaries:Rectangle = null;
 
+			// Caret is not to the right of text
 			if (caretIndex < text.length)
 			{
 				boundaries = getCharBoundaries(caretIndex);
@@ -1022,6 +960,7 @@ class FlxInputText extends FlxText
 					caret.y = boundaries.top + y;
 				}
 			}
+			// Caret is to the right of text
 			else
 			{
 				boundaries = getCharBoundaries(caretIndex - 1);
@@ -1030,8 +969,10 @@ class FlxInputText extends FlxText
 					caret.x = offx + boundaries.right + x;
 					caret.y = boundaries.top + y;
 				}
+				// Text box is empty
 				else if (text.length == 0)
 				{
+					// 2 px gutters
 					caret.x = x + offx + 2;
 					caret.y = y + 2;
 				}
@@ -1042,6 +983,7 @@ class FlxInputText extends FlxText
 		caret.x -= textField.scrollH;
 		#end
 
+		// Make sure the caret doesn't leave the textfield on single-line input texts
 		if ((lines == 1) && (caret.x + caret.width) > (x + width))
 		{
 			caret.x = x + width - 2;
