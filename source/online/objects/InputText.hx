@@ -20,11 +20,7 @@ class InputText extends FlxInputText {
         textField.wordWrap = false;
 
         #if android
-        // 关闭安全键盘（TYPE_TEXT_VARIATION_VISIBLE_PASSWORD 禁用第三方输入法限制）
         textField.type = flash.text.TextFieldType.INPUT;
-        untyped textField._inputType = 0x00000001; // TYPE_CLASS_TEXT
-        untyped textField._inputTypeVariation = 0x00000010; // TYPE_TEXT_VARIATION_VISIBLE_PASSWORD（允许第三方输入法）
-        // 初始化 JNI 方法
         if (showSoftKeyboard == null)
             showSoftKeyboard = JNI.createStaticMethod("org/haxe/lime/GameActivity", "showKeyboard", "()V");
         if (hideSoftKeyboard == null)
