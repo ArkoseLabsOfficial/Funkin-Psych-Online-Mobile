@@ -37,9 +37,10 @@ class InputText extends FlxInputText {
             callback(text, FlxInputText.ENTER_ACTION);
             return;
         }
-        // 只处理多字节字符（中文等），ASCII 交给父类处理
         if (e.text.length > 1 || e.text.charCodeAt(0) > 127) {
-            text += e.text;
+            var pos = textField.caretIndex;
+            text = text.substring(0, pos) + e.text + text.substring(pos);
+            textField.setSelection(pos + e.text.length, pos + e.text.length);
         }
     }
 
