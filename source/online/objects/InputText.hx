@@ -1,9 +1,6 @@
 package online.objects;
 import online.gui.sidebar.SideUI;
 import flixel.addons.ui.FlxInputText;
-#if android
-import openfl.system.System;
-#end
 
 class InputText extends FlxInputText {
     public function new(x:Float, y:Float, width:Float, onEnter:(text:String)->Void) {
@@ -13,6 +10,10 @@ class InputText extends FlxInputText {
         caretColor = FlxColor.WHITE;
         textField.selectable = true;
         textField.wordWrap = false;
+
+        #if android
+        FlxG.stage.addEventListener(openfl.events.TextEvent.TEXT_INPUT, onTextInput);
+        #end
 
         var prevText:String = '';
         callback = (text, action) -> {
@@ -28,6 +29,24 @@ class InputText extends FlxInputText {
         };
     }
 
+    #if android
+    function onTextInput(e:openfl.events.TextEvent) {
+        if (!hasFocus) return;
+        // 过滤回车
+        if (e.text == "\n" || e.text == "\r") {
+            hasFocus = false;
+            callback(text, FlxInputText.ENTER_ACTION);
+            return;
+        }
+        text += e.text;
+    }
+
+    override function destroy() {
+        FlxG.stage.removeEventListener(openfl.events.TextEvent.TEXT_INPUT, onTextInput);
+        super.destroy();
+    }
+    #end
+
     override function update(elapsed:Float) {
         super.update(elapsed);
         if (hasFocus && (FlxG.keys.justPressed.ESCAPE || (FlxG.mouse.justPressed && !FlxG.mouse.overlaps(this)))) {
@@ -38,10 +57,7 @@ class InputText extends FlxInputText {
     override function set_hasFocus(value:Bool):Bool {
         #if android
         try {
-            if (value)
-                lime.app.Application.current.window.textInputEnabled = true;
-            else
-                lime.app.Application.current.window.textInputEnabled = false;
+            lime.app.Application.current.window.textInputEnabled = value;
         } catch (e:Dynamic) {
             trace("Keyboard error: " + e);
         }
