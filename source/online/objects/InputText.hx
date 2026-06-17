@@ -2,15 +2,10 @@ package online.objects;
 import online.gui.sidebar.SideUI;
 import flixel.addons.ui.FlxInputText;
 #if android
-import lime.system.JNI;
+import openfl.system.System;
 #end
 
 class InputText extends FlxInputText {
-    #if android
-    static var showSoftKeyboard:Dynamic = null;
-    static var hideSoftKeyboard:Dynamic = null;
-    #end
-
     public function new(x:Float, y:Float, width:Float, onEnter:(text:String)->Void) {
         super(x, y, Std.int(width));
         backgroundColor = FlxColor.TRANSPARENT;
@@ -18,14 +13,6 @@ class InputText extends FlxInputText {
         caretColor = FlxColor.WHITE;
         textField.selectable = true;
         textField.wordWrap = false;
-
-        #if android
-        textField.type = flash.text.TextFieldType.INPUT;
-        if (showSoftKeyboard == null)
-            showSoftKeyboard = JNI.createStaticMethod("org/haxe/lime/GameActivity", "showKeyboard", "()V");
-        if (hideSoftKeyboard == null)
-            hideSoftKeyboard = JNI.createStaticMethod("org/haxe/lime/GameActivity", "hideKeyboard", "()V");
-        #end
 
         var prevText:String = '';
         callback = (text, action) -> {
@@ -50,10 +37,13 @@ class InputText extends FlxInputText {
 
     override function set_hasFocus(value:Bool):Bool {
         #if android
-        if (value) {
-            if (showSoftKeyboard != null) showSoftKeyboard();
-        } else {
-            if (hideSoftKeyboard != null) hideSoftKeyboard();
+        try {
+            if (value)
+                lime.app.Application.current.window.textInputEnabled = true;
+            else
+                lime.app.Application.current.window.textInputEnabled = false;
+        } catch (e:Dynamic) {
+            trace("Keyboard error: " + e);
         }
         #end
         return super.set_hasFocus(value);
