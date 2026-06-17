@@ -40,7 +40,9 @@ class InputText extends FlxInputText {
         if (e.text.length > 1 || e.text.charCodeAt(0) > 127) {
             var pos = textField.caretIndex;
             text = text.substring(0, pos) + e.text + text.substring(pos);
-            textField.setSelection(pos + e.text.length, pos + e.text.length);
+            var newPos = pos + e.text.length;
+            textField.setSelection(newPos, newPos);
+            @:privateAccess caretIndex = newPos;
         }
     }
 
