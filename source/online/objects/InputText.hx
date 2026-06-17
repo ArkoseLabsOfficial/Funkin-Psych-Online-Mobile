@@ -17,7 +17,6 @@ class InputText extends FlxInputText {
         fieldBorderColor = FlxColor.TRANSPARENT;
         caretColor = FlxColor.WHITE;
         textField.selectable = true;
-        textField.editable = true;
         textField.wordWrap = false;
 
         #if android
