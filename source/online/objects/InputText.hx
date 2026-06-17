@@ -32,13 +32,15 @@ class InputText extends FlxInputText {
     #if android
     function onTextInput(e:openfl.events.TextEvent) {
         if (!hasFocus) return;
-        // 过滤回车
         if (e.text == "\n" || e.text == "\r") {
             hasFocus = false;
             callback(text, FlxInputText.ENTER_ACTION);
             return;
         }
-        text += e.text;
+        // 只处理多字节字符（中文等），ASCII 交给父类处理
+        if (e.text.length > 1 || e.text.charCodeAt(0) > 127) {
+            text += e.text;
+        }
     }
 
     override function destroy() {
