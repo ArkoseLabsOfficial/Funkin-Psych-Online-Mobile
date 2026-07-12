@@ -49,13 +49,13 @@ class Auth {
 		authToken = saveData.token;
         
         // move from old save data
-		if (authID == null && authToken == null && FlxG.save.data.networkAuthID != null && FlxG.save.data.networkAuthToken != null) {
-            trace("Moved credentials from the old save data!");
-			save(FlxG.save.data.networkAuthID, FlxG.save.data.networkAuthToken);
-			FlxG.save.data.networkAuthID = null;
-			FlxG.save.data.networkAuthToken = null;
-			FlxG.save.flush();
-        }
+		// if (authID == null && authToken == null && FlxG.save.data.networkAuthID != null && FlxG.save.data.networkAuthToken != null) {
+            // trace("Moved credentials from the old save data!");
+			// save(FlxG.save.data.networkAuthID, FlxG.save.data.networkAuthToken);
+			// FlxG.save.data.networkAuthID = null;
+			// FlxG.save.data.networkAuthToken = null;
+			// FlxG.save.flush();
+        // }
     }
 
 	public static function generateSave() {
