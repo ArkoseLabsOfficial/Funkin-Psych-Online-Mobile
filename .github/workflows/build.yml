@@ -78,7 +78,7 @@ jobs:
           haxelib git funkin.vis https://github.com/FunkinCrew/funkVis 1966f8fbbbc509ed90d4b520f3c49c084fc92fd6 --quiet
 
       - name: Install Libraries (NORMAL)
-        if: endsWith(inputs.name, 'NORMAL')
+        if: (endsWith(inputs.name, 'NORMAL') || endsWith(inputs.name, 'ASTC'))
         run: |
           haxelib install hmm --quiet
           haxelib run hmm install --quiet
