@@ -17,7 +17,7 @@ jobs:
             artifactPath: "export/release/android/bin/app/build/outputs/apk/release/*.apk"
             doCache: "NO"
 
-          - name: Android-ASTC-NORMAL
+          - name: Android-ASTC
             os: ubuntu-latest
             setupCommand: sh ./setup/unix-alter.sh
             buildArgs: "android -ONLY_ARM64 -D ASTC_BUILD"
@@ -41,15 +41,7 @@ jobs:
             artifactPath: "export/release/ios/build/Release-iphoneos/*.ipa"
             doCache: "NO"
 
-          - name: iOS-ASTC-NORMAL
-            os: macos-15
-            setupCommand: sh ./setup/unix.sh
-            buildArgs: "ios -final -nosign -D officialBuild -D ASTC_BUILD"
-            artifactName: iOSBuild-ASTC
-            artifactPath: "export/release/ios/build/Release-iphoneos/*.ipa"
-            doCache: "NO"
-
-          - name: iOS-ASTC-SHARED-NORMAL
+          - name: iOS-ASTC-SHARED
             os: macos-15
             setupCommand: sh ./setup/unix.sh
             buildArgs: "ios -final -nosign -D officialBuild -D ASTC_BUILD -D SHARED_FOLDER"
